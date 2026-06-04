@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../../../../domain/models/infrastructure_snapshot.dart';
 import '../../../../domain/models/observation.dart';
 import '../../../../domain/models/region.dart';
+import '../../../../domain/models/sar_dataset.dart';
 import '../../../../domain/repositories/infrastructure_repository.dart';
 
 enum ViewMode { explorer, analyst }
@@ -43,6 +44,28 @@ class DashboardViewModel extends ChangeNotifier {
   bool get isPlaying => _isPlaying;
   QualityReport? get qualityReport => _snapshot?.qualityReport;
   DisplacementDemo? get displacementDemo => _snapshot?.displacementDemo;
+  List<SarDatasetEntry> get datasetsCatalog => _snapshot?.datasetsCatalog ?? [];
+  String? get tellusPortalUrl => _snapshot?.tellusPortalUrl;
+  Map<String, dynamic>? get tellusarSuggestedPair => _snapshot?.tellusarSuggestedPair;
+
+  SummaryInsights get summaryInsights {
+    final qr = qualityReport;
+    final total = qr?.totalObservations ?? 0;
+    final geo = qr?.regionsWithGeometry ?? 0;
+    final thumb = qr?.regionsWithThumbnails ?? 0;
+    final can = <String>[
+      if (total > 0) 'いつ・どこで衛星が撮影したか（全 $total 件のメタデータ）',
+      if (geo > 0) '撮影範囲（フットプリント）と監視地点の位置関係',
+      if (thumb > 0) 'サムネイルによる見た目の確認（$thumb 件）',
+      '年別の観測回数と時系列の変化傾向（デモ指数）',
+    ];
+    final cannot = <String>[
+      'mm 単位の地盤変位の確定値（Analyst の変位はデモ用の仮データ）',
+      if (thumb < total) '全観測の画像プレビュー（取得済み $thumb / $total）',
+      '降雨・浸水・被害の直接判定（SAR メタデータのみでは不可）',
+    ];
+    return SummaryInsights(canUnderstand: can, cannotUnderstand: cannot);
+  }
 
   List<Region> get regions => _snapshot?.regions ?? [];
   Region? get selectedRegion {
@@ -55,6 +78,30 @@ class DashboardViewModel extends ChangeNotifier {
   int get maxSliderIndex {
     final dates = _snapshot?.sliderDates ?? [];
     return dates.isEmpty ? 0 : dates.length - 1;
+  }
+
+  String? get timelineYearStart {
+    final dates = _snapshot?.sliderDates ?? [];
+    if (dates.isEmpty) return null;
+    return _yearFromIso(dates.first);
+  }
+
+  String? get timelineYearEnd {
+    final dates = _snapshot?.sliderDates ?? [];
+    if (dates.isEmpty) return null;
+    return _yearFromIso(dates.last);
+  }
+
+  String? _yearFromIso(String iso) {
+    if (iso.length < 4) return null;
+    return iso.substring(0, 4);
+  }
+
+  String? get currentSliderIso {
+    final dates = _snapshot?.sliderDates ?? [];
+    if (dates.isEmpty) return null;
+    final idx = _sliderValue.round().clamp(0, dates.length - 1);
+    return dates[idx];
   }
 
   String get currentDateLabel {
@@ -72,6 +119,11 @@ class DashboardViewModel extends ChangeNotifier {
     } catch (_) {
       return isoDate;
     }
+  }
+
+  int filteredCountFor(Region? region) {
+    if (region == null) return 0;
+    return filteredObservations(region).length;
   }
 
   Map<String, int> coverageForRegion(String regionId) {
@@ -157,10 +209,33 @@ class DashboardViewModel extends ChangeNotifier {
       }
       if (_scenario == DemoScenario.rainySeason) {
         final month = _monthFromObs(obs);
-        if (month != null && month < 5 || (month != null && month > 9)) return false;
+        if (month != null && (month < 5 || month > 9)) return false;
+      }
+      if (_scenario == DemoScenario.longTerm) {
+        final cutoff = _longTermCutoff(region);
+        if (cutoff != null) {
+          final key = obs.startDatetime.isNotEmpty ? obs.startDatetime : obs.acquisitionDate;
+          if (key.compareTo(cutoff) < 0) return false;
+        }
       }
       return true;
     }).toList();
+  }
+
+  String? _longTermCutoff(Region region) {
+    String? maxKey;
+    for (final obs in region.observations) {
+      final key = obs.startDatetime.isNotEmpty ? obs.startDatetime : obs.acquisitionDate;
+      if (maxKey == null || key.compareTo(maxKey) > 0) maxKey = key;
+    }
+    if (maxKey == null) return null;
+    try {
+      final dt = DateTime.parse(maxKey.contains('T') ? maxKey : '${maxKey}T00:00:00Z');
+      final cutoff = dt.subtract(const Duration(days: 90));
+      return cutoff.toUtc().toIso8601String().substring(0, 10);
+    } catch (_) {
+      return null;
+    }
   }
 
   int? _monthFromObs(Observation obs) {

@@ -6,6 +6,7 @@ import '../../../../domain/models/observation.dart';
 import '../../../../domain/models/region.dart';
 import '../view_models/dashboard_view_model.dart';
 import '../../../core/theme/command_center_theme.dart';
+import '../widgets/displacement_legend.dart';
 
 class MapPanel extends StatelessWidget {
   const MapPanel({
@@ -32,33 +33,50 @@ class MapPanel extends StatelessWidget {
         : null;
     final footprintPolygons = _footprintPolygons(obs);
 
-    return ClipRRect(
-      key: const ValueKey('map_panel'),
-      borderRadius: BorderRadius.circular(12),
-      child: FlutterMap(
-        options: MapOptions(
-          initialCenter: center,
-          initialZoom: 10,
-          interactionOptions: const InteractionOptions(
-            flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
-          ),
-        ),
-        children: [
-          TileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'com.tellus.demo',
-          ),
-          if (footprintPolygons.isNotEmpty)
-            PolygonLayer(
-              polygons: footprintPolygons,
+    final showLegend = viewModel.viewMode == ViewMode.analyst &&
+        selected?.id == viewModel.displacementDemo?.regionId;
+    final sliderIso = viewModel.currentSliderIso ?? '';
+    final disp = showLegend
+        ? viewModel.displacementAtDate(sliderIso.length >= 10 ? sliderIso.substring(0, 10) : sliderIso)
+        : null;
+
+    return Stack(
+      children: [
+        ClipRRect(
+          key: const ValueKey('map_panel'),
+          borderRadius: BorderRadius.circular(12),
+          child: FlutterMap(
+            options: MapOptions(
+              initialCenter: center,
+              initialZoom: 10,
+              interactionOptions: const InteractionOptions(
+                flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+              ),
             ),
-          MarkerLayer(
-            markers: [
-              for (final region in regions) _buildMarker(region),
+            children: [
+              TileLayer(
+                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                userAgentPackageName: 'com.tellus.demo',
+              ),
+              if (footprintPolygons.isNotEmpty)
+                PolygonLayer(
+                  polygons: footprintPolygons,
+                ),
+              MarkerLayer(
+                markers: [
+                  for (final region in regions) _buildMarker(region),
+                ],
+              ),
             ],
           ),
-        ],
-      ),
+        ),
+        if (showLegend)
+          Positioned(
+            right: 10,
+            bottom: 10,
+            child: DisplacementLegend(displacementMm: disp),
+          ),
+      ],
     );
   }
 

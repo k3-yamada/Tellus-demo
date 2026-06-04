@@ -21,3 +21,9 @@ firestore-debug.log
 e2e/node_modules/
 e2e/test-results/
 .omc/
+
+backend/node_modules/
+
+web_app/assets/data/infrastructure_data.json.previous.json
+
+web_app/assets/data/*.previous.json

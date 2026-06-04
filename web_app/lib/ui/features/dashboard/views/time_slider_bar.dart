@@ -82,6 +82,23 @@ class _TimeSliderBarState extends State<TimeSliderBar> {
                 ),
               ),
             ),
+            if (widget.viewModel.timelineYearStart != null &&
+                widget.viewModel.timelineYearEnd != null) ...[
+              const SizedBox(height: 4),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '${widget.viewModel.timelineYearStart}年',
+                    style: const TextStyle(fontSize: 10, color: CommandCenterTheme.textMuted),
+                  ),
+                  Text(
+                    '${widget.viewModel.timelineYearEnd}年',
+                    style: const TextStyle(fontSize: 10, color: CommandCenterTheme.textMuted),
+                  ),
+                ],
+              ),
+            ],
           ],
         ),
       ),

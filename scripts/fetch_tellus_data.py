@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 import re
 import sys
 from datetime import datetime, timezone
@@ -25,7 +26,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent
 sys.path.insert(0, str(SCRIPT_DIR / "pipeline"))
 
-from quality_report import enrich_v2_fields
+from quality_report import attach_datasets_catalog, enrich_v2_fields
 
 ENV_PATH = PROJECT_ROOT / ".env"
 OUTPUT_PATH = PROJECT_ROOT / "web_app" / "assets" / "data" / "infrastructure_data.json"
@@ -56,17 +57,25 @@ REGIONS = [
 ]
 
 
-def fetch_sar_dataset_ids(session, headers) -> list[str]:
+def fetch_sar_catalog(session, headers) -> tuple[list[str], list[dict[str, Any]]]:
     items = fetch_paginated(session, f"{API_BASE}/datasets/", headers)
     dataset_ids: list[str] = []
+    catalog: list[dict[str, Any]] = []
     for item in items:
         name = item.get("name") or ""
         description = item.get("description") or ""
         tags = " ".join(item.get("tags") or [])
         blob = f"{name} {description} {tags}"
         if SAR_KEYWORDS.search(blob):
-            dataset_ids.append(item["id"])
-    return dataset_ids
+            ds_id = item["id"]
+            dataset_ids.append(ds_id)
+            catalog.append({
+                "id": ds_id,
+                "name": name or ds_id,
+                "description": (description or "")[:240],
+                "observationCount": 0,
+            })
+    return dataset_ids, catalog
 
 
 def bbox_polygon(lon: float, lat: float, delta: float = BBOX_DELTA_DEG) -> dict[str, Any]:
@@ -232,7 +241,7 @@ def main() -> None:
 
     session = build_session()
     print("Fetching SAR dataset list...")
-    sar_dataset_ids_list = fetch_sar_dataset_ids(session, headers)
+    sar_dataset_ids_list, sar_catalog = fetch_sar_catalog(session, headers)
     sar_dataset_ids = set(sar_dataset_ids_list)
     print(f"Matched {len(sar_dataset_ids)} SAR-related datasets")
 
@@ -263,9 +272,12 @@ def main() -> None:
         "timeline": build_timeline(regions_output),
     }
 
+    attach_datasets_catalog(output, sar_catalog)
     enrich_v2_fields(output)
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if OUTPUT_PATH.exists():
+        shutil.copy2(OUTPUT_PATH, OUTPUT_PATH.with_suffix(".previous.json"))
     with OUTPUT_PATH.open("w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
         f.write("\n")

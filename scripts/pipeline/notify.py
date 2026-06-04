@@ -27,6 +27,22 @@ def send_slack(webhook_url: str, message: str) -> bool:
         return resp.status == 200
 
 
+def flatten_details(details: dict) -> dict[str, str]:
+    flat: dict[str, str] = {}
+    summary = details.get("summary") or {}
+    for key, value in summary.items():
+        flat[f"summary.{key}"] = str(value)
+    diff = details.get("diff") or {}
+    if diff:
+        flat["diff.totalNew"] = str(diff.get("totalNew", 0))
+        flat["diff.afterTotal"] = str(diff.get("afterTotal", 0))
+        per = diff.get("perRegion") or {}
+        for region_id, count in per.items():
+            if count:
+                flat[f"diff.new.{region_id}"] = str(count)
+    return flat
+
+
 def notify_pipeline_result(
     *,
     status: str,
@@ -41,7 +57,7 @@ def notify_pipeline_result(
 
     lines = [f"*Tellus Pipeline* [{status}]", summary]
     if details:
-        for k, v in details.items():
+        for k, v in flatten_details(details).items():
             lines.append(f"• {k}: {v}")
 
     message = "\n".join(lines)
@@ -54,7 +70,16 @@ def notify_pipeline_result(
 def main() -> None:
     status = sys.argv[1] if len(sys.argv) > 1 else "info"
     summary = sys.argv[2] if len(sys.argv) > 2 else "Pipeline run complete"
-    notify_pipeline_result(status=status, summary=summary)
+    details: dict | None = None
+    if "--details-json" in sys.argv:
+        idx = sys.argv.index("--details-json")
+        if idx + 1 < len(sys.argv):
+            raw = sys.argv[idx + 1]
+            try:
+                details = json.loads(raw)
+            except json.JSONDecodeError:
+                details = {"raw": raw}
+    notify_pipeline_result(status=status, summary=summary, details=details)
 
 
 if __name__ == "__main__":

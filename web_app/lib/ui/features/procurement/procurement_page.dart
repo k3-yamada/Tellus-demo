@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/config/app_config.dart';
+import '../../../data/services/tellus_bff_client.dart';
 import '../../core/theme/command_center_theme.dart';
+import '../dashboard/view_models/dashboard_view_model.dart';
 
 class ProcurementPage extends StatefulWidget {
   const ProcurementPage({super.key});
@@ -17,6 +20,16 @@ class _ProcurementPageState extends State<ProcurementPage> {
   @override
   Widget build(BuildContext context) {
     final demoMode = AppConfig.instance.demoMode;
+    final vm = context.watch<DashboardViewModel>();
+    final items = vm.datasetsCatalog.isNotEmpty
+        ? vm.datasetsCatalog
+            .map((d) => {
+                  'id': d.id,
+                  'name': d.name,
+                  'desc': d.description ?? 'Tellus SAR dataset',
+                })
+            .toList()
+        : _fallbackDatasets;
 
     return Scaffold(
       appBar: AppBar(
@@ -41,7 +54,7 @@ class _ProcurementPageState extends State<ProcurementPage> {
             style: TextStyle(color: CommandCenterTheme.accentWarm, fontSize: 12),
           ),
           const SizedBox(height: 16),
-          for (final item in _mockDatasets)
+          for (final item in items)
             Card(
               child: ListTile(
                 title: Text(item['name']!),
@@ -77,18 +90,31 @@ class _ProcurementPageState extends State<ProcurementPage> {
     );
   }
 
-  void _submitOrder(bool demoMode) {
+  Future<void> _submitOrder(bool demoMode) async {
+    if (!demoMode) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('DEMO_MODE が無効です')),
+      );
+      return;
+    }
+    final bff = TellusBffClient();
+    var message = 'デモ発注を記録しました (dry-run)';
+    if (bff.isConfigured) {
+      try {
+        final result = await bff.demoCartOrder(_cart);
+        message = result['message']?.toString() ?? message;
+      } catch (e) {
+        message = 'BFF エラー: $e';
+      }
+    }
+    if (!mounted) return;
     setState(() {
-      _lastOrderId = demoMode
-          ? 'DEMO-${DateTime.now().millisecondsSinceEpoch}'
-          : null;
+      _lastOrderId = 'DEMO-${DateTime.now().millisecondsSinceEpoch}';
     });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(demoMode ? 'デモ発注を記録しました (dry-run)' : 'DEMO_MODE が無効です')),
-    );
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 
-  static const _mockDatasets = [
+  static const _fallbackDatasets = [
     {'id': 'palsar-2', 'name': 'PALSAR-2 高分解能', 'desc': 'L-band SAR · 3m'},
     {'id': 'sentinel-1', 'name': 'Sentinel-1 GRD', 'desc': 'C-band SAR · 10m'},
     {'id': 'alos-2', 'name': 'ALOS-2 スポットライト', 'desc': 'L-band SAR · 1m'},

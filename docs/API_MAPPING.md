@@ -30,6 +30,11 @@ Base: `https://www.tellusxdp.com/api/tellusar/v1`
 |-------|-----------|
 | `GET /api/datasets` | Traveler `/datasets/` |
 | `POST /api/search` | Traveler `/data-search/` |
+| `GET /api/datasets/{id}/data/{id}/*` | Traveler scene/thumbnail paths |
+| `POST /api/tellusar/jobs` | TelluSAR `/jobs/` |
+| `GET /api/tellusar/jobs/{id}` | TelluSAR job status |
+| `POST /api/cart-items` | Traveler `/cart-items/` (or dry-run) |
+| `POST /api/purchased-data-search` | Traveler `/purchased-data-search/` |
 
 ## Authentication
 

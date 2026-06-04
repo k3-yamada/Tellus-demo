@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../domain/models/sar_dataset.dart';
 import '../../core/theme/command_center_theme.dart';
 import '../dashboard/view_models/dashboard_view_model.dart';
 
@@ -11,6 +12,8 @@ class CatalogPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final vm = context.watch<DashboardViewModel>();
     final meta = vm.snapshot;
+    final catalog = vm.datasetsCatalog;
+    final portal = vm.tellusPortalUrl ?? 'https://www.tellusxdp.com/';
 
     return Scaffold(
       appBar: AppBar(
@@ -29,11 +32,61 @@ class CatalogPage extends StatelessWidget {
             '生成日時: ${meta?.generatedAt ?? "—"} · スキーマ v${meta?.schemaVersion ?? 1}',
             style: const TextStyle(color: CommandCenterTheme.textMuted, fontSize: 12),
           ),
+          const SizedBox(height: 4),
+          SelectableText(
+            'Tellus ポータル: $portal',
+            style: const TextStyle(fontSize: 11, color: CommandCenterTheme.accent),
+          ),
           const SizedBox(height: 16),
+          if (catalog.isEmpty)
+            const Text(
+              'データセット一覧は fetch 後に meta.datasetsCatalog に格納されます。',
+              style: TextStyle(fontSize: 12),
+            )
+          else
+            for (final ds in catalog)
+              Card(
+                child: ListTile(
+                  leading: const Icon(Icons.satellite_alt, color: CommandCenterTheme.accent),
+                  title: Text(ds.name, maxLines: 2, overflow: TextOverflow.ellipsis),
+                  subtitle: Text(
+                    '${ds.id.substring(0, 8)}… · 本デモ内 ${ds.observationCount} 件\n${ds.description ?? ""}',
+                    style: const TextStyle(fontSize: 11),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  isThreeLine: true,
+                ),
+              ),
+
+          const SizedBox(height: 24),
+          const Text('購入済みデータ (デモ)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+          const SizedBox(height: 4),
+          const Text(
+            'purchased-data-search の UI デモ。実 API 検索は BFF 経由で別途接続します。',
+            style: TextStyle(fontSize: 11, color: CommandCenterTheme.textMuted),
+          ),
+          const SizedBox(height: 8),
+          ..._purchasedEntries(vm).map(
+            (ds) => Card(
+              color: CommandCenterTheme.panel,
+              child: ListTile(
+                leading: const Icon(Icons.inventory_2_outlined, color: CommandCenterTheme.accentWarm),
+                title: Text(ds.name, maxLines: 2, overflow: TextOverflow.ellipsis),
+                subtitle: Text('本デモで ${ds.observationCount} 件ヒット · ${ds.id.substring(0, 8)}…'),
+                dense: true,
+              ),
+            ),
+          ),
+          if (_purchasedEntries(vm).isEmpty)
+            const Text('購入済み相当のデータはまだありません。', style: TextStyle(fontSize: 12)),
+          const SizedBox(height: 16),
+          const Text('監視地域', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+          const SizedBox(height: 8),
           for (final region in vm.regions)
             Card(
               child: ListTile(
-                leading: const Icon(Icons.place, color: CommandCenterTheme.accent),
+                leading: const Icon(Icons.place, color: CommandCenterTheme.accentWarm),
                 title: Text(region.name),
                 subtitle: Text(
                   '${region.type} · ${region.observationCount ?? region.observations.length} 観測',
@@ -49,4 +102,9 @@ class CatalogPage extends StatelessWidget {
       ),
     );
   }
+
+}
+
+List<SarDatasetEntry> _purchasedEntries(DashboardViewModel vm) {
+  return vm.datasetsCatalog.where((d) => d.observationCount > 0).toList();
 }
