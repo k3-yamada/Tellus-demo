@@ -1,6 +1,7 @@
 import '../../domain/models/infrastructure_snapshot.dart';
 import '../../domain/models/observation.dart';
 import '../../domain/models/region.dart';
+import '../../domain/models/sar_dataset.dart';
 import '../../domain/repositories/infrastructure_repository.dart';
 import '../services/asset_data_source.dart';
 
@@ -36,6 +37,12 @@ class InfrastructureRepositoryImpl implements InfrastructureRepository {
     if (dispRaw != null) {
       displacementDemo = DisplacementDemo.fromJson(dispRaw);
     }
+
+    final catalogRaw = meta['datasetsCatalog'] as List<dynamic>? ?? [];
+    final datasetsCatalog = catalogRaw
+        .map((e) => SarDatasetEntry.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final tellusPortalUrl = meta['tellusPortalUrl'] as String?;
 
     final regions = <Region>[];
     const regionOrder = ['joganji', 'tateyama'];
@@ -85,6 +92,8 @@ class InfrastructureRepositoryImpl implements InfrastructureRepository {
       qualityReport: qualityReport,
       coverageByYear: coverageByYear,
       displacementDemo: displacementDemo,
+      datasetsCatalog: datasetsCatalog,
+      tellusPortalUrl: tellusPortalUrl,
     );
   }
 

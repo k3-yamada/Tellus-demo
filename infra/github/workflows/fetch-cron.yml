@@ -25,6 +25,12 @@ jobs:
           TELLUS_API_KEY: ${{ secrets.TELLUS_API_KEY }}
         run: python fetch_tellus_data.py
 
+      - name: Enrich thumbnails (limited)
+        working-directory: scripts
+        env:
+          TELLUS_API_KEY: ${{ secrets.TELLUS_API_KEY }}
+        run: python pipeline/enrich_scenes.py ../web_app/assets/data/infrastructure_data.json 80
+
       - name: Notify Slack
         if: always()
         working-directory: scripts

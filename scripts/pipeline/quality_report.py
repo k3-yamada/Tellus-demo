@@ -80,6 +80,20 @@ def build_quality_report(data: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+
+def attach_datasets_catalog(data, catalog):
+    counts = {}
+    for region in (data.get("regions") or {}).values():
+        for obs in region.get("observations") or []:
+            ds_id = obs.get("datasetId")
+            if ds_id:
+                counts[ds_id] = counts.get(ds_id, 0) + 1
+    for entry in catalog:
+        entry["observationCount"] = counts.get(entry.get("id"), 0)
+    meta = data.setdefault("meta", {})
+    meta["datasetsCatalog"] = catalog
+    meta["tellusPortalUrl"] = "https://www.tellusxdp.com/"
+
 def enrich_v2_fields(data: dict[str, Any]) -> dict[str, Any]:
     """Add schemaVersion, qualityReport, coverageByYear to existing data."""
     data["schemaVersion"] = 2

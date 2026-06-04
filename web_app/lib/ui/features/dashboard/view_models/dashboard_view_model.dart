@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../../../../domain/models/infrastructure_snapshot.dart';
 import '../../../../domain/models/observation.dart';
 import '../../../../domain/models/region.dart';
+import '../../../../domain/models/sar_dataset.dart';
 import '../../../../domain/repositories/infrastructure_repository.dart';
 
 enum ViewMode { explorer, analyst }
@@ -43,6 +44,27 @@ class DashboardViewModel extends ChangeNotifier {
   bool get isPlaying => _isPlaying;
   QualityReport? get qualityReport => _snapshot?.qualityReport;
   DisplacementDemo? get displacementDemo => _snapshot?.displacementDemo;
+  List<SarDatasetEntry> get datasetsCatalog => _snapshot?.datasetsCatalog ?? [];
+  String? get tellusPortalUrl => _snapshot?.tellusPortalUrl;
+
+  SummaryInsights get summaryInsights {
+    final qr = qualityReport;
+    final total = qr?.totalObservations ?? 0;
+    final geo = qr?.regionsWithGeometry ?? 0;
+    final thumb = qr?.regionsWithThumbnails ?? 0;
+    final can = <String>[
+      if (total > 0) 'いつ・どこで衛星が撮影したか（全 $total 件のメタデータ）',
+      if (geo > 0) '撮影範囲（フットプリント）と監視地点の位置関係',
+      if (thumb > 0) 'サムネイルによる見た目の確認（$thumb 件）',
+      '年別の観測回数と時系列の変化傾向（デモ指数）',
+    ];
+    final cannot = <String>[
+      'mm 単位の地盤変位の確定値（Analyst の変位はデモ用の仮データ）',
+      if (thumb < total) '全観測の画像プレビュー（取得済み $thumb / $total）',
+      '降雨・浸水・被害の直接判定（SAR メタデータのみでは不可）',
+    ];
+    return SummaryInsights(canUnderstand: can, cannotUnderstand: cannot);
+  }
 
   List<Region> get regions => _snapshot?.regions ?? [];
   Region? get selectedRegion {
@@ -157,7 +179,7 @@ class DashboardViewModel extends ChangeNotifier {
       }
       if (_scenario == DemoScenario.rainySeason) {
         final month = _monthFromObs(obs);
-        if (month != null && month < 5 || (month != null && month > 9)) return false;
+        if (month != null && (month < 5 || month > 9)) return false;
       }
       return true;
     }).toList();

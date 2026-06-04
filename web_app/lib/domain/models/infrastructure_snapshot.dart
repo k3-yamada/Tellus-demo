@@ -1,4 +1,5 @@
 import 'region.dart';
+import 'sar_dataset.dart';
 
 class DisplacementDemo {
   const DisplacementDemo({
@@ -80,6 +81,16 @@ class QualityReport {
   }
 }
 
+class SummaryInsights {
+  const SummaryInsights({
+    required this.canUnderstand,
+    required this.cannotUnderstand,
+  });
+
+  final List<String> canUnderstand;
+  final List<String> cannotUnderstand;
+}
+
 class InfrastructureSnapshot {
   const InfrastructureSnapshot({
     required this.generatedAt,
@@ -90,6 +101,8 @@ class InfrastructureSnapshot {
     this.qualityReport,
     this.coverageByYear = const {},
     this.displacementDemo,
+    this.datasetsCatalog = const [],
+    this.tellusPortalUrl,
   });
 
   final int schemaVersion;
@@ -100,6 +113,8 @@ class InfrastructureSnapshot {
   final QualityReport? qualityReport;
   final Map<String, Map<String, int>> coverageByYear;
   final DisplacementDemo? displacementDemo;
+  final List<SarDatasetEntry> datasetsCatalog;
+  final String? tellusPortalUrl;
 }
 
 class TimelineStep {

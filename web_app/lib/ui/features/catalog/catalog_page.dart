@@ -11,6 +11,8 @@ class CatalogPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final vm = context.watch<DashboardViewModel>();
     final meta = vm.snapshot;
+    final catalog = vm.datasetsCatalog;
+    final portal = vm.tellusPortalUrl ?? 'https://www.tellusxdp.com/';
 
     return Scaffold(
       appBar: AppBar(
@@ -29,11 +31,39 @@ class CatalogPage extends StatelessWidget {
             '生成日時: ${meta?.generatedAt ?? "—"} · スキーマ v${meta?.schemaVersion ?? 1}',
             style: const TextStyle(color: CommandCenterTheme.textMuted, fontSize: 12),
           ),
+          const SizedBox(height: 4),
+          SelectableText(
+            'Tellus ポータル: $portal',
+            style: const TextStyle(fontSize: 11, color: CommandCenterTheme.accent),
+          ),
           const SizedBox(height: 16),
+          if (catalog.isEmpty)
+            const Text(
+              'データセット一覧は fetch 後に meta.datasetsCatalog に格納されます。',
+              style: TextStyle(fontSize: 12),
+            )
+          else
+            for (final ds in catalog)
+              Card(
+                child: ListTile(
+                  leading: const Icon(Icons.satellite_alt, color: CommandCenterTheme.accent),
+                  title: Text(ds.name, maxLines: 2, overflow: TextOverflow.ellipsis),
+                  subtitle: Text(
+                    '${ds.id.substring(0, 8)}… · 本デモ内 ${ds.observationCount} 件\n${ds.description ?? ""}',
+                    style: const TextStyle(fontSize: 11),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  isThreeLine: true,
+                ),
+              ),
+          const SizedBox(height: 16),
+          const Text('監視地域', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+          const SizedBox(height: 8),
           for (final region in vm.regions)
             Card(
               child: ListTile(
-                leading: const Icon(Icons.place, color: CommandCenterTheme.accent),
+                leading: const Icon(Icons.place, color: CommandCenterTheme.accentWarm),
                 title: Text(region.name),
                 subtitle: Text(
                   '${region.type} · ${region.observationCount ?? region.observations.length} 観測',

@@ -117,6 +117,7 @@ class _DashboardPageState extends State<DashboardPage>
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                 child: SummaryCard(
                   qualityReport: vm.qualityReport,
+                  insights: vm.summaryInsights,
                   regionCount: vm.regions.length,
                   totalObservations: totalObs,
                 ),

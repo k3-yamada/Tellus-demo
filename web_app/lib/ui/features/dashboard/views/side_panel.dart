@@ -90,13 +90,18 @@ class SidePanel extends StatelessWidget {
               _infoRow('撮影日時', viewModel.formatDateLabel(
                 obs.startDatetime.isNotEmpty ? obs.startDatetime : obs.acquisitionDate,
               )),
-              _infoRow('データID', obs.dataId),
-              _infoRow('軌道方向', obs.orbitDirection),
-              _infoRow('偏波', obs.polarization),
-              if (obs.relativeOrbit != null) _infoRow('相対軌道', '${obs.relativeOrbit}'),
-              _infoRow('オフナディア角', obs.offNadir.toStringAsFixed(1)),
-              if (isAnalyst) _infoRow('監視指数', obs.monitoringIndex.toStringAsFixed(3)),
-              if (obs.qualityScore != null) _infoRow('品質スコア', obs.qualityScore!.toStringAsFixed(2)),
+              if (isAnalyst) ...[
+                _infoRow('データID', obs.dataId),
+                _infoRow('軌道方向', obs.orbitDirection),
+                _infoRow('偏波', obs.polarization),
+                if (obs.relativeOrbit != null) _infoRow('相対軌道', '${obs.relativeOrbit}'),
+                _infoRow('オフナディア角', obs.offNadir.toStringAsFixed(1)),
+                _infoRow('監視指数', obs.monitoringIndex.toStringAsFixed(3)),
+                if (obs.qualityScore != null) _infoRow('品質スコア', obs.qualityScore!.toStringAsFixed(2)),
+              ] else ...[
+                _infoRow('衛星の向き', obs.orbitDirection == 'ascending' ? '北向き（昇交）' : '南向き（降交）'),
+                if (obs.thumbnailUrl != null) _infoRow('プレビュー', '利用可能'),
+              ],
             ],
             const SizedBox(height: 8),
             Text(

@@ -35,6 +35,16 @@ export default {
         return proxyResponse(resp);
       }
 
+      const sceneMatch = url.pathname.match(
+        /^\/api\/datasets\/([^/]+)\/data\/([^/]+)\/(.*)$/
+      );
+      if (sceneMatch && request.method === "GET") {
+        const [, datasetId, dataId, rest] = sceneMatch;
+        const target = `${base}/datasets/${datasetId}/data/${dataId}/${rest}${url.search}`;
+        const resp = await fetch(target, { headers });
+        return proxyResponse(resp);
+      }
+
       if (url.pathname === "/api/search" && request.method === "POST") {
         const body = await request.text();
         const resp = await fetch(`${base}/data-search/`, {
