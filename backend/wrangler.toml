@@ -1,0 +1,8 @@
+name = "tellus-bff"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+
+[vars]
+TELLUS_API_BASE = "https://www.tellusxdp.com/api/traveler/v1"
+
+# Set TELLUS_API_KEY via: wrangler secret put TELLUS_API_KEY

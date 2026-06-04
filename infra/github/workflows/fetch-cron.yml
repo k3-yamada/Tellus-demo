@@ -1,0 +1,40 @@
+name: Fetch Tellus Data
+
+on:
+  schedule:
+    - cron: "0 3 * * 1"
+  workflow_dispatch:
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        working-directory: scripts
+        run: pip install -r requirements.txt
+
+      - name: Fetch Tellus data
+        working-directory: scripts
+        env:
+          TELLUS_API_KEY: ${{ secrets.TELLUS_API_KEY }}
+        run: python fetch_tellus_data.py
+
+      - name: Notify Slack
+        if: always()
+        working-directory: scripts
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          python pipeline/notify.py "${{ job.status }}" "Weekly Tellus fetch completed"
+
+      - name: Upload JSON artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: infrastructure-data
+          path: web_app/assets/data/infrastructure_data.json
