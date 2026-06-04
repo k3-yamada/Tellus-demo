@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://tellus-demo.local/schema/infrastructure_data.v2.json",
+  "title": "InfrastructureDataV2",
+  "type": "object",
+  "required": ["meta", "regions", "timeline"],
+  "properties": {
+    "schemaVersion": { "type": "integer", "const": 2 },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "generatedAt": { "type": "string", "format": "date-time" },
+        "apiBase": { "type": "string" },
+        "startDatetimeGte": { "type": "string" },
+        "endDatetimeLte": { "type": "string" },
+        "sarDatasetCount": { "type": "integer" },
+        "sarDatasetIds": { "type": "array", "items": { "type": "string" } },
+        "maxObservationsPerRegion": { "type": "integer" },
+        "displacementDemo": {
+          "type": "object",
+          "description": "Precomputed displacement demo for Analyst mode (not real TelluSAR output)",
+          "properties": {
+            "regionId": { "type": "string" },
+            "unit": { "type": "string", "default": "mm" },
+            "baselineDate": { "type": "string" },
+            "values": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "date": { "type": "string" },
+                  "displacementMm": { "type": "number" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "qualityReport": {
+      "type": "object",
+      "properties": {
+        "overallScore": { "type": "number", "minimum": 0, "maximum": 1 },
+        "totalObservations": { "type": "integer" },
+        "regionsWithGeometry": { "type": "integer" },
+        "regionsWithThumbnails": { "type": "integer" },
+        "notes": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "coverageByYear": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": { "type": "integer" }
+      }
+    },
+    "regions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["id", "name", "observations"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "lat": { "type": "number" },
+          "lon": { "type": "number" },
+          "infrastructureType": { "type": "string" },
+          "description": { "type": "string" },
+          "observationCount": { "type": "integer" },
+          "observations": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/observation" }
+          }
+        }
+      }
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "regionId": { "type": "string" },
+          "dataId": { "type": "string" },
+          "acquisitionDate": { "type": "string" },
+          "monitoringIndex": { "type": "number" },
+          "relativeOrbit": { "type": ["integer", "null"] },
+          "orbitDirection": { "type": "string" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "observation": {
+      "type": "object",
+      "required": ["dataId", "datasetId", "acquisitionDate"],
+      "properties": {
+        "dataId": { "type": "string" },
+        "datasetId": { "type": "string" },
+        "acquisitionDate": { "type": "string" },
+        "start_datetime": { "type": "string" },
+        "orbitDirection": { "type": "string" },
+        "polarization": { "type": "string" },
+        "relativeOrbit": { "type": ["integer", "null"] },
+        "offNadir": { "type": ["number", "null"] },
+        "monitoringIndex": { "type": ["number", "null"] },
+        "geometry": {
+          "type": "object",
+          "description": "GeoJSON geometry from Traveler API",
+          "properties": {
+            "type": { "type": "string" },
+            "coordinates": {}
+          }
+        },
+        "thumbnailUrl": { "type": "string" },
+        "qualityScore": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    }
+  }
+}
