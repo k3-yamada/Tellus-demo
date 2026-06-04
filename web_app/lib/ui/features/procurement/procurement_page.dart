@@ -1,0 +1,96 @@
+import 'package:flutter/material.dart';
+
+import '../../../core/config/app_config.dart';
+import '../../core/theme/command_center_theme.dart';
+
+class ProcurementPage extends StatefulWidget {
+  const ProcurementPage({super.key});
+
+  @override
+  State<ProcurementPage> createState() => _ProcurementPageState();
+}
+
+class _ProcurementPageState extends State<ProcurementPage> {
+  final _cart = <String>[];
+  String? _lastOrderId;
+
+  @override
+  Widget build(BuildContext context) {
+    final demoMode = AppConfig.instance.demoMode;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('データ調達 (デモ)'),
+        backgroundColor: CommandCenterTheme.panel,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          if (!demoMode)
+            const Banner(
+              message: 'DEMO_MODE=false — 本番 API は無効',
+              location: BannerLocation.topStart,
+            ),
+          const Text(
+            'カートデモ (DEMO_MODE)',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            '有償データの自動購入は行いません。発注 API 呼び出しは dry-run のみです。',
+            style: TextStyle(color: CommandCenterTheme.accentWarm, fontSize: 12),
+          ),
+          const SizedBox(height: 16),
+          for (final item in _mockDatasets)
+            Card(
+              child: ListTile(
+                title: Text(item['name']!),
+                subtitle: Text(item['desc']!),
+                trailing: IconButton(
+                  icon: Icon(
+                    _cart.contains(item['id']) ? Icons.remove_shopping_cart : Icons.add_shopping_cart,
+                    color: CommandCenterTheme.accent,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      if (_cart.contains(item['id'])) {
+                        _cart.remove(item['id']);
+                      } else {
+                        _cart.add(item['id']!);
+                      }
+                    });
+                  },
+                ),
+              ),
+            ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: _cart.isEmpty ? null : () => _submitOrder(demoMode),
+            child: Text('デモ発注 (${_cart.length} 件)'),
+          ),
+          if (_lastOrderId != null) ...[
+            const SizedBox(height: 12),
+            Text('デモ注文 ID: $_lastOrderId', style: const TextStyle(fontSize: 12)),
+          ],
+        ],
+      ),
+    );
+  }
+
+  void _submitOrder(bool demoMode) {
+    setState(() {
+      _lastOrderId = demoMode
+          ? 'DEMO-${DateTime.now().millisecondsSinceEpoch}'
+          : null;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(demoMode ? 'デモ発注を記録しました (dry-run)' : 'DEMO_MODE が無効です')),
+    );
+  }
+
+  static const _mockDatasets = [
+    {'id': 'palsar-2', 'name': 'PALSAR-2 高分解能', 'desc': 'L-band SAR · 3m'},
+    {'id': 'sentinel-1', 'name': 'Sentinel-1 GRD', 'desc': 'C-band SAR · 10m'},
+    {'id': 'alos-2', 'name': 'ALOS-2 スポットライト', 'desc': 'L-band SAR · 1m'},
+  ];
+}

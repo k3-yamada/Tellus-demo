@@ -1,0 +1,112 @@
+import 'package:flutter/material.dart';
+
+import '../view_models/dashboard_view_model.dart';
+import '../../../core/theme/command_center_theme.dart';
+
+class AnalysisPanel extends StatelessWidget {
+  const AnalysisPanel({super.key, required this.viewModel});
+
+  final DashboardViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    final demo = viewModel.displacementDemo;
+    final region = viewModel.selectedRegion;
+    final currentDate = viewModel.currentDateLabel;
+    final displacement = region != null && demo != null
+        ? viewModel.displacementAtDate(
+            viewModel.snapshot?.sliderDates.isNotEmpty == true
+                ? viewModel.snapshot!.sliderDates[
+                    viewModel.sliderValue.round().clamp(0, viewModel.maxSliderIndex)]
+                : '',
+          )
+        : null;
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Row(
+              children: [
+                Icon(Icons.analytics, size: 16, color: CommandCenterTheme.accentWarm),
+                SizedBox(width: 6),
+                Text('解析パネル (Analyst)', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12)),
+              ],
+            ),
+            const SizedBox(height: 8),
+            if (demo?.disclaimer != null)
+              Text(
+                demo!.disclaimer!,
+                style: const TextStyle(fontSize: 10, color: CommandCenterTheme.accentWarm),
+              ),
+            const SizedBox(height: 8),
+            _row('選択日時', currentDate),
+            if (displacement != null)
+              _row('変位 (デモ)', '${displacement.toStringAsFixed(1)} ${demo?.unit ?? "mm"}'),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              children: [
+                FilterChip(
+                  label: const Text('軌道: 全て'),
+                  selected: viewModel.orbitFilter == null,
+                  onSelected: (_) => viewModel.setOrbitFilter(null),
+                ),
+                FilterChip(
+                  label: const Text('ascending'),
+                  selected: viewModel.orbitFilter == 'ascending',
+                  onSelected: (_) => viewModel.setOrbitFilter('ascending'),
+                ),
+                FilterChip(
+                  label: const Text('descending'),
+                  selected: viewModel.orbitFilter == 'descending',
+                  onSelected: (_) => viewModel.setOrbitFilter('descending'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Wrap(
+              spacing: 8,
+              children: [
+                FilterChip(
+                  label: const Text('偏波: 全て'),
+                  selected: viewModel.polarizationFilter == null,
+                  onSelected: (_) => viewModel.setPolarizationFilter(null),
+                ),
+                FilterChip(
+                  label: const Text('HH'),
+                  selected: viewModel.polarizationFilter == 'HH',
+                  onSelected: (_) => viewModel.setPolarizationFilter('HH'),
+                ),
+                FilterChip(
+                  label: const Text('HV'),
+                  selected: viewModel.polarizationFilter == 'HV',
+                  onSelected: (_) => viewModel.setPolarizationFilter('HV'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _row(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 72,
+            child: Text(label, style: const TextStyle(fontSize: 11, color: CommandCenterTheme.textMuted)),
+          ),
+          Expanded(
+            child: Text(value, style: const TextStyle(fontSize: 11)),
+          ),
+        ],
+      ),
+    );
+  }
+}
