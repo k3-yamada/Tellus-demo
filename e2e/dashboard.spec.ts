@@ -24,7 +24,9 @@ test.describe('Tellus Infrastructure Monitor (Flutter Web)', () => {
     await expect(
       page.locator('flt-semantics').filter({ hasText: '富山県インフラ SAR 衛星監視デモ' }).first(),
     ).toBeVisible();
-    await expect(page.locator('flt-semantics[aria-label="summary-card"]').first()).toBeVisible();
+    await expect(
+      page.locator('flt-semantics').filter({ hasText: 'データ品質' }).first(),
+    ).toBeVisible();
     await expect(page.locator('flt-semantics[aria-label*="衛星観測タイムライン"]').first()).toBeVisible();
 
     await expect(page.getByRole('checkbox', { name: '常願寺川流域（佐々堤付近）' })).toBeVisible();
@@ -73,7 +75,7 @@ test.describe('Tellus Infrastructure Monitor (Flutter Web)', () => {
   });
 
   test('Explorer/Analyst mode toggle is visible', async ({ page }) => {
-    await expect(page.getByRole('button', { name: 'Explorer' })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Analyst' })).toBeVisible();
+    await expect(page.getByRole('radio', { name: 'Explorer' })).toBeVisible();
+    await expect(page.getByRole('radio', { name: 'Analyst' })).toBeVisible();
   });
 });
