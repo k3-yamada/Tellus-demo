@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../architecture/architecture_page.dart';
+import '../../architecture/architecture_overlay.dart';
 import '../../catalog/catalog_page.dart';
 import '../../procurement/procurement_page.dart';
 import '../view_models/dashboard_view_model.dart';
@@ -205,7 +205,7 @@ class _ControlBar extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.account_tree, size: 20),
           tooltip: 'アーキテクチャ',
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ArchitecturePage())),
+          onPressed: () => showArchitectureExplainerOverlay(context),
         ),
         IconButton(
           icon: const Icon(Icons.shopping_cart_outlined, size: 20),
@@ -275,6 +275,20 @@ class _Header extends StatelessWidget {
                 style: TextStyle(fontSize: 12, color: CommandCenterTheme.textMuted),
               ),
             ],
+          ),
+          const SizedBox(width: 12),
+          Tooltip(
+            message: 'システム構成・データフロー・設計の強みを解説',
+            child: FilledButton.tonalIcon(
+            onPressed: () => showArchitectureExplainerOverlay(context, tutorial: true),
+            icon: const Icon(Icons.layers, size: 18),
+            label: const Text('システム解説'),
+            style: FilledButton.styleFrom(
+              visualDensity: VisualDensity.compact,
+              foregroundColor: CommandCenterTheme.accent,
+              backgroundColor: CommandCenterTheme.accent.withValues(alpha: 0.12),
+            ),
+          ),
           ),
           const Spacer(),
           if (generatedAt.isNotEmpty)
