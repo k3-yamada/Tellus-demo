@@ -16,6 +16,8 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
 ENV_PATH = PROJECT_ROOT / ".env"
 
+DEFAULT_DATA = PROJECT_ROOT / "web_app" / "assets" / "data" / "infrastructure_data.json"
+
 TELLUSAR_BASE = "https://www.tellusxdp.com/api/tellusar/v1"
 
 
@@ -70,11 +72,22 @@ def main() -> None:
         print("Error: TELLUS_API_KEY not set", file=sys.stderr)
         sys.exit(1)
 
-    if len(sys.argv) < 3:
-        print("Usage: tellusar_jobs.py <data_id_1> <data_id_2> [...]", file=sys.stderr)
+    data_ids: list[str] = []
+    if len(sys.argv) >= 2 and sys.argv[1] == "--from-json":
+        import json as _json
+        path = Path(sys.argv[2]) if len(sys.argv) > 2 else DEFAULT_DATA
+        with path.open(encoding="utf-8") as f:
+            payload = _json.load(f)
+        pair = (payload.get("meta") or {}).get("tellusarSuggestedPair") or {}
+        data_ids = list(pair.get("dataIds") or [])
+        if not data_ids:
+            print("No tellusarSuggestedPair in meta", file=sys.stderr)
+            sys.exit(1)
+    elif len(sys.argv) >= 3:
+        data_ids = sys.argv[1:]
+    else:
+        print("Usage: tellusar_jobs.py <id1> <id2> | tellusar_jobs.py --from-json [path]", file=sys.stderr)
         sys.exit(1)
-
-    data_ids = sys.argv[1:]
     session = requests.Session()
     headers = auth_headers(api_key)
 

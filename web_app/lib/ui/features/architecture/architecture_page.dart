@@ -23,11 +23,11 @@ class ArchitecturePage extends StatelessWidget {
           ),
           _ArchBlock(
             title: 'Python Pipeline',
-            body: 'fetch_tellus_data.py → enrich_scenes → migrate_v2 → infrastructure_data.json',
+            body: 'fetch → attach_datasets_catalog → enrich → diff (.previous.json) → Slack',
           ),
           _ArchBlock(
             title: 'Cloudflare Workers BFF',
-            body: '/api/datasets · /api/search — API キー秘匿プロキシ',
+            body: '/api/datasets · /api/search · /api/scenes/* · /api/tellusar/jobs',
           ),
           _ArchBlock(
             title: 'GitHub Actions',

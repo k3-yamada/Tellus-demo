@@ -128,7 +128,21 @@
         "observationCount": 159
       }
     ],
-    "tellusPortalUrl": "https://www.tellusxdp.com/"
+    "tellusPortalUrl": "https://www.tellusxdp.com/",
+    "tellusarSuggestedPair": {
+      "regionId": "tateyama",
+      "dataIds": [
+        "0cadb3f8-3672-4318-aaad-cded6bacf975",
+        "d39a52b9-1e6f-4d5b-97b9-7fb0abf7cd19"
+      ],
+      "orbitDirection": "left",
+      "polarization": "HH",
+      "acquisitionDates": [
+        "2017-11-17",
+        "2021-08-16"
+      ],
+      "note": "Suggested pair for TelluSAR CLI (same orbit/pol, wide time span)"
+    }
   },
   "regions": {
     "joganji": {
@@ -4193,7 +4207,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-45ff087d-be02-4788-bc4c-28cd947a1167/thumbnail/1e6/1e60337c-a5b9-4b54-8f03-e3dcb9e75c58/ALOS2139650750-161223_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062328Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=6851f31ebbc0c7abbd6a2ec2f059175dbc2a2c7f7035eb56c21d6a5b2fe20402"
         },
         {
           "dataId": "0b85eb03-a4f7-4084-914d-94454589af40",
@@ -4232,7 +4247,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-45ff087d-be02-4788-bc4c-28cd947a1167/thumbnail/0b8/0b85eb03-a4f7-4084-914d-94454589af40/ALOS2140980750-170101_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062329Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=74d4ef1fa7e07670c075f038477d145013bb24232d599fbd0b52336575bd1b93"
         },
         {
           "dataId": "75c0789a-8025-4f98-ab5a-fedf06c37ebc",
@@ -4271,7 +4287,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-b0e16dea-6544-4422-926f-ad3ec9a3fcbd/thumbnail/75c/75c0789a-8025-4f98-ab5a-fedf06c37ebc/ALOS2143790720-170120_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062330Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=e44ec93e404dea1cbad482d9d810efd3a5e9b096213ca363efe515075ba5aeae"
         },
         {
           "dataId": "f9fa3820-8795-4506-bd50-28d97d9c7d10",
@@ -4310,7 +4327,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-1a41a4b1-4594-431f-95fb-82f9bdc35d6b/thumbnail/f9f/f9fa3820-8795-4506-bd50-28d97d9c7d10/ALOS2143790720-170120_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062330Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=872e16a879baced502b7b041e1c49b5bce65ae9e62535bcdfacc2c7a9bbdc7a3"
         },
         {
           "dataId": "b10a70b9-3f40-4cd3-843d-378771c8cf3f",
@@ -4349,7 +4367,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-b0e16dea-6544-4422-926f-ad3ec9a3fcbd/thumbnail/b10/b10a70b9-3f40-4cd3-843d-378771c8cf3f/ALOS2147930720-170217_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062331Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=06394b94a538f3fb4696048c889052a0f8e280feafb7c2994022cac04b2cbbb4"
         },
         {
           "dataId": "cda824c6-a38c-46e5-b65b-42c90b5b2107",
@@ -4388,7 +4407,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-1a41a4b1-4594-431f-95fb-82f9bdc35d6b/thumbnail/cda/cda824c6-a38c-46e5-b65b-42c90b5b2107/ALOS2147930720-170217_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062332Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=989b8386f23a8ba04f24901bf251bed2e3e7c69942a565e02ed2af1cae3fe198"
         },
         {
           "dataId": "a5cd6e16-270d-4742-9d36-3b2e26b0e610",
@@ -4427,7 +4447,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-1a41a4b1-4594-431f-95fb-82f9bdc35d6b/thumbnail/a5c/a5cd6e16-270d-4742-9d36-3b2e26b0e610/ALOS2148152870-170219_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062332Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=bd1ff99e5f549870c3c367ce433dc2b33a8cbcc949c3141254da46c685df77c2"
         },
         {
           "dataId": "cd7dd379-a25b-44af-b8be-2c314c209006",
@@ -4466,7 +4487,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-b0e16dea-6544-4422-926f-ad3ec9a3fcbd/thumbnail/cd7/cd7dd379-a25b-44af-b8be-2c314c209006/ALOS2148152870-170219_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062333Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=6e5994205566039532e2b2c04a49206848c4942ed071a8a34673a91aecbf9ef7"
         },
         {
           "dataId": "93353563-9301-42a2-a3d5-6277b60554c6",
@@ -4505,7 +4527,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-b0e16dea-6544-4422-926f-ad3ec9a3fcbd/thumbnail/933/93353563-9301-42a2-a3d5-6277b60554c6/ALOS2148152880-170219_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062333Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=a64a59801a7b590fdb013ea0a6533260daa2f93318ed882272c71ec8aa1717ec"
         },
         {
           "dataId": "cef0a9f0-4acd-4e43-930f-244774dee107",
@@ -4544,7 +4567,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-1a41a4b1-4594-431f-95fb-82f9bdc35d6b/thumbnail/cef/cef0a9f0-4acd-4e43-930f-244774dee107/ALOS2148152880-170219_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062334Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=31a8346a20821674b52e629dded71a9b0ce519083ec3b425bcc10cfdd4252382"
         },
         {
           "dataId": "0d5d5485-7051-4621-928f-6216f035257b",
@@ -4583,7 +4607,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-b0e16dea-6544-4422-926f-ad3ec9a3fcbd/thumbnail/0d5/0d5d5485-7051-4621-928f-6216f035257b/ALOS2150222870-170305_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062334Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=4db8ce6d55989bf7c29c9a43b73ce076c589193fc5bf7588086a131f4ea3bd55"
         },
         {
           "dataId": "3fd40140-527b-4545-938a-91487ae04e39",
@@ -4622,7 +4647,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-1a41a4b1-4594-431f-95fb-82f9bdc35d6b/thumbnail/3fd/3fd40140-527b-4545-938a-91487ae04e39/ALOS2150222870-170305_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062335Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=cb77b9fe6f3faa3b5250692b7d1f8926f5b4c0e53a51e15e334bb0e414a62d70"
         },
         {
           "dataId": "3b182068-19d7-4c4d-8032-0c3bfd8108c2",
@@ -4661,7 +4687,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-b0e16dea-6544-4422-926f-ad3ec9a3fcbd/thumbnail/3b1/3b182068-19d7-4c4d-8032-0c3bfd8108c2/ALOS2150222880-170305_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062335Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=70cb46a406b10c5fae657fd8b38aec44c5081d47c387eb99fec2d4d395acf32c"
         },
         {
           "dataId": "89691c2d-7f15-4dc3-8037-86229d6872a3",
@@ -4700,7 +4727,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-1a41a4b1-4594-431f-95fb-82f9bdc35d6b/thumbnail/896/89691c2d-7f15-4dc3-8037-86229d6872a3/ALOS2150222880-170305_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062336Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=791e0ce1cb46451404520a92d75b8b6c72342fbfc7515d8e0f31002238f4f4af"
         },
         {
           "dataId": "5b65c5cb-ee06-4144-811a-a17b2dacfc10",
@@ -4739,7 +4767,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-b0e16dea-6544-4422-926f-ad3ec9a3fcbd/thumbnail/5b6/5b65c5cb-ee06-4144-811a-a17b2dacfc10/ALOS2153622880-170328_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062337Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=1c4adf82431c62e0194cfdfb3dcfbdce4e7c961477139addea8723a37df8401a"
         },
         {
           "dataId": "a79420b3-5b3f-4706-ad67-8ae260eb1525",
@@ -4778,7 +4807,8 @@
             ],
             "type": "Polygon"
           },
-          "qualityScore": 0.9500000000000001
+          "qualityScore": 0.9500000000000001,
+          "thumbnailUrl": "https://storage-b.tellusxdp.com:443/dataset-1a41a4b1-4594-431f-95fb-82f9bdc35d6b/thumbnail/a79/a79420b3-5b3f-4706-ad67-8ae260eb1525/ALOS2153622880-170328_thumb.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=MRH47RE2ETRNHG9W6XJY4%2F20260604%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260604T062337Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=52be377193e3df3bc776c14a5a643d78b48c9aaf53152fef71f822d7708d63d8"
         },
         {
           "dataId": "41d3d1e1-4e1e-4b33-abfb-f54cebd1521d",
@@ -47238,7 +47268,7 @@
     "overallScore": 0.949,
     "totalObservations": 1000,
     "regionsWithGeometry": 1000,
-    "regionsWithThumbnails": 77,
+    "regionsWithThumbnails": 93,
     "notes": []
   },
   "coverageByYear": {

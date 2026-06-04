@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 import re
 import sys
 from datetime import datetime, timezone
@@ -275,6 +276,8 @@ def main() -> None:
     enrich_v2_fields(output)
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if OUTPUT_PATH.exists():
+        shutil.copy2(OUTPUT_PATH, OUTPUT_PATH.with_suffix(".previous.json"))
     with OUTPUT_PATH.open("w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
         f.write("\n")

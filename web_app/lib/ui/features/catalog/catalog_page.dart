@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../domain/models/sar_dataset.dart';
 import '../../core/theme/command_center_theme.dart';
 import '../dashboard/view_models/dashboard_view_model.dart';
 
@@ -57,6 +58,28 @@ class CatalogPage extends StatelessWidget {
                   isThreeLine: true,
                 ),
               ),
+
+          const SizedBox(height: 24),
+          const Text('購入済みデータ (デモ)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+          const SizedBox(height: 4),
+          const Text(
+            'purchased-data-search の UI デモ。実 API 検索は BFF 経由で別途接続します。',
+            style: TextStyle(fontSize: 11, color: CommandCenterTheme.textMuted),
+          ),
+          const SizedBox(height: 8),
+          ..._purchasedEntries(vm).map(
+            (ds) => Card(
+              color: CommandCenterTheme.panel,
+              child: ListTile(
+                leading: const Icon(Icons.inventory_2_outlined, color: CommandCenterTheme.accentWarm),
+                title: Text(ds.name, maxLines: 2, overflow: TextOverflow.ellipsis),
+                subtitle: Text('本デモで ${ds.observationCount} 件ヒット · ${ds.id.substring(0, 8)}…'),
+                dense: true,
+              ),
+            ),
+          ),
+          if (_purchasedEntries(vm).isEmpty)
+            const Text('購入済み相当のデータはまだありません。', style: TextStyle(fontSize: 12)),
           const SizedBox(height: 16),
           const Text('監視地域', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
           const SizedBox(height: 8),
@@ -79,4 +102,9 @@ class CatalogPage extends StatelessWidget {
       ),
     );
   }
+
+}
+
+List<SarDatasetEntry> _purchasedEntries(DashboardViewModel vm) {
+  return vm.datasetsCatalog.where((d) => d.observationCount > 0).toList();
 }

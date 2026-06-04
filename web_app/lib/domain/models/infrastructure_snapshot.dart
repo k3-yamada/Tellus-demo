@@ -103,6 +103,7 @@ class InfrastructureSnapshot {
     this.displacementDemo,
     this.datasetsCatalog = const [],
     this.tellusPortalUrl,
+    this.tellusarSuggestedPair,
   });
 
   final int schemaVersion;
@@ -115,6 +116,7 @@ class InfrastructureSnapshot {
   final DisplacementDemo? displacementDemo;
   final List<SarDatasetEntry> datasetsCatalog;
   final String? tellusPortalUrl;
+  final Map<String, dynamic>? tellusarSuggestedPair;
 }
 
 class TimelineStep {

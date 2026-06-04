@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../view_models/dashboard_view_model.dart';
 import '../../../core/theme/command_center_theme.dart';
+import 'displacement_chart.dart';
 
 class AnalysisPanel extends StatelessWidget {
   const AnalysisPanel({super.key, required this.viewModel});
@@ -13,13 +14,9 @@ class AnalysisPanel extends StatelessWidget {
     final demo = viewModel.displacementDemo;
     final region = viewModel.selectedRegion;
     final currentDate = viewModel.currentDateLabel;
+    final sliderIso = viewModel.currentSliderIso ?? '';
     final displacement = region != null && demo != null
-        ? viewModel.displacementAtDate(
-            viewModel.snapshot?.sliderDates.isNotEmpty == true
-                ? viewModel.snapshot!.sliderDates[
-                    viewModel.sliderValue.round().clamp(0, viewModel.maxSliderIndex)]
-                : '',
-          )
+        ? viewModel.displacementAtDate(sliderIso.length >= 10 ? sliderIso.substring(0, 10) : sliderIso)
         : null;
 
     return Card(
@@ -45,6 +42,23 @@ class AnalysisPanel extends StatelessWidget {
             _row('選択日時', currentDate),
             if (displacement != null)
               _row('変位 (デモ)', '${displacement.toStringAsFixed(1)} ${demo?.unit ?? "mm"}'),
+            if (viewModel.tellusarSuggestedPair != null) ...[
+              const SizedBox(height: 6),
+              _row(
+                'TelluSAR候補',
+                (viewModel.tellusarSuggestedPair!['dataIds'] as List?)?.join(', ') ?? '—',
+              ),
+            ],
+
+            if (demo != null && region?.id == demo.regionId) ...[
+              const SizedBox(height: 8),
+              const Text('累積変位トレンド (デモ)', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600)),
+              const SizedBox(height: 4),
+              DisplacementChart(
+                demo: demo,
+                highlightDate: sliderIso.length >= 10 ? sliderIso.substring(0, 10) : null,
+              ),
+            ],
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
@@ -84,6 +98,11 @@ class AnalysisPanel extends StatelessWidget {
                   label: const Text('HV'),
                   selected: viewModel.polarizationFilter == 'HV',
                   onSelected: (_) => viewModel.setPolarizationFilter('HV'),
+                ),
+                FilterChip(
+                  label: const Text('VV'),
+                  selected: viewModel.polarizationFilter == 'VV',
+                  onSelected: (_) => viewModel.setPolarizationFilter('VV'),
                 ),
               ],
             ),

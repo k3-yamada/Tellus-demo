@@ -46,6 +46,7 @@ class DashboardViewModel extends ChangeNotifier {
   DisplacementDemo? get displacementDemo => _snapshot?.displacementDemo;
   List<SarDatasetEntry> get datasetsCatalog => _snapshot?.datasetsCatalog ?? [];
   String? get tellusPortalUrl => _snapshot?.tellusPortalUrl;
+  Map<String, dynamic>? get tellusarSuggestedPair => _snapshot?.tellusarSuggestedPair;
 
   SummaryInsights get summaryInsights {
     final qr = qualityReport;
@@ -79,6 +80,30 @@ class DashboardViewModel extends ChangeNotifier {
     return dates.isEmpty ? 0 : dates.length - 1;
   }
 
+  String? get timelineYearStart {
+    final dates = _snapshot?.sliderDates ?? [];
+    if (dates.isEmpty) return null;
+    return _yearFromIso(dates.first);
+  }
+
+  String? get timelineYearEnd {
+    final dates = _snapshot?.sliderDates ?? [];
+    if (dates.isEmpty) return null;
+    return _yearFromIso(dates.last);
+  }
+
+  String? _yearFromIso(String iso) {
+    if (iso.length < 4) return null;
+    return iso.substring(0, 4);
+  }
+
+  String? get currentSliderIso {
+    final dates = _snapshot?.sliderDates ?? [];
+    if (dates.isEmpty) return null;
+    final idx = _sliderValue.round().clamp(0, dates.length - 1);
+    return dates[idx];
+  }
+
   String get currentDateLabel {
     final dates = _snapshot?.sliderDates ?? [];
     if (dates.isEmpty) return '—';
@@ -94,6 +119,11 @@ class DashboardViewModel extends ChangeNotifier {
     } catch (_) {
       return isoDate;
     }
+  }
+
+  int filteredCountFor(Region? region) {
+    if (region == null) return 0;
+    return filteredObservations(region).length;
   }
 
   Map<String, int> coverageForRegion(String regionId) {
@@ -181,8 +211,31 @@ class DashboardViewModel extends ChangeNotifier {
         final month = _monthFromObs(obs);
         if (month != null && (month < 5 || month > 9)) return false;
       }
+      if (_scenario == DemoScenario.longTerm) {
+        final cutoff = _longTermCutoff(region);
+        if (cutoff != null) {
+          final key = obs.startDatetime.isNotEmpty ? obs.startDatetime : obs.acquisitionDate;
+          if (key.compareTo(cutoff) < 0) return false;
+        }
+      }
       return true;
     }).toList();
+  }
+
+  String? _longTermCutoff(Region region) {
+    String? maxKey;
+    for (final obs in region.observations) {
+      final key = obs.startDatetime.isNotEmpty ? obs.startDatetime : obs.acquisitionDate;
+      if (maxKey == null || key.compareTo(maxKey) > 0) maxKey = key;
+    }
+    if (maxKey == null) return null;
+    try {
+      final dt = DateTime.parse(maxKey.contains('T') ? maxKey : '${maxKey}T00:00:00Z');
+      final cutoff = dt.subtract(const Duration(days: 90));
+      return cutoff.toUtc().toIso8601String().substring(0, 10);
+    } catch (_) {
+      return null;
+    }
   }
 
   int? _monthFromObs(Observation obs) {

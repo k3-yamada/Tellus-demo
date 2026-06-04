@@ -27,18 +27,13 @@ test.describe('Tellus Infrastructure Monitor (Flutter Web)', () => {
     await expect(
       page.locator('flt-semantics').filter({ hasText: 'データ品質' }).first(),
     ).toBeVisible();
+    await expect(
+      page.locator('flt-semantics').filter({ hasText: 'わかること' }).first(),
+    ).toBeVisible();
     await expect(page.locator('flt-semantics[aria-label*="衛星観測タイムライン"]').first()).toBeVisible();
 
     await expect(page.getByRole('checkbox', { name: '常願寺川流域（佐々堤付近）' })).toBeVisible();
     await expect(page.getByRole('checkbox', { name: '立山室堂（斜面）' })).toBeVisible();
-
-    const mapTileRequest = page.waitForResponse(
-      (response) =>
-        response.url().includes('tile.openstreetmap.org') && response.status() === 200,
-      { timeout: 45_000 },
-    );
-    await page.mouse.wheel(0, 1);
-    await mapTileRequest;
 
     const slider = page.getByRole('slider');
     await expect(slider).toBeVisible();

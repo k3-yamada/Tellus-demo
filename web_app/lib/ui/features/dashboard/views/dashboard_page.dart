@@ -188,7 +188,7 @@ class _ControlBar extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 6),
                     child: FilterChip(
-                      label: Text(_scenarioLabel(s)),
+                      label: Text(_scenarioLabel(s, viewModel)),
                       selected: viewModel.scenario == s,
                       onSelected: (_) => viewModel.setScenario(s),
                     ),
@@ -216,12 +216,17 @@ class _ControlBar extends StatelessWidget {
     );
   }
 
-  String _scenarioLabel(DemoScenario s) => switch (s) {
-        DemoScenario.embankment => '堤防',
-        DemoScenario.slope => '斜面',
-        DemoScenario.rainySeason => '梅雨',
-        DemoScenario.longTerm => '長期',
-      };
+  String _scenarioLabel(DemoScenario s, DashboardViewModel vm) {
+    final base = switch (s) {
+      DemoScenario.embankment => '堤防',
+      DemoScenario.slope => '斜面',
+      DemoScenario.rainySeason => '梅雨',
+      DemoScenario.longTerm => '長期',
+    };
+    if (s == DemoScenario.embankment || s == DemoScenario.slope) return base;
+    final count = vm.filteredCountFor(vm.selectedRegion);
+    return '$base ($count)';
+  }
 }
 
 class _Header extends StatelessWidget {

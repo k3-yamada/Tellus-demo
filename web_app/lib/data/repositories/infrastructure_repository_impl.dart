@@ -43,6 +43,7 @@ class InfrastructureRepositoryImpl implements InfrastructureRepository {
         .map((e) => SarDatasetEntry.fromJson(e as Map<String, dynamic>))
         .toList();
     final tellusPortalUrl = meta['tellusPortalUrl'] as String?;
+    final tellusarSuggestedPair = meta['tellusarSuggestedPair'] as Map<String, dynamic>?;
 
     final regions = <Region>[];
     const regionOrder = ['joganji', 'tateyama'];
@@ -94,6 +95,7 @@ class InfrastructureRepositoryImpl implements InfrastructureRepository {
       displacementDemo: displacementDemo,
       datasetsCatalog: datasetsCatalog,
       tellusPortalUrl: tellusPortalUrl,
+      tellusarSuggestedPair: tellusarSuggestedPair,
     );
   }
 

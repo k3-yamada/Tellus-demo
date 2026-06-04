@@ -94,10 +94,21 @@ def attach_datasets_catalog(data, catalog):
     meta["datasetsCatalog"] = catalog
     meta["tellusPortalUrl"] = "https://www.tellusxdp.com/"
 
+
+def _attach_tellusar_pair(data: dict[str, Any]) -> None:
+    try:
+        from select_tellusar_pair import suggest_pair
+        pair = suggest_pair(data)
+        if pair:
+            data.setdefault("meta", {})["tellusarSuggestedPair"] = pair
+    except Exception:
+        pass
+
 def enrich_v2_fields(data: dict[str, Any]) -> dict[str, Any]:
     """Add schemaVersion, qualityReport, coverageByYear to existing data."""
     data["schemaVersion"] = 2
     data["qualityReport"] = build_quality_report(data)
+    _attach_tellusar_pair(data)
     data["coverageByYear"] = build_coverage_by_year(data)
 
     meta = data.setdefault("meta", {})

@@ -10,7 +10,8 @@
 | **Analyst モード** | 変位デモ、軌道/偏波フィルタ、解析パネル |
 | **シナリオ切替** | 堤防 / 斜面 / 梅雨 / 長期 |
 | **データカタログ** | 地域別観測件数一覧 |
-| **調達デモ** | DEMO_MODE カート dry-run（本番発注なし） |
+| **調達デモ** | DEMO_MODE カート・発注 dry-run（BFF 経由可） |
+| **運用パイプライン** | diff 新着検知、Slack 通知、サムネマニフェスト |
 
 ## ディレクトリ構成
 
@@ -56,6 +57,10 @@ cd scripts
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python fetch_tellus_data.py
+python pipeline/attach_datasets_catalog.py   # カタログのみ更新
+python pipeline/enrich_scenes.py ../web_app/assets/data/infrastructure_data.json 80
+python pipeline/select_tellusar_pair.py      # TelluSAR 候補ペア
+python pipeline/thumbnail_manifest.py
 ```
 
 既存 JSON を v2 に移行（再取得不要）:
@@ -105,6 +110,11 @@ npm run dev
 | `GET /api/datasets` | Traveler datasets プロキシ |
 | `POST /api/search` | Traveler data-search プロキシ |
 | `GET /health` | ヘルスチェック |
+| `GET /api/datasets/{id}/data/{id}/*` | シーン・サムネプロキシ |
+| `POST /api/tellusar/jobs` | TelluSAR ジョブ投入 |
+| `POST /api/purchased-data-search` | 購入済み検索 |
+| `POST /api/cart-items` | カート（dry-run 対応） |
+| `POST /api/dataset-orders` | 発注（dry-run 対応） |
 
 ## テスト
 
@@ -123,6 +133,16 @@ cd ../e2e && npm ci && npx playwright install chromium && npm test
 ## monitoringIndex について
 
 チャート・マーカー色に使う `monitoringIndex` は API メタデータ（`view:off_nadir` 等）を正規化した**デモ用指標**です。地盤変位や浸水の実解析値ではありません。
+
+## TelluSAR（任意）
+
+```bash
+cd scripts
+# meta.tellusarSuggestedPair の ID でジョブ投入
+python pipeline/tellusar_jobs.py --from-json
+# 完了後、結果 JSON を displacementDemo にマージ
+python pipeline/merge_tellusar_result.py ../web_app/assets/data/infrastructure_data.json job_result.json
+```
 
 ## ドキュメント
 

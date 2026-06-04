@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 
 class AppConfig {
   const AppConfig({
@@ -20,5 +19,5 @@ class AppConfig {
 
   static final AppConfig instance = fromEnvironment();
 
-  bool get useBff => bffUrl.isNotEmpty && !kDebugMode;
+  bool get useBff => bffUrl.isNotEmpty;
 }

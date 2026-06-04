@@ -31,13 +31,18 @@ jobs:
           TELLUS_API_KEY: ${{ secrets.TELLUS_API_KEY }}
         run: python pipeline/enrich_scenes.py ../web_app/assets/data/infrastructure_data.json 80
 
+      - name: Build thumbnail manifest
+        working-directory: scripts
+        run: python pipeline/thumbnail_manifest.py ../web_app/assets/data/infrastructure_data.json
+
       - name: Notify Slack
         if: always()
         working-directory: scripts
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          python pipeline/notify.py "${{ job.status }}" "Weekly Tellus fetch completed"
+          SUMMARY=$(python pipeline/pipeline_summary.py ../web_app/assets/data/infrastructure_data.json)
+          python pipeline/notify.py "${{ job.status }}" "Weekly Tellus fetch completed" --details-json "$SUMMARY"
 
       - name: Upload JSON artifact
         uses: actions/upload-artifact@v4

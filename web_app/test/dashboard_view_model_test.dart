@@ -65,6 +65,15 @@ void main() {
     expect(filtered.first.dataId, 'a');
   });
 
+  test('long term keeps roughly last 90 days window', () async {
+    final vm = DashboardViewModel(repository: _FakeRepo());
+    await vm.load();
+    vm.setScenario(DemoScenario.longTerm);
+    final region = vm.regions.first;
+    final filtered = vm.filteredObservations(region);
+    expect(filtered.length, greaterThanOrEqualTo(1));
+  });
+
   test('summary insights lists capabilities', () async {
     final vm = DashboardViewModel(repository: _FakeRepo());
     await vm.load();

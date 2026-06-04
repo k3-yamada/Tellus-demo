@@ -105,7 +105,7 @@ class SidePanel extends StatelessWidget {
             ],
             const SizedBox(height: 8),
             Text(
-              isAnalyst ? '時系列監視指数 (レガシーデモ)' : '時系列監視指数',
+              isAnalyst ? '時系列監視指数 (レガシーデモ)' : '観測の変化（デモ指数）',
               style: const TextStyle(fontWeight: FontWeight.w600, color: CommandCenterTheme.textPrimary),
             ),
             const SizedBox(height: 8),
