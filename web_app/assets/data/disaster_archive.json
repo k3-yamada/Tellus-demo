@@ -19,7 +19,7 @@
           "acquisitionDatetime": "2023-12-25T16:10:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
-          "thumbnailUrl": "assets/images/disaster/noto_2024_before.png",
+          "thumbnailUrl": "assets/images/disaster/cached/noto_2024_before.png",
           "note": "発災 7 日前の通常観測"
         },
         {
@@ -30,7 +30,7 @@
           "acquisitionDatetime": "2024-01-03T16:10:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH",
-          "thumbnailUrl": "assets/images/disaster/noto_2024_during.png",
+          "thumbnailUrl": "assets/images/disaster/cached/noto_2024_during.png",
           "note": "発災 2 日後、JAXA 緊急観測 (ScanSAR で広域把握)"
         },
         {
@@ -41,7 +41,7 @@
           "acquisitionDatetime": "2024-01-31T16:10:00Z",
           "orbitDirection": "descending",
           "polarization": "HH+HV",
-          "thumbnailUrl": "assets/images/disaster/noto_2024_after.png",
+          "thumbnailUrl": "assets/images/disaster/cached/noto_2024_after.png",
           "note": "1 ヶ月後、隆起・土砂崩れの全容観測"
         }
       ],
@@ -63,7 +63,7 @@
           "acquisitionDatetime": "2018-06-22T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
-          "thumbnailUrl": "assets/images/disaster/nishinihon_2018_before.png",
+          "thumbnailUrl": "assets/images/disaster/cached/nishinihon_2018_before.png",
           "note": "豪雨前 2 週間の平常時"
         },
         {
@@ -74,7 +74,7 @@
           "acquisitionDatetime": "2018-07-08T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH",
-          "thumbnailUrl": "assets/images/disaster/nishinihon_2018_during.png",
+          "thumbnailUrl": "assets/images/disaster/cached/nishinihon_2018_during.png",
           "note": "豪雨翌々日、真備町の浸水を ScanSAR で観測"
         },
         {
@@ -85,7 +85,7 @@
           "acquisitionDatetime": "2018-07-27T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
-          "thumbnailUrl": "assets/images/disaster/nishinihon_2018_after.png",
+          "thumbnailUrl": "assets/images/disaster/cached/nishinihon_2018_after.png",
           "note": "3 週間後の浸水退潮確認"
         }
       ],
@@ -107,7 +107,7 @@
           "acquisitionDatetime": "2021-06-23T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
-          "thumbnailUrl": "assets/images/disaster/atami_2021_before.png",
+          "thumbnailUrl": "assets/images/disaster/cached/atami_2021_before.png",
           "note": "発災 10 日前の通常観測"
         },
         {
@@ -118,7 +118,7 @@
           "acquisitionDatetime": "2021-07-06T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH+HV",
-          "thumbnailUrl": "assets/images/disaster/atami_2021_during.png",
+          "thumbnailUrl": "assets/images/disaster/cached/atami_2021_during.png",
           "note": "発災 3 日後、土砂流出域の観測"
         },
         {
@@ -129,11 +129,13 @@
           "acquisitionDatetime": "2021-08-17T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
-          "thumbnailUrl": "assets/images/disaster/atami_2021_after.png",
+          "thumbnailUrl": "assets/images/disaster/cached/atami_2021_after.png",
           "note": "1.5 ヶ月後、復旧進捗の確認"
         }
       ],
       "demoFocus": "局所斜面の土砂流出パターン"
     }
-  ]
+  ],
+  "thumbnailSource": "tellus_cached",
+  "thumbnailCachedAt": "2026-06-05T11:17:07.391516Z"
 }

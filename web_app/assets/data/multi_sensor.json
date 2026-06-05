@@ -71,7 +71,7 @@
           "acquisitionDate": "2023-05-15",
           "acquisitionDatetime": "2023-05-15T10:00:00Z",
           "orbitDirection": "ascending",
-          "thumbnailUrl": "assets/images/multi_sensor/tateyama_slope_palsar2_l21.png"
+          "thumbnailUrl": "assets/images/multi_sensor/cached/tateyama_slope_palsar2_l21.png"
         },
         {
           "sensorId": "palsar2_l21",
@@ -79,7 +79,7 @@
           "acquisitionDate": "2024-05-12",
           "acquisitionDatetime": "2024-05-12T10:00:00Z",
           "orbitDirection": "ascending",
-          "thumbnailUrl": "assets/images/multi_sensor/tateyama_slope_palsar2_l21.png"
+          "thumbnailUrl": "assets/images/multi_sensor/cached/tateyama_slope_palsar2_l21.png"
         },
         {
           "sensorId": "palsar2_scansar",
@@ -87,7 +87,7 @@
           "acquisitionDate": "2023-07-08",
           "acquisitionDatetime": "2023-07-08T10:00:00Z",
           "orbitDirection": "descending",
-          "thumbnailUrl": "assets/images/multi_sensor/tateyama_slope_palsar2_scansar.png"
+          "thumbnailUrl": "assets/images/multi_sensor/cached/tateyama_slope_palsar2_scansar.png"
         },
         {
           "sensorId": "asnaro1_optical",
@@ -128,7 +128,7 @@
           "acquisitionDate": "2023-05-15",
           "acquisitionDatetime": "2023-05-15T10:00:00Z",
           "orbitDirection": "ascending",
-          "thumbnailUrl": "assets/images/multi_sensor/joganji_river_palsar2_l21.png"
+          "thumbnailUrl": "assets/images/multi_sensor/cached/joganji_river_palsar2_l21.png"
         },
         {
           "sensorId": "palsar2_l21",
@@ -136,7 +136,7 @@
           "acquisitionDate": "2024-05-12",
           "acquisitionDatetime": "2024-05-12T10:00:00Z",
           "orbitDirection": "ascending",
-          "thumbnailUrl": "assets/images/multi_sensor/joganji_river_palsar2_l21.png"
+          "thumbnailUrl": "assets/images/multi_sensor/cached/joganji_river_palsar2_l21.png"
         },
         {
           "sensorId": "palsar2_scansar",
@@ -144,7 +144,7 @@
           "acquisitionDate": "2023-07-08",
           "acquisitionDatetime": "2023-07-08T10:00:00Z",
           "orbitDirection": "descending",
-          "thumbnailUrl": "assets/images/multi_sensor/joganji_river_palsar2_scansar.png"
+          "thumbnailUrl": "assets/images/multi_sensor/cached/joganji_river_palsar2_scansar.png"
         },
         {
           "sensorId": "asnaro1_optical",
@@ -172,5 +172,7 @@
         }
       ]
     }
-  ]
+  ],
+  "thumbnailSource": "tellus_cached",
+  "thumbnailCachedAt": "2026-06-05T11:16:55.575920Z"
 }

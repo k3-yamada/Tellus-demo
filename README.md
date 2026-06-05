@@ -88,6 +88,25 @@ python pipeline/select_tellusar_pair.py      # TelluSAR 候補ペア
 python pipeline/thumbnail_manifest.py
 ```
 
+
+**実衛星サムネイルのバンドル化**（`TELLUS_API_KEY` 必須。オフライン配布向け）:
+
+```bash
+cd scripts
+# ダッシュボード: 地域×データセット代表（既定 8 枚）または --mode per-observation --limit 80
+python pipeline/cache_thumbnails.py --target infrastructure
+# 災害アーカイブ / マルチセンサー / 業界テンプレ（合成 ID は BBOX 検索で実シーンに差し替え）
+python pipeline/cache_thumbnails.py --target disaster --bbox-search
+python pipeline/cache_thumbnails.py --target multi_sensor --bbox-search
+python pipeline/cache_thumbnails.py --target templates --bbox-search
+# 一括
+python pipeline/cache_thumbnails.py --target all --bbox-search
+```
+
+- 取得した PNG は `web_app/assets/images/**/cached/` に保存され、JSON の `thumbnailUrl` が `assets/images/...` に更新される。
+- API キーは `.env` のみ（ブラウザ・BFF には露出しない）。Tellus データの利用は [Tellus 利用規約](https://www.tellusxdp.com/) に従う。
+- キーがない環境では従来の `generate_*`（合成 PNG）を使う。`cache_thumbnails.py` はキー未設定時に終了コード 1 で案内する。
+
 **オフライン表示用の合成サムネ**（API キー不要。デモ配布の既定パス）:
 
 ```bash
