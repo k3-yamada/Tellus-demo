@@ -11,12 +11,22 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
+from demo_png import make_optical_pixels, make_sar_pixels, write_gray_png, write_rgb_png
+
 OUT_PATH = (
     Path(__file__).resolve().parent.parent.parent
     / "web_app"
     / "assets"
     / "data"
     / "multi_sensor.json"
+)
+
+THUMB_DIR = (
+    Path(__file__).resolve().parent.parent.parent
+    / "web_app"
+    / "assets"
+    / "images"
+    / "multi_sensor"
 )
 
 
@@ -86,6 +96,38 @@ SENSORS = [
 ]
 
 
+def write_scene_thumbnail(site_id: str, sensor_id: str) -> str:
+    rel = f"assets/images/multi_sensor/{site_id}_{sensor_id}.png"
+    out = THUMB_DIR / f"{site_id}_{sensor_id}.png"
+    seed = f"{site_id}:{sensor_id}"
+    if sensor_id in ("palsar2_l21", "palsar2_scansar"):
+        write_gray_png(
+            out,
+            320,
+            200,
+            make_sar_pixels(seed, coarse=sensor_id == "palsar2_scansar"),
+        )
+    else:
+        write_rgb_png(out, 320, 200, make_optical_pixels(seed))
+    return rel
+
+
+def write_scene_thumbnail(site_id: str, sensor_id: str) -> str:
+    rel = f"assets/images/multi_sensor/{site_id}_{sensor_id}.png"
+    out = THUMB_DIR / f"{site_id}_{sensor_id}.png"
+    seed = f"{site_id}:{sensor_id}"
+    if sensor_id in ("palsar2_l21", "palsar2_scansar"):
+        write_gray_png(
+            out,
+            320,
+            200,
+            make_sar_pixels(seed, coarse=sensor_id == "palsar2_scansar"),
+        )
+    else:
+        write_rgb_png(out, 320, 200, make_optical_pixels(seed))
+    return rel
+
+
 def synth_scene(
     site_id: str, sensor_id: str, year: int, month: int, day: int, orbit: str | None
 ) -> dict:
@@ -100,7 +142,7 @@ def synth_scene(
         "acquisitionDate": iso[:10],
         "acquisitionDatetime": iso,
         "orbitDirection": orbit,
-        "thumbnailUrl": None,
+        "thumbnailUrl": write_scene_thumbnail(site_id, sensor_id),
     }
 
 
@@ -122,7 +164,7 @@ def main() -> None:
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "disclaimer": (
             "シーン ID と取得時刻は合成データ。Tellus dataset ID は実在のもの。"
-            "実運用ではこれらを Tellus data-search の結果に差し替える。"
+            "サムネイルはデモ用合成 PNG。実運用では Tellus data-search の結果に差し替える。"
         ),
         "sensors": SENSORS,
         "sites": [{**site, "scenes": build_scenes(site["id"])} for site in SITES],

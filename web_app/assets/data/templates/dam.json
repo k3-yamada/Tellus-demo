@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "meta": {
-    "generatedAt": "2026-06-05T02:24:58.282341Z",
+    "generatedAt": "2026-06-05T05:22:20.457125Z",
     "apiBase": "https://www.tellusxdp.com/api/traveler/v1",
     "templateId": "dam",
     "industry": "ダム監視",
@@ -34,10 +34,11 @@
     "overallScore": 0.78,
     "totalObservations": 14,
     "regionsWithGeometry": 1,
-    "regionsWithThumbnails": 0,
+    "regionsWithThumbnails": 1,
     "notes": [
       "ダム監視 監視テンプレート (合成データ)",
       "対象期間: 2017-01 〜 2025-01",
+      "サムネイルはバンドル済み合成 PNG (bundled_demo_png)",
       "実運用ではこのスキーマに本物の Tellus 取得結果を流し込む"
     ]
   },
@@ -102,7 +103,7 @@
               ]
             ]
           },
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/templates/dam/c5762ed5-1319-6eb1-39d4-cf23659718a7.png",
           "qualityScore": 0.715
         },
         {
@@ -142,7 +143,7 @@
               ]
             ]
           },
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/templates/dam/8a3d28fd-8440-1951-1b32-285d046df1c8.png",
           "qualityScore": 0.676
         },
         {
@@ -182,7 +183,7 @@
               ]
             ]
           },
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/templates/dam/bdef937b-07c9-4540-1658-233fff2b65fd.png",
           "qualityScore": 0.77
         },
         {
@@ -222,7 +223,7 @@
               ]
             ]
           },
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/templates/dam/ab31e00f-e48f-80bb-92bb-3f86935ec292.png",
           "qualityScore": 0.773
         },
         {
@@ -262,7 +263,7 @@
               ]
             ]
           },
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/templates/dam/ae4ad394-b9e1-4e22-d6ba-0f5588159a9e.png",
           "qualityScore": 0.693
         },
         {
@@ -302,7 +303,7 @@
               ]
             ]
           },
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/templates/dam/3aff8a8e-71d4-ab40-b9e6-854b6bfea6ba.png",
           "qualityScore": 0.665
         },
         {
@@ -342,7 +343,7 @@
               ]
             ]
           },
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/templates/dam/1d750448-2fe3-fffe-bb97-e9a3e8867638.png",
           "qualityScore": 0.854
         },
         {
@@ -382,7 +383,7 @@
               ]
             ]
           },
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/templates/dam/5be3f838-20bf-f991-baed-0b805717a3cc.png",
           "qualityScore": 0.881
         },
         {
@@ -422,7 +423,7 @@
               ]
             ]
           },
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/templates/dam/35536de2-3550-30e1-8a1c-1172568cbb61.png",
           "qualityScore": 0.845
         },
         {
@@ -462,7 +463,7 @@
               ]
             ]
           },
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/templates/dam/52de8da2-c35a-7661-8cc6-8012375d38ff.png",
           "qualityScore": 0.816
         },
         {
@@ -502,7 +503,7 @@
               ]
             ]
           },
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/templates/dam/4ca2f9cc-3a62-d378-fd05-c4d4846dc006.png",
           "qualityScore": 0.831
         },
         {
@@ -542,7 +543,7 @@
               ]
             ]
           },
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/templates/dam/865eff2e-c2ea-af4d-29f5-f94effe8009b.png",
           "qualityScore": 0.803
         },
         {
@@ -582,7 +583,7 @@
               ]
             ]
           },
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/templates/dam/909791a7-c561-8683-8842-a1d20394518f.png",
           "qualityScore": 0.803
         },
         {
@@ -622,7 +623,7 @@
               ]
             ]
           },
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/templates/dam/9366cab7-130a-e8c3-8064-3fb94bcb8bf2.png",
           "qualityScore": 0.837
         }
       ]

@@ -39,6 +39,12 @@ python pipeline/select_tellusar_pair.py
 python pipeline/thumbnail_manifest.py
 python pipeline/quality_report.py
 
+# Bundled demo thumbnails (stdlib PNG, no API key)
+python pipeline/generate_sar_thumbnails.py          # dashboard joganji/tateyama
+python pipeline/generate_industry_templates.py      # industry templates + PNGs
+python pipeline/generate_disaster_archive.py        # disaster archive phases
+python pipeline/generate_multi_sensor.py            # multi-sensor comparison
+
 python -m pytest tests/ -v                               # all pipeline tests
 python -m pytest tests/test_quality_report.py -v         # single file
 python -m pytest tests/ -k "tellusar" -v                 # by keyword
@@ -91,10 +97,11 @@ The fixed region order is `['joganji', 'tateyama']` (enforced in `Infrastructure
 
 ### Pipeline data flow
 1. `fetch_tellus_data.py` queries Traveler `data-search/` per region BBOX → writes `infrastructure_data.json`.
-2. `pipeline/enrich_scenes.py` adds thumbnails and download URLs (rate-limited; takes count arg).
+2. `pipeline/enrich_scenes.py` adds thumbnails (Tellus signed URLs, ~1h TTL) and download URLs (rate-limited; takes count arg).
 3. `pipeline/migrate_v2.py` is idempotent — upgrades v1 in place to v2 without re-fetching.
 4. `pipeline/diff_observations.py` compares against `.previous.json` for change-detection (Slack via `notify.py`).
 5. `pipeline/select_tellusar_pair.py` picks an InSAR pair → `meta.tellusarSuggestedPair`. `tellusar_jobs.py` submits jobs; `merge_tellusar_result.py` merges results back into `displacementDemo`.
+6. **Bundled thumbnails** (offline demo default): `demo_png.py` + `generate_sar_thumbnails.py` / `generate_industry_templates.py` / `generate_disaster_archive.py` / `generate_multi_sensor.py` write synthetic PNGs under `web_app/assets/images/` and set `thumbnailUrl` to `assets/images/...`. Flutter `ThumbnailPreview` uses `Image.asset` for those paths; network failures fall back to `assets/images/demo/sar_fallback.png`.
 
 ### BFF (`backend/src/index.ts`)
 Single-file Worker. Adds Bearer auth, CORS, and `X-Demo-Dry-Run` for `/api/cart-items` and `/api/dataset-orders` (returns mock 200 without calling billing). TelluSAR routes are computed by string-replacing `/traveler/v1` → `/tellusar/v1` from `TELLUS_API_BASE`. See `docs/API_MAPPING.md` for the full route table.

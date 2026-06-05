@@ -37,3 +37,8 @@ flutter:
     - assets/data/templates/port.json
     - assets/data/disaster_archive.json
     - assets/data/multi_sensor.json
+    - assets/images/disaster/
+    - assets/images/demo/
+    - assets/images/sar/
+    - assets/images/multi_sensor/
+    - assets/images/templates/

@@ -4,13 +4,22 @@ import '../../../../domain/models/observation.dart';
 import '../../../core/theme/command_center_theme.dart';
 
 class ThumbnailPreview extends StatelessWidget {
-  const ThumbnailPreview({super.key, this.observation});
+  const ThumbnailPreview({
+    super.key,
+    this.observation,
+    this.imageUrl,
+    this.title = 'SAR サムネイル',
+    this.fallbackAsset = 'assets/images/demo/sar_fallback.png',
+  });
 
   final Observation? observation;
+  final String? imageUrl;
+  final String title;
+  final String? fallbackAsset;
 
   @override
   Widget build(BuildContext context) {
-    final url = observation?.thumbnailUrl;
+    final url = imageUrl ?? observation?.thumbnailUrl;
 
     return Card(
       child: Padding(
@@ -18,13 +27,13 @@ class ThumbnailPreview extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            Row(
               children: [
-                Icon(Icons.image, size: 16, color: CommandCenterTheme.accent),
-                SizedBox(width: 6),
+                const Icon(Icons.image, size: 16, color: CommandCenterTheme.accent),
+                const SizedBox(width: 6),
                 Text(
-                  'SAR サムネイル',
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+                  title,
+                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
                 ),
               ],
             ),
@@ -40,25 +49,50 @@ class ThumbnailPreview extends StatelessWidget {
                 child: url != null && url.isNotEmpty
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(7),
-                        child: Image.network(
-                          url,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => _placeholder('読込失敗'),
-                          loadingBuilder: (ctx, child, progress) {
-                            if (progress == null) return child;
-                            return const Center(
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            );
-                          },
-                        ),
+                        child: _buildImage(url),
                       )
-                    : _placeholder('サムネ未取得'),
+                    : _fallbackOrPlaceholder('サムネ未取得'),
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildImage(String url) {
+    if (url.startsWith('assets/')) {
+      return Image.asset(
+        url,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) =>
+            _fallbackOrPlaceholder('読込失敗'),
+      );
+    }
+    return Image.network(
+      url,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) =>
+          _fallbackOrPlaceholder('読込失敗'),
+      loadingBuilder: (ctx, child, progress) {
+        if (progress == null) return child;
+        return const Center(
+          child: CircularProgressIndicator(strokeWidth: 2),
+        );
+      },
+    );
+  }
+
+  Widget _fallbackOrPlaceholder(String text) {
+    final asset = fallbackAsset;
+    if (asset != null && asset.isNotEmpty) {
+      return Image.asset(
+        asset,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) => _placeholder(text),
+      );
+    }
+    return _placeholder(text);
   }
 
   Widget _placeholder(String text) {

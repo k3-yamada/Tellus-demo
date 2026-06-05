@@ -6,7 +6,7 @@
 
 | 誰向け | やりたいこと | デモでの体験 |
 |--------|----------------|--------------|
-| **インフラ・防災担当** | 監視地点の周辺で、いつ衛星が何回撮っているか把握したい | Explorer：地図上の footprint、タイムライン、年別回数、サムネ（93/1000 件）で「観測の厚み」を確認 |
+| **インフラ・防災担当** | 監視地点の周辺で、いつ衛星が何回撮っているか把握したい | Explorer：地図上の footprint、タイムライン、年別回数、**バンドル済み SAR サムネ**で「観測の厚み」を確認 |
 | **解析担当** | 軌道・偏波でシーンを絞り、変位解析の前提を整理したい | Analyst：軌道/偏波フィルタ、変位デモ UI、TelluSAR 候補ペア ID（本番は TelluSAR ジョブ結果に差し替え） |
 | **データ運用担当** | 新着シーンを検知し、チームに共有したい | Python：`fetch` → `diff`（`.previous.json`）→ Slack、`thumbnail_manifest` |
 | **調達・POC 担当** | API 経由のカート・発注フローを壊さず試したい | 調達デモ：`DEMO_MODE` + BFF の dry-run（実課金なし） |
@@ -25,7 +25,8 @@
 
 - mm 単位の**確定地盤変位**（Analyst の変位は precomputed デモ）
 - 降雨・浸水・被害の**自動判定**（メタデータとサムネの範囲）
-- 全 1000 件の画像プレビュー（enrich で段階取得する設計）
+- 全 1000 件それぞれに**実衛星画像**を同梱（デモは地域×データセット代表の合成 PNG を再利用）
+- Tellus 署名付きサムネ URL の**長期保存**（有効期限約 1 時間。オフライン表示はバンドル資産を優先）
 
 ## 技術コンポーネント（実装の中身）
 
@@ -47,8 +48,9 @@ Tellus-demo/
 ├── scripts/              # Python ETL + pipeline
 │   ├── tellus_client.py
 │   ├── fetch_tellus_data.py
-│   └── pipeline/         # enrich, migrate, quality, notify, tellusar
+│   └── pipeline/         # enrich, migrate, quality, notify, tellusar, 合成サムネ生成
 └── web_app/              # Flutter Web ダッシュボード
+    └── assets/images/    # バンドル済み SAR/光学サムネ（オフライン表示用）
 ```
 
 ## 前提
@@ -86,6 +88,25 @@ python pipeline/select_tellusar_pair.py      # TelluSAR 候補ペア
 python pipeline/thumbnail_manifest.py
 ```
 
+**オフライン表示用の合成サムネ**（API キー不要。デモ配布の既定パス）:
+
+```bash
+cd scripts
+# ダッシュボード本番 JSON（常願寺川・立山）— 地域×データセット代表 PNG + thumbnailUrl 差し替え
+python pipeline/generate_sar_thumbnails.py
+# 業界別テンプレ（ダム/橋梁/空港/新幹線/港湾）— JSON + 観測ごとの PNG
+python pipeline/generate_industry_templates.py
+# 災害アーカイブ before/during/after
+python pipeline/generate_disaster_archive.py
+# マルチセンサー比較（PALSAR-2 / ASNARO-1 / Landsat）
+python pipeline/generate_multi_sensor.py
+python pipeline/thumbnail_manifest.py   # マニフェスト再出力（任意）
+```
+
+- `thumbnailUrl` が `assets/images/...` のとき Flutter は `Image.asset` で表示（ネットワーク不要）。
+- Tellus API から取得する `enrich_scenes.py` は**署名付き URL**を書き込む。有効期限切れ後は `ThumbnailPreview` が `assets/images/demo/sar_fallback.png` にフォールバック。
+- 本番デモ・CI・Firebase Hosting では上記 `generate_*` でバンドル資産を再生成する運用を推奨。
+
 既存 JSON を v2 に移行（再取得不要）:
 
 ```bash
@@ -116,6 +137,17 @@ firebase deploy --only hosting   # firebase.json 参照
 - `coverageByYear` — 地域×年別観測回数
 - `meta.displacementDemo` — 立山斜面の変位デモ（Analyst 用、本解析値ではない）
 - 観測ごと: `geometry`, `thumbnailUrl`, `qualityScore`
+- `thumbnailUrl`: `assets/images/sar/{region}_{dataset}.png`（バンドル）または Tellus 署名 URL（enrich 時）
+
+**同梱画像の配置**（`web_app/pubspec.yaml` で宣言）:
+
+| パス | 用途 |
+|------|------|
+| `assets/images/sar/` | ダッシュボード本番データ（joganji / tateyama） |
+| `assets/images/templates/{id}/` | 業界別テンプレの観測サムネ |
+| `assets/images/disaster/` | 災害アーカイブ before / during / after |
+| `assets/images/multi_sensor/` | マルチセンサー比較シーン |
+| `assets/images/demo/sar_fallback.png` | ネットワーク失敗・未取得時の共通フォールバック |
 
 詳細: [docs/schema/infrastructure_data.v2.json](docs/schema/infrastructure_data.v2.json)
 

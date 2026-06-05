@@ -5,6 +5,7 @@ import '../../../../domain/models/disaster_event.dart';
 import '../../../../domain/repositories/disaster_archive_repository.dart';
 import '../../../core/theme/command_center_theme.dart';
 import '../view_models/disaster_archive_view_model.dart';
+import '../widgets/disaster_phase_preview.dart';
 
 /// 災害アーカイブページ。
 /// before/during/after の Tellus 観測を並べ、SAR の雲・夜間貫通性を訴求する。
@@ -209,12 +210,34 @@ class _PhasePanel extends StatelessWidget {
             ),
           ]),
           const SizedBox(height: 12),
-          _MetaRow(label: 'シーン ID', value: current.sceneId),
-          _MetaRow(label: 'データセット', value: current.datasetId),
-          _MetaRow(label: '取得日時', value: current.acquisitionDatetime),
-          _MetaRow(label: '軌道', value: current.orbitDirection),
-          _MetaRow(label: '偏波', value: current.polarization),
-          const Spacer(),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: DisasterPhasePreview(phase: current),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  flex: 2,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _MetaRow(label: 'シーン ID', value: current.sceneId),
+                        _MetaRow(label: 'データセット', value: current.datasetId),
+                        _MetaRow(label: '取得日時', value: current.acquisitionDatetime),
+                        _MetaRow(label: '軌道', value: current.orbitDirection),
+                        _MetaRow(label: '偏波', value: current.polarization),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -224,8 +247,8 @@ class _PhasePanel extends StatelessWidget {
               borderRadius: BorderRadius.circular(6),
             ),
             child: const Text(
-              '※ シーン ID と取得時刻は合成データ。Tellus dataset ID は実在のもの。'
-              '本物のラスタは BFF 経由 Tellus データ取得 API で別途取得します。',
+              '※ サムネイルはデモ用合成 PNG。シーン ID・取得時刻も合成データです。'
+              'Tellus dataset ID は実在。本番ラスタは BFF 経由で取得します。',
               style: TextStyle(
                   fontSize: 11, color: CommandCenterTheme.textMuted),
             ),

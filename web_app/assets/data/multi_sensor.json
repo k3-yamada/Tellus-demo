@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-05T02:28:49.775052Z",
-  "disclaimer": "シーン ID と取得時刻は合成データ。Tellus dataset ID は実在のもの。実運用ではこれらを Tellus data-search の結果に差し替える。",
+  "generatedAt": "2026-06-05T05:18:43.509869Z",
+  "disclaimer": "シーン ID と取得時刻は合成データ。Tellus dataset ID は実在のもの。サムネイルはデモ用合成 PNG。実運用では Tellus data-search の結果に差し替える。",
   "sensors": [
     {
       "id": "palsar2_l21",
@@ -71,7 +71,7 @@
           "acquisitionDate": "2023-05-15",
           "acquisitionDatetime": "2023-05-15T10:00:00Z",
           "orbitDirection": "ascending",
-          "thumbnailUrl": null
+          "thumbnailUrl": "assets/images/multi_sensor/tateyama_slope_palsar2_l21.png"
         },
         {
           "sensorId": "palsar2_l21",
@@ -79,7 +79,7 @@
           "acquisitionDate": "2024-05-12",
           "acquisitionDatetime": "2024-05-12T10:00:00Z",
           "orbitDirection": "ascending",
-          "thumbnailUrl": null
+          "thumbnailUrl": "assets/images/multi_sensor/tateyama_slope_palsar2_l21.png"
         },
         {
           "sensorId": "palsar2_scansar",
@@ -87,7 +87,7 @@
           "acquisitionDate": "2023-07-08",
           "acquisitionDatetime": "2023-07-08T10:00:00Z",
           "orbitDirection": "descending",
-          "thumbnailUrl": null
+          "thumbnailUrl": "assets/images/multi_sensor/tateyama_slope_palsar2_scansar.png"
         },
         {
           "sensorId": "asnaro1_optical",
@@ -95,7 +95,7 @@
           "acquisitionDate": "2024-04-22",
           "acquisitionDatetime": "2024-04-22T10:00:00Z",
           "orbitDirection": null,
-          "thumbnailUrl": null
+          "thumbnailUrl": "assets/images/multi_sensor/tateyama_slope_asnaro1_optical.png"
         },
         {
           "sensorId": "landsat8",
@@ -103,7 +103,7 @@
           "acquisitionDate": "2023-09-03",
           "acquisitionDatetime": "2023-09-03T10:00:00Z",
           "orbitDirection": null,
-          "thumbnailUrl": null
+          "thumbnailUrl": "assets/images/multi_sensor/tateyama_slope_landsat8.png"
         },
         {
           "sensorId": "landsat8",
@@ -111,7 +111,7 @@
           "acquisitionDate": "2024-09-06",
           "acquisitionDatetime": "2024-09-06T10:00:00Z",
           "orbitDirection": null,
-          "thumbnailUrl": null
+          "thumbnailUrl": "assets/images/multi_sensor/tateyama_slope_landsat8.png"
         }
       ]
     },
@@ -128,7 +128,7 @@
           "acquisitionDate": "2023-05-15",
           "acquisitionDatetime": "2023-05-15T10:00:00Z",
           "orbitDirection": "ascending",
-          "thumbnailUrl": null
+          "thumbnailUrl": "assets/images/multi_sensor/joganji_river_palsar2_l21.png"
         },
         {
           "sensorId": "palsar2_l21",
@@ -136,7 +136,7 @@
           "acquisitionDate": "2024-05-12",
           "acquisitionDatetime": "2024-05-12T10:00:00Z",
           "orbitDirection": "ascending",
-          "thumbnailUrl": null
+          "thumbnailUrl": "assets/images/multi_sensor/joganji_river_palsar2_l21.png"
         },
         {
           "sensorId": "palsar2_scansar",
@@ -144,7 +144,7 @@
           "acquisitionDate": "2023-07-08",
           "acquisitionDatetime": "2023-07-08T10:00:00Z",
           "orbitDirection": "descending",
-          "thumbnailUrl": null
+          "thumbnailUrl": "assets/images/multi_sensor/joganji_river_palsar2_scansar.png"
         },
         {
           "sensorId": "asnaro1_optical",
@@ -152,7 +152,7 @@
           "acquisitionDate": "2024-04-22",
           "acquisitionDatetime": "2024-04-22T10:00:00Z",
           "orbitDirection": null,
-          "thumbnailUrl": null
+          "thumbnailUrl": "assets/images/multi_sensor/joganji_river_asnaro1_optical.png"
         },
         {
           "sensorId": "landsat8",
@@ -160,7 +160,7 @@
           "acquisitionDate": "2023-09-03",
           "acquisitionDatetime": "2023-09-03T10:00:00Z",
           "orbitDirection": null,
-          "thumbnailUrl": null
+          "thumbnailUrl": "assets/images/multi_sensor/joganji_river_landsat8.png"
         },
         {
           "sensorId": "landsat8",
@@ -168,7 +168,7 @@
           "acquisitionDate": "2024-09-06",
           "acquisitionDatetime": "2024-09-06T10:00:00Z",
           "orbitDirection": null,
-          "thumbnailUrl": null
+          "thumbnailUrl": "assets/images/multi_sensor/joganji_river_landsat8.png"
         }
       ]
     }

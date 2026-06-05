@@ -17,7 +17,15 @@ import random
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-OUT_DIR = Path(__file__).resolve().parent.parent.parent / "web_app" / "assets" / "data" / "templates"
+from demo_png import make_sar_pixels, write_gray_png
+
+ROOT = Path(__file__).resolve().parent.parent.parent
+OUT_DIR = ROOT / "web_app" / "assets" / "data" / "templates"
+THUMB_BASE = ROOT / "web_app" / "assets" / "images" / "templates"
+
+DATASET_COARSE = {
+    "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",  # PALSAR-2 ScanSAR
+}
 
 # 本物の Tellus SAR dataset ID (PALSAR-2 / ALOS-2 系)。
 # main の infrastructure_data.json から流用。
@@ -59,7 +67,25 @@ def bbox_polygon(lat: float, lon: float, half_km: float = 5.0) -> list[list[floa
     ]]
 
 
+def thumbnail_asset_path(template_id: str, data_id: str) -> str:
+    return f"assets/images/templates/{template_id}/{data_id}.png"
+
+
+def write_observation_thumbnail(template_id: str, data_id: str, dataset_id: str) -> str:
+    rel = thumbnail_asset_path(template_id, data_id)
+    out = THUMB_BASE / template_id / f"{data_id}.png"
+    coarse = dataset_id in DATASET_COARSE
+    write_gray_png(
+        out,
+        320,
+        200,
+        make_sar_pixels(f"{template_id}:{data_id}", coarse=coarse),
+    )
+    return rel
+
+
 def synth_observations(
+    template_id: str,
     region_id: str,
     lat: float,
     lon: float,
@@ -76,8 +102,9 @@ def synth_observations(
         date = datetime(start_year, 1, 15, tzinfo=timezone.utc) + timedelta(days=day_offset)
         iso = date.isoformat().replace("+00:00", "Z")
         seed = f"{region_id}-{i}-{ds['id']}"
+        data_id = make_data_id(seed)
         observations.append({
-            "dataId": make_data_id(seed),
+            "dataId": data_id,
             "datasetId": ds["id"],
             "acquisitionDate": iso[:10],
             "start_datetime": iso,
@@ -87,7 +114,7 @@ def synth_observations(
             "offNadir": round(28.0 + rnd.uniform(-5, 8), 2),
             "monitoringIndex": round(base_index + rnd.uniform(-0.2, 0.2), 3),
             "geometry": {"type": "Polygon", "coordinates": bbox_polygon(lat, lon, 8.0)},
-            "thumbnailUrl": None,
+            "thumbnailUrl": write_observation_thumbnail(template_id, data_id, ds["id"]),
             "qualityScore": round(rnd.uniform(0.55, 0.92), 3),
         })
     return observations
@@ -108,7 +135,9 @@ def build_template(
     base_index: float,
 ) -> dict:
     """1 テンプレ分の JSON dict を組み立てる。"""
-    observations = synth_observations(region_id, lat, lon, start_year, obs_count, base_index)
+    observations = synth_observations(
+        template_id, region_id, lat, lon, start_year, obs_count, base_index
+    )
     coverage: dict[str, dict[str, int]] = {region_id: {}}
     for obs in observations:
         year = obs["acquisitionDate"][:4]
@@ -138,10 +167,11 @@ def build_template(
             "overallScore": 0.78,
             "totalObservations": obs_count,
             "regionsWithGeometry": 1,
-            "regionsWithThumbnails": 0,
+            "regionsWithThumbnails": 1,
             "notes": [
                 f"{industry} 監視テンプレート (合成データ)",
                 f"対象期間: {start_year}-01 〜 {start_year + 8}-01",
+                "サムネイルはバンドル済み合成 PNG (bundled_demo_png)",
                 "実運用ではこのスキーマに本物の Tellus 取得結果を流し込む",
             ],
         },
