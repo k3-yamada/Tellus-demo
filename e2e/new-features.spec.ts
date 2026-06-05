@@ -26,7 +26,7 @@ test.describe('Disaster archive', () => {
       page.locator('flt-semantics').filter({ hasText: '熱海' }).first(),
     ).toBeVisible();
     await expect(
-      page.locator('flt-semantics').filter({ hasText: 'SAR サムネイル' }).first(),
+      page.getByRole('img', { name: /SAR サムネイル/ }).first(),
     ).toBeVisible({ timeout: 10_000 });
   });
 });
