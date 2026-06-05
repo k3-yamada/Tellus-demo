@@ -62,34 +62,40 @@ class ThumbnailPreview extends StatelessWidget {
 
   Widget _buildImage(String url) {
     if (url.startsWith('assets/')) {
-      return Image.asset(
+      return SizedBox.expand(
+        child: Image.asset(
+          url,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) =>
+              _fallbackOrPlaceholder('読込失敗'),
+        ),
+      );
+    }
+    return SizedBox.expand(
+      child: Image.network(
         url,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) =>
             _fallbackOrPlaceholder('読込失敗'),
-      );
-    }
-    return Image.network(
-      url,
-      fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) =>
-          _fallbackOrPlaceholder('読込失敗'),
-      loadingBuilder: (ctx, child, progress) {
-        if (progress == null) return child;
-        return const Center(
-          child: CircularProgressIndicator(strokeWidth: 2),
-        );
-      },
+        loadingBuilder: (ctx, child, progress) {
+          if (progress == null) return child;
+          return const Center(
+            child: CircularProgressIndicator(strokeWidth: 2),
+          );
+        },
+      ),
     );
   }
 
   Widget _fallbackOrPlaceholder(String text) {
     final asset = fallbackAsset;
     if (asset != null && asset.isNotEmpty) {
-      return Image.asset(
-        asset,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) => _placeholder(text),
+      return SizedBox.expand(
+        child: Image.asset(
+          asset,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) => _placeholder(text),
+        ),
       );
     }
     return _placeholder(text);
