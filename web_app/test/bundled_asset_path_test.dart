@@ -6,9 +6,9 @@ void main() {
     test('assets/ prefix is kept as-is', () {
       expect(
         resolveBundledAssetPath(
-          'assets/images/templates/dam/c5762ed5-1319-6eb1-39d4-cf23659718a7.png',
+          'assets/images/templates/dam/example-thumbnail.png',
         ),
-        'assets/images/templates/dam/c5762ed5-1319-6eb1-39d4-cf23659718a7.png',
+        'assets/images/templates/dam/example-thumbnail.png',
       );
     });
 
