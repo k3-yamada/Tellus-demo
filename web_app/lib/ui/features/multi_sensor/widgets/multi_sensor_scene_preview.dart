@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../domain/models/multi_sensor.dart';
+import '../../../core/assets/bundled_asset_path.dart';
 import '../../../core/theme/command_center_theme.dart';
 
 /// マルチセンサーシーンのサムネイル表示。
@@ -89,9 +90,9 @@ class MultiSensorScenePreview extends StatelessWidget {
   }
 
   Widget _buildImage(String url, {BoxFit fit = BoxFit.cover}) {
-    if (url.startsWith('assets/')) {
+    if (isBundledAssetUrl(url)) {
       return Image.asset(
-        url,
+        resolveBundledAssetPath(url),
         fit: fit,
         width: double.infinity,
         height: double.infinity,

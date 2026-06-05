@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../domain/models/observation.dart';
+import '../../../core/assets/bundled_asset_path.dart';
 import '../../../core/theme/command_center_theme.dart';
 
 class ThumbnailPreview extends StatelessWidget {
@@ -61,10 +62,10 @@ class ThumbnailPreview extends StatelessWidget {
   }
 
   Widget _buildImage(String url) {
-    if (url.startsWith('assets/')) {
+    if (isBundledAssetUrl(url)) {
       return SizedBox.expand(
         child: Image.asset(
-          url,
+          resolveBundledAssetPath(url),
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) =>
               _fallbackOrPlaceholder('読込失敗'),

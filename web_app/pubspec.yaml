@@ -41,4 +41,9 @@ flutter:
     - assets/images/demo/
     - assets/images/sar/
     - assets/images/multi_sensor/
-    - assets/images/templates/
+    # templates/ は業種別サブディレクトリ配下に PNG があるため明示登録
+    - assets/images/templates/dam/
+    - assets/images/templates/bridge/
+    - assets/images/templates/airport/
+    - assets/images/templates/shinkansen/
+    - assets/images/templates/port/

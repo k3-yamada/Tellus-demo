@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../domain/models/disaster_event.dart';
+import '../../../core/assets/bundled_asset_path.dart';
 import '../../../core/theme/command_center_theme.dart';
 
 /// 災害フェーズの SAR サムネイル表示。
@@ -53,9 +54,9 @@ class DisasterPhasePreview extends StatelessWidget {
   }
 
   Widget _buildImage(String url) {
-    if (url.startsWith('assets/')) {
+    if (isBundledAssetUrl(url)) {
       return Image.asset(
-        url,
+        resolveBundledAssetPath(url),
         fit: BoxFit.cover,
         width: double.infinity,
         height: double.infinity,
