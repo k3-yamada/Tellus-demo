@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-06-05T02:28:49.775052Z",
+  "disclaimer": "シーン ID と取得時刻は合成データ。Tellus dataset ID は実在のもの。実運用ではこれらを Tellus data-search の結果に差し替える。",
+  "sensors": [
+    {
+      "id": "palsar2_l21",
+      "name": "PALSAR-2 L2.1 GeoTIFF",
+      "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
+      "modality": "SAR",
+      "band": "L-band",
+      "gsd_m": 3.0,
+      "strengths": [
+        "雲・夜間貫通",
+        "粗面検出",
+        "干渉解析 (InSAR) 可能"
+      ],
+      "weakness": "色情報なし"
+    },
+    {
+      "id": "palsar2_scansar",
+      "name": "PALSAR-2 ScanSAR",
+      "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
+      "modality": "SAR",
+      "band": "L-band",
+      "gsd_m": 25.0,
+      "strengths": [
+        "広域 (350km) を 1 シーンで把握",
+        "災害直後の緊急観測向き"
+      ],
+      "weakness": "詳細解析には不向き"
+    },
+    {
+      "id": "asnaro1_optical",
+      "name": "ASNARO-1 光学",
+      "datasetId": "57233372-b507-4611-9c1f-bfd973a2fce6",
+      "modality": "Optical",
+      "band": "VNIR",
+      "gsd_m": 0.5,
+      "strengths": [
+        "人間が直感的に判読できる",
+        "高解像度の地物識別"
+      ],
+      "weakness": "雲・夜間 NG"
+    },
+    {
+      "id": "landsat8",
+      "name": "Landsat-8 OLI",
+      "datasetId": "8836ec9a-35b5-43c3-92be-263498061e91",
+      "modality": "Optical",
+      "band": "VNIR/SWIR",
+      "gsd_m": 30.0,
+      "strengths": [
+        "NDVI など指数解析",
+        "16 日ごとの定期観測"
+      ],
+      "weakness": "解像度低 + 雲影響大"
+    }
+  ],
+  "sites": [
+    {
+      "id": "tateyama_slope",
+      "name": "立山室堂斜面",
+      "lat": 36.577,
+      "lon": 137.596,
+      "context": "本デモのメイン斜面監視地点。SAR と光学の特性比較に最適。",
+      "scenes": [
+        {
+          "sensorId": "palsar2_l21",
+          "sceneId": "05eb2cad-54cf-0694-0e55-e8d20839175c",
+          "acquisitionDate": "2023-05-15",
+          "acquisitionDatetime": "2023-05-15T10:00:00Z",
+          "orbitDirection": "ascending",
+          "thumbnailUrl": null
+        },
+        {
+          "sensorId": "palsar2_l21",
+          "sceneId": "f532edb0-1557-4d4e-9c37-fada1380694c",
+          "acquisitionDate": "2024-05-12",
+          "acquisitionDatetime": "2024-05-12T10:00:00Z",
+          "orbitDirection": "ascending",
+          "thumbnailUrl": null
+        },
+        {
+          "sensorId": "palsar2_scansar",
+          "sceneId": "4195f3cb-291f-e737-910b-b70c59f9c0b2",
+          "acquisitionDate": "2023-07-08",
+          "acquisitionDatetime": "2023-07-08T10:00:00Z",
+          "orbitDirection": "descending",
+          "thumbnailUrl": null
+        },
+        {
+          "sensorId": "asnaro1_optical",
+          "sceneId": "243df5d2-9639-383c-0c26-b5530d692283",
+          "acquisitionDate": "2024-04-22",
+          "acquisitionDatetime": "2024-04-22T10:00:00Z",
+          "orbitDirection": null,
+          "thumbnailUrl": null
+        },
+        {
+          "sensorId": "landsat8",
+          "sceneId": "306b4942-10d5-99c3-595b-9dc010213027",
+          "acquisitionDate": "2023-09-03",
+          "acquisitionDatetime": "2023-09-03T10:00:00Z",
+          "orbitDirection": null,
+          "thumbnailUrl": null
+        },
+        {
+          "sensorId": "landsat8",
+          "sceneId": "1aea3676-f6b9-e760-aac5-3c88eac67059",
+          "acquisitionDate": "2024-09-06",
+          "acquisitionDatetime": "2024-09-06T10:00:00Z",
+          "orbitDirection": null,
+          "thumbnailUrl": null
+        }
+      ]
+    },
+    {
+      "id": "joganji_river",
+      "name": "常願寺川流域 (佐々堤)",
+      "lat": 36.598,
+      "lon": 137.34,
+      "context": "堤防の長期トレンドと豪雨後変化の比較。",
+      "scenes": [
+        {
+          "sensorId": "palsar2_l21",
+          "sceneId": "47ba491d-d9fa-0a64-1809-bac71b4b4a0b",
+          "acquisitionDate": "2023-05-15",
+          "acquisitionDatetime": "2023-05-15T10:00:00Z",
+          "orbitDirection": "ascending",
+          "thumbnailUrl": null
+        },
+        {
+          "sensorId": "palsar2_l21",
+          "sceneId": "f6752728-44a1-fe80-f6d8-45cf1579267f",
+          "acquisitionDate": "2024-05-12",
+          "acquisitionDatetime": "2024-05-12T10:00:00Z",
+          "orbitDirection": "ascending",
+          "thumbnailUrl": null
+        },
+        {
+          "sensorId": "palsar2_scansar",
+          "sceneId": "d48eab27-ce0f-4109-e6b0-3660fb63b493",
+          "acquisitionDate": "2023-07-08",
+          "acquisitionDatetime": "2023-07-08T10:00:00Z",
+          "orbitDirection": "descending",
+          "thumbnailUrl": null
+        },
+        {
+          "sensorId": "asnaro1_optical",
+          "sceneId": "908bb454-256c-fea5-f7f3-c0b8d8e36ee8",
+          "acquisitionDate": "2024-04-22",
+          "acquisitionDatetime": "2024-04-22T10:00:00Z",
+          "orbitDirection": null,
+          "thumbnailUrl": null
+        },
+        {
+          "sensorId": "landsat8",
+          "sceneId": "b9519744-eb21-555b-8d51-4fe60b14181b",
+          "acquisitionDate": "2023-09-03",
+          "acquisitionDatetime": "2023-09-03T10:00:00Z",
+          "orbitDirection": null,
+          "thumbnailUrl": null
+        },
+        {
+          "sensorId": "landsat8",
+          "sceneId": "98f4075d-c762-36fb-1052-463656e4848d",
+          "acquisitionDate": "2024-09-06",
+          "acquisitionDatetime": "2024-09-06T10:00:00Z",
+          "orbitDirection": null,
+          "thumbnailUrl": null
+        }
+      ]
+    }
+  ]
+}

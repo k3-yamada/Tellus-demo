@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-06-05T02:28:49.742686Z",
+  "disclaimer": "本デモのシーン ID と取得時刻は合成データです。Tellus dataset ID は実在しますが、個別シーンの配信状況は Tellus 側で確認が必要です。",
+  "events": [
+    {
+      "id": "noto_2024",
+      "name": "令和6年能登半島地震",
+      "summary": "2024年元日のM7.6地震。輪島・珠洲を中心に大規模な隆起と土砂崩れが発生。SAR は雲・夜間に関係なく被災直後の全体像を捕捉できる。",
+      "lat": 37.498,
+      "lon": 137.273,
+      "eventDatetime": "2024-01-01T16:10:00Z",
+      "phases": [
+        {
+          "phase": "before",
+          "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
+          "sceneId": "5dc43c7e-49e8-2ca7-c72e-289dadca04a7",
+          "acquisitionDate": "2023-12-25",
+          "acquisitionDatetime": "2023-12-25T16:10:00Z",
+          "orbitDirection": "ascending",
+          "polarization": "HH+HV",
+          "thumbnailUrl": null,
+          "note": "発災 7 日前の通常観測"
+        },
+        {
+          "phase": "during",
+          "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
+          "sceneId": "fcf62c3c-57b2-fade-e06b-25b1239b5263",
+          "acquisitionDate": "2024-01-03",
+          "acquisitionDatetime": "2024-01-03T16:10:00Z",
+          "orbitDirection": "ascending",
+          "polarization": "HH",
+          "thumbnailUrl": null,
+          "note": "発災 2 日後、JAXA 緊急観測 (ScanSAR で広域把握)"
+        },
+        {
+          "phase": "after",
+          "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
+          "sceneId": "425e6be7-7ca1-c5e9-f561-63b7aa120562",
+          "acquisitionDate": "2024-01-31",
+          "acquisitionDatetime": "2024-01-31T16:10:00Z",
+          "orbitDirection": "descending",
+          "polarization": "HH+HV",
+          "thumbnailUrl": null,
+          "note": "1 ヶ月後、隆起・土砂崩れの全容観測"
+        }
+      ],
+      "demoFocus": "海岸線の隆起・斜面崩壊"
+    },
+    {
+      "id": "nishinihon_2018",
+      "name": "平成30年7月豪雨 (西日本豪雨)",
+      "summary": "2018年7月の記録的豪雨で広島・岡山・愛媛が広範囲冠水。光学は雲で見えないが SAR で浸水域を即座に把握。",
+      "lat": 34.5867,
+      "lon": 133.6803,
+      "eventDatetime": "2018-07-06T00:00:00Z",
+      "phases": [
+        {
+          "phase": "before",
+          "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
+          "sceneId": "14f806f9-d940-ed06-74f8-54dc1768f4e4",
+          "acquisitionDate": "2018-06-22",
+          "acquisitionDatetime": "2018-06-22T00:00:00Z",
+          "orbitDirection": "ascending",
+          "polarization": "HH+HV",
+          "thumbnailUrl": null,
+          "note": "豪雨前 2 週間の平常時"
+        },
+        {
+          "phase": "during",
+          "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
+          "sceneId": "1b0f48d3-cd05-d262-62b0-b40641d7eae8",
+          "acquisitionDate": "2018-07-08",
+          "acquisitionDatetime": "2018-07-08T00:00:00Z",
+          "orbitDirection": "descending",
+          "polarization": "HH",
+          "thumbnailUrl": null,
+          "note": "豪雨翌々日、真備町の浸水を ScanSAR で観測"
+        },
+        {
+          "phase": "after",
+          "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
+          "sceneId": "3ede7b32-985f-4317-c1d2-65d184e5cece",
+          "acquisitionDate": "2018-07-27",
+          "acquisitionDatetime": "2018-07-27T00:00:00Z",
+          "orbitDirection": "ascending",
+          "polarization": "HH+HV",
+          "thumbnailUrl": null,
+          "note": "3 週間後の浸水退潮確認"
+        }
+      ],
+      "demoFocus": "広域浸水域の検出 (SAR が雲を抜く)"
+    },
+    {
+      "id": "atami_2021",
+      "name": "令和3年熱海伊豆山土砂災害",
+      "summary": "2021年7月3日に熱海市伊豆山で発生した土石流。発災前後の地表変化を SAR で評価。",
+      "lat": 35.1167,
+      "lon": 139.0667,
+      "eventDatetime": "2021-07-03T00:00:00Z",
+      "phases": [
+        {
+          "phase": "before",
+          "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
+          "sceneId": "a21f48c0-d57b-cd43-0362-a13abd59e53a",
+          "acquisitionDate": "2021-06-23",
+          "acquisitionDatetime": "2021-06-23T00:00:00Z",
+          "orbitDirection": "ascending",
+          "polarization": "HH+HV",
+          "thumbnailUrl": null,
+          "note": "発災 10 日前の通常観測"
+        },
+        {
+          "phase": "during",
+          "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
+          "sceneId": "231ca2e1-fe75-11c7-a127-9c887c5ef408",
+          "acquisitionDate": "2021-07-06",
+          "acquisitionDatetime": "2021-07-06T00:00:00Z",
+          "orbitDirection": "descending",
+          "polarization": "HH+HV",
+          "thumbnailUrl": null,
+          "note": "発災 3 日後、土砂流出域の観測"
+        },
+        {
+          "phase": "after",
+          "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
+          "sceneId": "b200eb0b-cb79-20a5-724f-cba8046759c3",
+          "acquisitionDate": "2021-08-17",
+          "acquisitionDatetime": "2021-08-17T00:00:00Z",
+          "orbitDirection": "ascending",
+          "polarization": "HH+HV",
+          "thumbnailUrl": null,
+          "note": "1.5 ヶ月後、復旧進捗の確認"
+        }
+      ],
+      "demoFocus": "局所斜面の土砂流出パターン"
+    }
+  ]
+}

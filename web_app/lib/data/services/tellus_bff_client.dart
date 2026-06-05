@@ -51,4 +51,38 @@ class TellusBffClient {
     final resp = await _client.get(uri);
     return resp.statusCode == 200;
   }
+
+  Future<Map<String, dynamic>> submitTellusarJob({
+    required String referenceSceneId,
+    required String secondarySceneId,
+    required String regionId,
+    bool dryRun = true,
+  }) async {
+    final uri = Uri.parse('$_baseUrl/api/tellusar/jobs');
+    final resp = await _client.post(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        if (dryRun) 'X-Demo-Dry-Run': 'true',
+      },
+      body: jsonEncode({
+        'reference_scene_id': referenceSceneId,
+        'secondary_scene_id': secondarySceneId,
+        'region_id': regionId,
+      }),
+    );
+    if (resp.statusCode >= 400) {
+      throw Exception('BFF TelluSAR submit failed: ${resp.statusCode}');
+    }
+    return jsonDecode(resp.body) as Map<String, dynamic>;
+  }
+
+  Future<Map<String, dynamic>> getTellusarJobStatus(String jobId) async {
+    final uri = Uri.parse('$_baseUrl/api/tellusar/jobs/$jobId');
+    final resp = await _client.get(uri);
+    if (resp.statusCode >= 400) {
+      throw Exception('BFF TelluSAR status failed: ${resp.statusCode}');
+    }
+    return jsonDecode(resp.body) as Map<String, dynamic>;
+  }
 }

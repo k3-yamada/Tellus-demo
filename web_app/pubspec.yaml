@@ -29,3 +29,11 @@ flutter:
   uses-material-design: true
   assets:
     - assets/data/infrastructure_data.json
+    - assets/data/templates/index.json
+    - assets/data/templates/dam.json
+    - assets/data/templates/bridge.json
+    - assets/data/templates/airport.json
+    - assets/data/templates/shinkansen.json
+    - assets/data/templates/port.json
+    - assets/data/disaster_archive.json
+    - assets/data/multi_sensor.json

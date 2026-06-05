@@ -10,6 +10,10 @@
 | **解析担当** | 軌道・偏波でシーンを絞り、変位解析の前提を整理したい | Analyst：軌道/偏波フィルタ、変位デモ UI、TelluSAR 候補ペア ID（本番は TelluSAR ジョブ結果に差し替え） |
 | **データ運用担当** | 新着シーンを検知し、チームに共有したい | Python：`fetch` → `diff`（`.previous.json`）→ Slack、`thumbnail_manifest` |
 | **調達・POC 担当** | API 経由のカート・発注フローを壊さず試したい | 調達デモ：`DEMO_MODE` + BFF の dry-run（実課金なし） |
+| **営業・新規顧客** | 「うちの案件にも応用できるか」即座に判別したい | 業界別テンプレ：ダム / 橋梁 / 空港 / 新幹線高架 / 港湾 をヘッダのドロップダウンで切替 |
+| **広報・経営層** | 過去の災害で Tellus がどう役立ったか見せたい | 災害アーカイブ：能登半島地震 / 西日本豪雨 / 熱海土砂を before / during / after で並列表示 |
+| **SAR 解析者** | precomputed ではなく実 InSAR ジョブを試したい | TelluSAR デモ：BFF dry-run 経由で実投入 → ポーリング → 干渉解析サマリー表示 |
+| **GIS / プロダクトオーナー** | Tellus = SAR only の誤解を解きたい | マルチセンサー比較：PALSAR-2 / ASNARO-1 / Landsat を同一地点で横並び |
 
 **5分デモの流れ**（詳細は [docs/SCENARIOS.md](docs/SCENARIOS.md)）  
 1. ダッシュボード → サマリーで「わかる/わからない」を確認  

@@ -1,0 +1,717 @@
+{
+  "schemaVersion": 2,
+  "meta": {
+    "generatedAt": "2026-06-05T02:24:58.282341Z",
+    "apiBase": "https://www.tellusxdp.com/api/traveler/v1",
+    "templateId": "dam",
+    "industry": "ダム監視",
+    "industryIcon": "🏔",
+    "pitch": "貯水池周辺の地盤変位と斜面状態を SAR で継続観測",
+    "datasetsCatalog": [
+      {
+        "id": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
+        "name": "PALSAR-2 L2.1 GeoTIFF",
+        "description": "L-band SAR, 3m GSD",
+        "observationCount": 0
+      },
+      {
+        "id": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
+        "name": "PALSAR-2 ScanSAR",
+        "description": "L-band wide-swath SAR, 25m",
+        "observationCount": 0
+      },
+      {
+        "id": "57233372-b507-4611-9c1f-bfd973a2fce6",
+        "name": "ALOS-2 Spotlight",
+        "description": "L-band SAR, 1m GSD",
+        "observationCount": 0
+      }
+    ],
+    "tellusPortalUrl": "https://www.tellusxdp.com/",
+    "disclaimer": "本テンプレの観測値は合成データです (synthesized)。Tellus dataset ID は実在しますが、個別シーンメタは 本デモのために決定論的に生成しています。"
+  },
+  "qualityReport": {
+    "overallScore": 0.78,
+    "totalObservations": 14,
+    "regionsWithGeometry": 1,
+    "regionsWithThumbnails": 0,
+    "notes": [
+      "ダム監視 監視テンプレート (合成データ)",
+      "対象期間: 2017-01 〜 2025-01",
+      "実運用ではこのスキーマに本物の Tellus 取得結果を流し込む"
+    ]
+  },
+  "coverageByYear": {
+    "kurobe_dam": {
+      "2017": 2,
+      "2018": 2,
+      "2019": 1,
+      "2020": 2,
+      "2021": 2,
+      "2022": 1,
+      "2023": 2,
+      "2024": 1,
+      "2025": 1
+    }
+  },
+  "regions": {
+    "kurobe_dam": {
+      "id": "kurobe_dam",
+      "name": "黒部ダム周辺",
+      "type": "dam",
+      "infrastructureType": "dam",
+      "lat": 36.5662,
+      "lon": 137.6695,
+      "description": "貯水池周辺の地盤変位と斜面状態を SAR で継続観測",
+      "observationCount": 14,
+      "observations": [
+        {
+          "dataId": "c5762ed5-1319-6eb1-39d4-cf23659718a7",
+          "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
+          "acquisitionDate": "2017-01-15",
+          "start_datetime": "2017-01-15T00:00:00Z",
+          "orbitDirection": "ascending",
+          "polarization": "HH",
+          "relativeOrbit": 100,
+          "offNadir": 30.29,
+          "monitoringIndex": 0.126,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ]
+              ]
+            ]
+          },
+          "thumbnailUrl": null,
+          "qualityScore": 0.715
+        },
+        {
+          "dataId": "8a3d28fd-8440-1951-1b32-285d046df1c8",
+          "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
+          "acquisitionDate": "2017-08-27",
+          "start_datetime": "2017-08-27T00:00:00Z",
+          "orbitDirection": "descending",
+          "polarization": "HH+HV",
+          "relativeOrbit": 117,
+          "offNadir": 34.65,
+          "monitoringIndex": 0.361,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ]
+              ]
+            ]
+          },
+          "thumbnailUrl": null,
+          "qualityScore": 0.676
+        },
+        {
+          "dataId": "bdef937b-07c9-4540-1658-233fff2b65fd",
+          "datasetId": "57233372-b507-4611-9c1f-bfd973a2fce6",
+          "acquisitionDate": "2018-04-09",
+          "start_datetime": "2018-04-09T00:00:00Z",
+          "orbitDirection": "ascending",
+          "polarization": "HH+HV",
+          "relativeOrbit": 134,
+          "offNadir": 31.57,
+          "monitoringIndex": 0.286,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ]
+              ]
+            ]
+          },
+          "thumbnailUrl": null,
+          "qualityScore": 0.77
+        },
+        {
+          "dataId": "ab31e00f-e48f-80bb-92bb-3f86935ec292",
+          "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
+          "acquisitionDate": "2018-11-19",
+          "start_datetime": "2018-11-19T00:00:00Z",
+          "orbitDirection": "descending",
+          "polarization": "HH",
+          "relativeOrbit": 151,
+          "offNadir": 33.11,
+          "monitoringIndex": 0.272,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ]
+              ]
+            ]
+          },
+          "thumbnailUrl": null,
+          "qualityScore": 0.773
+        },
+        {
+          "dataId": "ae4ad394-b9e1-4e22-d6ba-0f5588159a9e",
+          "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
+          "acquisitionDate": "2019-07-02",
+          "start_datetime": "2019-07-02T00:00:00Z",
+          "orbitDirection": "ascending",
+          "polarization": "HH+HV",
+          "relativeOrbit": 168,
+          "offNadir": 33.13,
+          "monitoringIndex": 0.346,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ]
+              ]
+            ]
+          },
+          "thumbnailUrl": null,
+          "qualityScore": 0.693
+        },
+        {
+          "dataId": "3aff8a8e-71d4-ab40-b9e6-854b6bfea6ba",
+          "datasetId": "57233372-b507-4611-9c1f-bfd973a2fce6",
+          "acquisitionDate": "2020-02-12",
+          "start_datetime": "2020-02-12T00:00:00Z",
+          "orbitDirection": "descending",
+          "polarization": "HH+HV",
+          "relativeOrbit": 185,
+          "offNadir": 23.42,
+          "monitoringIndex": 0.184,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ]
+              ]
+            ]
+          },
+          "thumbnailUrl": null,
+          "qualityScore": 0.665
+        },
+        {
+          "dataId": "1d750448-2fe3-fffe-bb97-e9a3e8867638",
+          "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
+          "acquisitionDate": "2020-09-23",
+          "start_datetime": "2020-09-23T00:00:00Z",
+          "orbitDirection": "ascending",
+          "polarization": "HH",
+          "relativeOrbit": 202,
+          "offNadir": 31.49,
+          "monitoringIndex": 0.502,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ]
+              ]
+            ]
+          },
+          "thumbnailUrl": null,
+          "qualityScore": 0.854
+        },
+        {
+          "dataId": "5be3f838-20bf-f991-baed-0b805717a3cc",
+          "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
+          "acquisitionDate": "2021-05-06",
+          "start_datetime": "2021-05-06T00:00:00Z",
+          "orbitDirection": "descending",
+          "polarization": "HH+HV",
+          "relativeOrbit": 219,
+          "offNadir": 24.51,
+          "monitoringIndex": 0.133,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ]
+              ]
+            ]
+          },
+          "thumbnailUrl": null,
+          "qualityScore": 0.881
+        },
+        {
+          "dataId": "35536de2-3550-30e1-8a1c-1172568cbb61",
+          "datasetId": "57233372-b507-4611-9c1f-bfd973a2fce6",
+          "acquisitionDate": "2021-12-16",
+          "start_datetime": "2021-12-16T00:00:00Z",
+          "orbitDirection": "ascending",
+          "polarization": "HH+HV",
+          "relativeOrbit": 236,
+          "offNadir": 34.61,
+          "monitoringIndex": 0.248,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ]
+              ]
+            ]
+          },
+          "thumbnailUrl": null,
+          "qualityScore": 0.845
+        },
+        {
+          "dataId": "52de8da2-c35a-7661-8cc6-8012375d38ff",
+          "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
+          "acquisitionDate": "2022-07-29",
+          "start_datetime": "2022-07-29T00:00:00Z",
+          "orbitDirection": "descending",
+          "polarization": "HH",
+          "relativeOrbit": 253,
+          "offNadir": 33.18,
+          "monitoringIndex": 0.206,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ]
+              ]
+            ]
+          },
+          "thumbnailUrl": null,
+          "qualityScore": 0.816
+        },
+        {
+          "dataId": "4ca2f9cc-3a62-d378-fd05-c4d4846dc006",
+          "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
+          "acquisitionDate": "2023-03-11",
+          "start_datetime": "2023-03-11T00:00:00Z",
+          "orbitDirection": "ascending",
+          "polarization": "HH+HV",
+          "relativeOrbit": 270,
+          "offNadir": 30.57,
+          "monitoringIndex": 0.225,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ]
+              ]
+            ]
+          },
+          "thumbnailUrl": null,
+          "qualityScore": 0.831
+        },
+        {
+          "dataId": "865eff2e-c2ea-af4d-29f5-f94effe8009b",
+          "datasetId": "57233372-b507-4611-9c1f-bfd973a2fce6",
+          "acquisitionDate": "2023-10-21",
+          "start_datetime": "2023-10-21T00:00:00Z",
+          "orbitDirection": "descending",
+          "polarization": "HH+HV",
+          "relativeOrbit": 287,
+          "offNadir": 32.48,
+          "monitoringIndex": 0.219,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ]
+              ]
+            ]
+          },
+          "thumbnailUrl": null,
+          "qualityScore": 0.803
+        },
+        {
+          "dataId": "909791a7-c561-8683-8842-a1d20394518f",
+          "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
+          "acquisitionDate": "2024-06-02",
+          "start_datetime": "2024-06-02T00:00:00Z",
+          "orbitDirection": "ascending",
+          "polarization": "HH",
+          "relativeOrbit": 104,
+          "offNadir": 26.69,
+          "monitoringIndex": 0.469,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ]
+              ]
+            ]
+          },
+          "thumbnailUrl": null,
+          "qualityScore": 0.803
+        },
+        {
+          "dataId": "9366cab7-130a-e8c3-8064-3fb94bcb8bf2",
+          "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
+          "acquisitionDate": "2025-01-13",
+          "start_datetime": "2025-01-13T00:00:00Z",
+          "orbitDirection": "descending",
+          "polarization": "HH+HV",
+          "relativeOrbit": 121,
+          "offNadir": 26.7,
+          "monitoringIndex": 0.454,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.49412792792793
+                ],
+                [
+                  137.75923462195158,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.63827207207208
+                ],
+                [
+                  137.57976537804842,
+                  36.49412792792793
+                ]
+              ]
+            ]
+          },
+          "thumbnailUrl": null,
+          "qualityScore": 0.837
+        }
+      ]
+    }
+  },
+  "timeline": [
+    {
+      "regionId": "kurobe_dam",
+      "dataId": "c5762ed5-1319-6eb1-39d4-cf23659718a7",
+      "acquisitionDate": "2017-01-15",
+      "monitoringIndex": 0.126
+    },
+    {
+      "regionId": "kurobe_dam",
+      "dataId": "8a3d28fd-8440-1951-1b32-285d046df1c8",
+      "acquisitionDate": "2017-08-27",
+      "monitoringIndex": 0.361
+    },
+    {
+      "regionId": "kurobe_dam",
+      "dataId": "bdef937b-07c9-4540-1658-233fff2b65fd",
+      "acquisitionDate": "2018-04-09",
+      "monitoringIndex": 0.286
+    },
+    {
+      "regionId": "kurobe_dam",
+      "dataId": "ab31e00f-e48f-80bb-92bb-3f86935ec292",
+      "acquisitionDate": "2018-11-19",
+      "monitoringIndex": 0.272
+    },
+    {
+      "regionId": "kurobe_dam",
+      "dataId": "ae4ad394-b9e1-4e22-d6ba-0f5588159a9e",
+      "acquisitionDate": "2019-07-02",
+      "monitoringIndex": 0.346
+    },
+    {
+      "regionId": "kurobe_dam",
+      "dataId": "3aff8a8e-71d4-ab40-b9e6-854b6bfea6ba",
+      "acquisitionDate": "2020-02-12",
+      "monitoringIndex": 0.184
+    },
+    {
+      "regionId": "kurobe_dam",
+      "dataId": "1d750448-2fe3-fffe-bb97-e9a3e8867638",
+      "acquisitionDate": "2020-09-23",
+      "monitoringIndex": 0.502
+    },
+    {
+      "regionId": "kurobe_dam",
+      "dataId": "5be3f838-20bf-f991-baed-0b805717a3cc",
+      "acquisitionDate": "2021-05-06",
+      "monitoringIndex": 0.133
+    },
+    {
+      "regionId": "kurobe_dam",
+      "dataId": "35536de2-3550-30e1-8a1c-1172568cbb61",
+      "acquisitionDate": "2021-12-16",
+      "monitoringIndex": 0.248
+    },
+    {
+      "regionId": "kurobe_dam",
+      "dataId": "52de8da2-c35a-7661-8cc6-8012375d38ff",
+      "acquisitionDate": "2022-07-29",
+      "monitoringIndex": 0.206
+    },
+    {
+      "regionId": "kurobe_dam",
+      "dataId": "4ca2f9cc-3a62-d378-fd05-c4d4846dc006",
+      "acquisitionDate": "2023-03-11",
+      "monitoringIndex": 0.225
+    },
+    {
+      "regionId": "kurobe_dam",
+      "dataId": "865eff2e-c2ea-af4d-29f5-f94effe8009b",
+      "acquisitionDate": "2023-10-21",
+      "monitoringIndex": 0.219
+    },
+    {
+      "regionId": "kurobe_dam",
+      "dataId": "909791a7-c561-8683-8842-a1d20394518f",
+      "acquisitionDate": "2024-06-02",
+      "monitoringIndex": 0.469
+    },
+    {
+      "regionId": "kurobe_dam",
+      "dataId": "9366cab7-130a-e8c3-8064-3fb94bcb8bf2",
+      "acquisitionDate": "2025-01-13",
+      "monitoringIndex": 0.454
+    }
+  ]
+}

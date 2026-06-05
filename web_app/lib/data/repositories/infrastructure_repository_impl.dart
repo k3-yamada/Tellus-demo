@@ -1,3 +1,4 @@
+import '../../domain/models/asset_template.dart';
 import '../../domain/models/infrastructure_snapshot.dart';
 import '../../domain/models/observation.dart';
 import '../../domain/models/region.dart';
@@ -6,14 +7,22 @@ import '../../domain/repositories/infrastructure_repository.dart';
 import '../services/asset_data_source.dart';
 
 class InfrastructureRepositoryImpl implements InfrastructureRepository {
-  InfrastructureRepositoryImpl({AssetDataSource? dataSource})
-      : _dataSource = dataSource ?? AssetDataSource();
+  InfrastructureRepositoryImpl({
+    AssetDataSource? defaultDataSource,
+    AssetDataSource Function(String sourceRef)? dataSourceFactory,
+  })  : _defaultDataSource = defaultDataSource ?? AssetDataSource(),
+        _factory =
+            dataSourceFactory ?? ((ref) => AssetDataSource(assetPath: ref));
 
-  final AssetDataSource _dataSource;
+  final AssetDataSource _defaultDataSource;
+  final AssetDataSource Function(String sourceRef) _factory;
 
   @override
-  Future<InfrastructureSnapshot> load() async {
-    final json = await _dataSource.loadInfrastructureJson();
+  Future<InfrastructureSnapshot> load({AssetTemplate? template}) async {
+    final dataSource = template == null || template.sourceRef.isEmpty
+        ? _defaultDataSource
+        : _factory(template.sourceRef);
+    final json = await dataSource.loadInfrastructureJson();
     final meta = json['meta'] as Map<String, dynamic>? ?? {};
     final regionsMap = json['regions'] as Map<String, dynamic>? ?? {};
     final timelineRaw = json['timeline'] as List<dynamic>? ?? [];
