@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tellus_demo/domain/models/asset_template.dart';
 import 'package:tellus_demo/domain/models/infrastructure_snapshot.dart';
 import 'package:tellus_demo/domain/models/observation.dart';
 import 'package:tellus_demo/domain/models/region.dart';
@@ -7,7 +8,7 @@ import 'package:tellus_demo/ui/features/dashboard/view_models/dashboard_view_mod
 
 class _FakeRepo implements InfrastructureRepository {
   @override
-  Future<InfrastructureSnapshot> load() async {
+  Future<InfrastructureSnapshot> load({AssetTemplate? template}) async {
     return InfrastructureSnapshot(
       generatedAt: '2026-01-01',
       regions: [

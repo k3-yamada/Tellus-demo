@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../domain/models/asset_template.dart';
 import '../../../../domain/models/infrastructure_snapshot.dart';
 import '../../../../domain/models/observation.dart';
 import '../../../../domain/models/region.dart';
@@ -20,6 +21,7 @@ class DashboardViewModel extends ChangeNotifier {
   static final _dateTimeFormat = DateFormat('yyyy年M月d日 HH:mm', 'ja');
 
   InfrastructureSnapshot? _snapshot;
+  AssetTemplate? _currentTemplate;
   bool _loading = true;
   String? _error;
   String _selectedRegionId = 'joganji';
@@ -34,6 +36,7 @@ class DashboardViewModel extends ChangeNotifier {
   bool get isLoading => _loading;
   String? get error => _error;
   InfrastructureSnapshot? get snapshot => _snapshot;
+  AssetTemplate? get currentTemplate => _currentTemplate;
   String get selectedRegionId => _selectedRegionId;
   double get sliderValue => _sliderValue;
   double get animatedProgress => _animatedProgress;
@@ -130,12 +133,13 @@ class DashboardViewModel extends ChangeNotifier {
     return _snapshot?.coverageByYear[regionId] ?? {};
   }
 
-  Future<void> load() async {
+  Future<void> load({AssetTemplate? template}) async {
     _loading = true;
     _error = null;
+    if (template != null) _currentTemplate = template;
     notifyListeners();
     try {
-      _snapshot = await _repository.load();
+      _snapshot = await _repository.load(template: _currentTemplate);
       if (_snapshot!.regions.isNotEmpty) {
         _selectedRegionId = _snapshot!.regions.first.id;
       }
@@ -147,6 +151,11 @@ class DashboardViewModel extends ChangeNotifier {
       _loading = false;
       notifyListeners();
     }
+  }
+
+  Future<void> switchTemplate(AssetTemplate template) async {
+    if (_currentTemplate?.id == template.id) return;
+    await load(template: template);
   }
 
   void selectRegion(String id) {

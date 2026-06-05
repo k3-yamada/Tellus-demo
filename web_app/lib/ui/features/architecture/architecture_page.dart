@@ -1,69 +1,53 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/command_center_theme.dart';
+import 'widgets/architecture_explainer_panel.dart';
 
 class ArchitecturePage extends StatelessWidget {
   const ArchitecturePage({super.key});
+
+  static const docsPath = 'docs/ARCHITECTURE.md';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('アーキテクチャ'),
+        title: const Text('システム構成'),
         backgroundColor: CommandCenterTheme.panel,
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: const [
-          Text('システム構成', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          SizedBox(height: 12),
-          _ArchBlock(
-            title: 'Flutter Web',
-            body: 'ダッシュボード UI · Explorer/Analyst モード · 地図 footprint · 品質サマリー',
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+            child: Row(
+              children: [
+                const Expanded(
+                  child: Text(
+                    'アーキテクチャ解説 · リポジトリ内ドキュメントと同期',
+                    style: TextStyle(fontSize: 12, color: CommandCenterTheme.textMuted),
+                  ),
+                ),
+                TextButton.icon(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('詳細はリポジトリの docs/ARCHITECTURE.md を参照してください。'),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.description_outlined, size: 16),
+                  label: const Text(docsPath),
+                  style: TextButton.styleFrom(
+                    foregroundColor: CommandCenterTheme.accent,
+                    textStyle: const TextStyle(fontSize: 11),
+                  ),
+                ),
+              ],
+            ),
           ),
-          _ArchBlock(
-            title: 'Python Pipeline',
-            body: 'fetch → attach_datasets_catalog → enrich → diff (.previous.json) → Slack',
-          ),
-          _ArchBlock(
-            title: 'Cloudflare Workers BFF',
-            body: '/api/datasets · /api/search · /api/scenes/* · /api/tellusar/jobs',
-          ),
-          _ArchBlock(
-            title: 'GitHub Actions',
-            body: 'CI (analyze/build/e2e) · 週次 fetch-cron · Slack 通知',
-          ),
-          SizedBox(height: 16),
-          Text(
-            '詳細は docs/ARCHITECTURE.md を参照してください。',
-            style: TextStyle(color: CommandCenterTheme.textMuted, fontSize: 12),
-          ),
+          const Expanded(child: ArchitectureExplainerPanel()),
         ],
-      ),
-    );
-  }
-}
-
-class _ArchBlock extends StatelessWidget {
-  const _ArchBlock({required this.title, required this.body});
-
-  final String title;
-  final String body;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 8),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: const TextStyle(fontWeight: FontWeight.w600, color: CommandCenterTheme.accent)),
-            const SizedBox(height: 4),
-            Text(body, style: const TextStyle(fontSize: 12)),
-          ],
-        ),
       ),
     );
   }

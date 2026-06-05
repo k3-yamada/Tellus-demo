@@ -60,6 +60,7 @@ class _ProcurementPageState extends State<ProcurementPage> {
                 title: Text(item['name']!),
                 subtitle: Text(item['desc']!),
                 trailing: IconButton(
+                  tooltip: _cart.contains(item['id']) ? 'カートから削除' : 'カートに追加',
                   icon: Icon(
                     _cart.contains(item['id']) ? Icons.remove_shopping_cart : Icons.add_shopping_cart,
                     color: CommandCenterTheme.accent,
@@ -77,9 +78,14 @@ class _ProcurementPageState extends State<ProcurementPage> {
               ),
             ),
           const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: _cart.isEmpty ? null : () => _submitOrder(demoMode),
-            child: Text('デモ発注 (${_cart.length} 件)'),
+          Semantics(
+            label: 'デモ発注 ${_cart.length} 件',
+            button: true,
+            enabled: _cart.isNotEmpty,
+            child: ElevatedButton(
+              onPressed: _cart.isEmpty ? null : () => _submitOrder(demoMode),
+              child: Text('デモ発注 (${_cart.length} 件)'),
+            ),
           ),
           if (_lastOrderId != null) ...[
             const SizedBox(height: 12),

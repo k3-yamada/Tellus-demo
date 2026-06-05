@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../architecture/architecture_page.dart';
+import '../../../../domain/models/tellusar_job.dart';
+import '../../architecture/architecture_overlay.dart';
 import '../../catalog/catalog_page.dart';
+import '../../disaster_archive/views/disaster_archive_page.dart';
+import '../../multi_sensor/views/multi_sensor_page.dart';
 import '../../procurement/procurement_page.dart';
+import '../../tellusar/views/tellusar_page.dart';
+import '../../template_switcher/widgets/template_switcher.dart';
 import '../view_models/dashboard_view_model.dart';
 import '../widgets/summary_card.dart';
 import 'map_panel.dart';
@@ -197,22 +202,88 @@ class _ControlBar extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(width: 8),
+        const TemplateSwitcher(),
         IconButton(
           icon: const Icon(Icons.list_alt, size: 20),
           tooltip: 'カタログ',
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CatalogPage())),
+          onPressed: () => Navigator.push(
+              context, MaterialPageRoute(builder: (_) => const CatalogPage())),
+        ),
+        IconButton(
+          key: const ValueKey('nav_disaster_archive'),
+          icon: const Icon(Icons.warning_amber, size: 20),
+          tooltip: '災害アーカイブ',
+          onPressed: () => Navigator.push(context,
+              MaterialPageRoute(builder: (_) => const DisasterArchivePage())),
+        ),
+        IconButton(
+          key: const ValueKey('nav_multi_sensor'),
+          icon: const Icon(Icons.compare, size: 20),
+          tooltip: 'マルチセンサー比較',
+          onPressed: () => Navigator.push(context,
+              MaterialPageRoute(builder: (_) => const MultiSensorPage())),
+        ),
+        IconButton(
+          key: const ValueKey('nav_tellusar'),
+          icon: const Icon(Icons.science, size: 20),
+          tooltip: 'TelluSAR InSAR デモ',
+          onPressed: () => _openTellusar(context, viewModel),
         ),
         IconButton(
           icon: const Icon(Icons.account_tree, size: 20),
           tooltip: 'アーキテクチャ',
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ArchitecturePage())),
+          onPressed: () => showArchitectureExplainerOverlay(context),
         ),
         IconButton(
           icon: const Icon(Icons.shopping_cart_outlined, size: 20),
           tooltip: '調達デモ',
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProcurementPage())),
+          onPressed: () => Navigator.push(context,
+              MaterialPageRoute(builder: (_) => const ProcurementPage())),
         ),
       ],
+    );
+  }
+
+  void _openTellusar(BuildContext context, DashboardViewModel vm) {
+    final pair = _pairFromSnapshot(vm);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => TellusarPage(defaultPair: pair),
+      ),
+    );
+  }
+
+  TellusarPairRequest _pairFromSnapshot(DashboardViewModel vm) {
+    final suggested = vm.tellusarSuggestedPair;
+    if (suggested != null) {
+      return TellusarPairRequest(
+        referenceSceneId: suggested['referenceSceneId']?.toString() ??
+            suggested['reference']?.toString() ?? 'DEMO-REFERENCE',
+        secondarySceneId: suggested['secondarySceneId']?.toString() ??
+            suggested['secondary']?.toString() ?? 'DEMO-SECONDARY',
+        regionId: suggested['regionId']?.toString() ??
+            vm.selectedRegionId,
+        label: suggested['label']?.toString() ?? 'InSAR ペア',
+      );
+    }
+    final region = vm.selectedRegion;
+    if (region != null && region.observations.length >= 2) {
+      final ref = region.observations.first;
+      final sec = region.observations[1];
+      return TellusarPairRequest(
+        referenceSceneId: ref.dataId,
+        secondarySceneId: sec.dataId,
+        regionId: region.id,
+        label: '${region.name} 観測ペア',
+      );
+    }
+    return const TellusarPairRequest(
+      referenceSceneId: 'DEMO-REFERENCE',
+      secondarySceneId: 'DEMO-SECONDARY',
+      regionId: 'demo',
+      label: 'デモペア',
     );
   }
 
@@ -275,6 +346,20 @@ class _Header extends StatelessWidget {
                 style: TextStyle(fontSize: 12, color: CommandCenterTheme.textMuted),
               ),
             ],
+          ),
+          const SizedBox(width: 12),
+          Tooltip(
+            message: 'システム構成・データフロー・設計の強みを解説',
+            child: FilledButton.tonalIcon(
+            onPressed: () => showArchitectureExplainerOverlay(context, tutorial: true),
+            icon: const Icon(Icons.layers, size: 18),
+            label: const Text('システム解説'),
+            style: FilledButton.styleFrom(
+              visualDensity: VisualDensity.compact,
+              foregroundColor: CommandCenterTheme.accent,
+              backgroundColor: CommandCenterTheme.accent.withValues(alpha: 0.12),
+            ),
+          ),
           ),
           const Spacer(),
           if (generatedAt.isNotEmpty)

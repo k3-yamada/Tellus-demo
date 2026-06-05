@@ -1,0 +1,54 @@
+{
+  "templates": [
+    {
+      "id": "dam",
+      "industry": "ダム監視",
+      "icon": "🏔",
+      "pitch": "貯水池周辺の地盤変位と斜面状態を SAR で継続観測",
+      "region_name": "黒部ダム周辺",
+      "lat": 36.5662,
+      "lon": 137.6695,
+      "asset_path": "assets/data/templates/dam.json"
+    },
+    {
+      "id": "bridge",
+      "industry": "橋梁監視",
+      "icon": "🌉",
+      "pitch": "長大橋・橋脚周辺の沈下と海岸侵食モニタリング",
+      "region_name": "明石海峡大橋周辺",
+      "lat": 34.616,
+      "lon": 135.0214,
+      "asset_path": "assets/data/templates/bridge.json"
+    },
+    {
+      "id": "airport",
+      "industry": "空港監視",
+      "icon": "🛬",
+      "pitch": "埋立地空港の地盤沈下を mm 単位で長期トレンド分析",
+      "region_name": "関西国際空港",
+      "lat": 34.4347,
+      "lon": 135.2444,
+      "asset_path": "assets/data/templates/airport.json"
+    },
+    {
+      "id": "shinkansen",
+      "industry": "新幹線高架監視",
+      "icon": "🚄",
+      "pitch": "高架橋梁・盛土の連続観測で保線業務を支援",
+      "region_name": "東海道新幹線 名古屋〜京都区間",
+      "lat": 35.0832,
+      "lon": 136.5028,
+      "asset_path": "assets/data/templates/shinkansen.json"
+    },
+    {
+      "id": "port",
+      "industry": "港湾監視",
+      "icon": "⚓",
+      "pitch": "港湾施設・防波堤・コンテナヤードの変位検出",
+      "region_name": "横浜港",
+      "lat": 35.4437,
+      "lon": 139.638,
+      "asset_path": "assets/data/templates/port.json"
+    }
+  ]
+}

@@ -57,6 +57,19 @@ export default {
 
 
       if (url.pathname === "/api/tellusar/jobs" && request.method === "POST") {
+        const dryRun = request.headers.get("X-Demo-Dry-Run") === "true";
+        if (dryRun) {
+          const payload = (await request.json().catch(() => ({}))) as Record<string, unknown>;
+          const jobId = `DEMO-TSAR-${Date.now()}`;
+          return json({
+            ok: true,
+            dryRun: true,
+            jobId,
+            status: "queued",
+            message: "TelluSAR dry-run 受理 — 課金 API は呼ばれていません",
+            request: payload,
+          });
+        }
         const body = await request.text();
         const tellusarBase = base.replace("/traveler/v1", "/tellusar/v1");
         const resp = await fetch(`${tellusarBase}/jobs/`, {
@@ -69,8 +82,27 @@ export default {
 
       const tellusarJobMatch = url.pathname.match(/^\/api\/tellusar\/jobs\/([^/]+)\/?$/);
       if (tellusarJobMatch && request.method === "GET") {
+        const jobId = tellusarJobMatch[1];
+        if (jobId.startsWith("DEMO-TSAR-")) {
+          return json({
+            jobId,
+            status: "succeeded",
+            message: "dry-run 擬似結果",
+            result: {
+              coherenceMean: 0.72,
+              maxDisplacementMm: 8.4,
+              minDisplacementMm: -4.1,
+              perpendicularBaselineM: 184.3,
+              temporalBaselineDays: 48,
+              notes: [
+                "本結果は BFF dry-run の擬似値です。",
+                "本番では TelluSAR /jobs/{id}/ レスポンスをそのまま返します。",
+              ],
+            },
+          });
+        }
         const tellusarBase = base.replace("/traveler/v1", "/tellusar/v1");
-        const resp = await fetch(`${tellusarBase}/jobs/${tellusarJobMatch[1]}/`, { headers });
+        const resp = await fetch(`${tellusarBase}/jobs/${jobId}/`, { headers });
         return proxyResponse(resp);
       }
 
