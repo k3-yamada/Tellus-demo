@@ -5,7 +5,7 @@ import '../../../../domain/models/disaster_event.dart';
 import '../../../../domain/repositories/disaster_archive_repository.dart';
 import '../../../core/theme/command_center_theme.dart';
 import '../view_models/disaster_archive_view_model.dart';
-import '../widgets/disaster_phase_preview.dart';
+import '../widgets/disaster_phase_comparison.dart';
 
 /// 災害アーカイブページ。
 /// before/during/after の Tellus 観測を並べ、SAR の雲・夜間貫通性を訴求する。
@@ -140,18 +140,54 @@ class _EventDetail extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
-            Text(event.summary,
-                style: const TextStyle(fontSize: 12, height: 1.5)),
             const SizedBox(height: 4),
             Text(
                 '観測中心: ${event.lat.toStringAsFixed(3)}°N, ${event.lon.toStringAsFixed(3)}°E',
                 style: const TextStyle(
                     fontSize: 11, color: CommandCenterTheme.textMuted)),
-            const SizedBox(height: 16),
-            _PhaseSelector(vm: vm),
             const SizedBox(height: 12),
-            Expanded(child: _PhasePanel(phase: vm.selectedPhaseData)),
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: DisasterPhaseComparison(
+                      event: event,
+                      selectedPhase: vm.selectedPhase,
+                      comparisonMode: vm.comparisonMode,
+                      onPhaseSelected: vm.selectPhase,
+                      onComparisonModeChanged: vm.setComparisonMode,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    flex: 2,
+                    child: _PhaseMetadataPanel(
+                      event: event,
+                      selectedPhase: vm.selectedPhase,
+                      onPhaseSelected: vm.selectPhase,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: CommandCenterTheme.accent.withValues(alpha: 0.06),
+                border: Border.all(
+                    color: CommandCenterTheme.accent.withValues(alpha: 0.3)),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: const Text(
+                '※ サムネイルは Tellus Traveler から取得した実 SAR 画像をバンドルしています。'
+                '表示日付・変化ハイライトはデモ用メタデータです。本番ラスタは BFF 経由で取得します。',
+                style: TextStyle(
+                    fontSize: 11, color: CommandCenterTheme.textMuted),
+              ),
+            ),
           ],
         ),
       ),
@@ -159,40 +195,22 @@ class _EventDetail extends StatelessWidget {
   }
 }
 
-class _PhaseSelector extends StatelessWidget {
-  const _PhaseSelector({required this.vm});
-  final DisasterArchiveViewModel vm;
+class _PhaseMetadataPanel extends StatelessWidget {
+  const _PhaseMetadataPanel({
+    required this.event,
+    required this.selectedPhase,
+    required this.onPhaseSelected,
+  });
+
+  final DisasterEvent event;
+  final DisasterPhaseLabel selectedPhase;
+  final ValueChanged<DisasterPhaseLabel> onPhaseSelected;
 
   @override
   Widget build(BuildContext context) {
-    return SegmentedButton<DisasterPhaseLabel>(
-      segments: const [
-        ButtonSegment(value: DisasterPhaseLabel.before, label: Text('事前 (Before)')),
-        ButtonSegment(value: DisasterPhaseLabel.during, label: Text('当日 (During)')),
-        ButtonSegment(value: DisasterPhaseLabel.after, label: Text('事後 (After)')),
-      ],
-      selected: {vm.selectedPhase},
-      onSelectionChanged: (s) => vm.selectPhase(s.first),
-      style: ButtonStyle(
-        visualDensity: VisualDensity.compact,
-        textStyle: const WidgetStatePropertyAll(TextStyle(fontSize: 12)),
-      ),
-    );
-  }
-}
-
-class _PhasePanel extends StatelessWidget {
-  const _PhasePanel({required this.phase});
-  final DisasterPhase? phase;
-
-  @override
-  Widget build(BuildContext context) {
-    final current = phase;
-    if (current == null) {
-      return const Center(child: Text('このフェーズのデータはありません'));
-    }
+    final phase = event.phaseFor(selectedPhase);
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         border: Border.all(color: CommandCenterTheme.border),
         borderRadius: BorderRadius.circular(8),
@@ -200,60 +218,108 @@ class _PhasePanel extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(children: [
-            const Icon(Icons.satellite_alt,
-                size: 18, color: CommandCenterTheme.accent),
-            const SizedBox(width: 8),
+          const Text(
+            'フェーズ詳細',
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 8),
+          _PhaseSelector(
+            selectedPhase: selectedPhase,
+            onPhaseSelected: onPhaseSelected,
+          ),
+          const SizedBox(height: 12),
+          const Text(
+            '全フェーズ取得日',
+            style: TextStyle(
+                fontSize: 10, color: CommandCenterTheme.textMuted),
+          ),
+          const SizedBox(height: 4),
+          ...DisasterPhaseLabel.values.map((label) {
+            final p = event.phaseFor(label);
+            if (p == null) return const SizedBox.shrink();
+            final active = label == selectedPhase;
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(
+                '${_phaseShortLabel(label)}: ${p.acquisitionDate}',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: active ? FontWeight.w600 : FontWeight.normal,
+                  color: active
+                      ? CommandCenterTheme.accent
+                      : CommandCenterTheme.textMuted,
+                ),
+              ),
+            );
+          }),
+          const SizedBox(height: 12),
+          const Divider(height: 1),
+          const SizedBox(height: 8),
+          if (phase == null)
+            const Text('このフェーズのデータはありません',
+                style: TextStyle(fontSize: 11))
+          else
             Expanded(
-              child: Text(current.note,
-                  style: const TextStyle(fontWeight: FontWeight.w600)),
-            ),
-          ]),
-          const SizedBox(height: 12),
-          Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: DisasterPhasePreview(phase: current),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(phase.note,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 12)),
+                    const SizedBox(height: 10),
+                    _MetaRow(label: 'シーン ID', value: phase.sceneId),
+                    _MetaRow(label: 'データセット', value: phase.datasetId),
+                    _MetaRow(
+                        label: '取得日時', value: phase.acquisitionDatetime),
+                    _MetaRow(label: '軌道', value: phase.orbitDirection),
+                    _MetaRow(label: '偏波', value: phase.polarization),
+                  ],
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  flex: 2,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _MetaRow(label: 'シーン ID', value: current.sceneId),
-                        _MetaRow(label: 'データセット', value: current.datasetId),
-                        _MetaRow(label: '取得日時', value: current.acquisitionDatetime),
-                        _MetaRow(label: '軌道', value: current.orbitDirection),
-                        _MetaRow(label: '偏波', value: current.polarization),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-          const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: CommandCenterTheme.accent.withValues(alpha: 0.06),
-              border: Border.all(
-                  color: CommandCenterTheme.accent.withValues(alpha: 0.3)),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: const Text(
-              '※ サムネイルはデモ用合成 PNG。シーン ID・取得時刻も合成データです。'
-              'Tellus dataset ID は実在。本番ラスタは BFF 経由で取得します。',
-              style: TextStyle(
-                  fontSize: 11, color: CommandCenterTheme.textMuted),
-            ),
-          ),
         ],
+      ),
+    );
+  }
+
+  String _phaseShortLabel(DisasterPhaseLabel label) {
+    switch (label) {
+      case DisasterPhaseLabel.before:
+        return '事前';
+      case DisasterPhaseLabel.during:
+        return '当日';
+      case DisasterPhaseLabel.after:
+        return '事後';
+    }
+  }
+}
+
+class _PhaseSelector extends StatelessWidget {
+  const _PhaseSelector({
+    required this.selectedPhase,
+    required this.onPhaseSelected,
+  });
+
+  final DisasterPhaseLabel selectedPhase;
+  final ValueChanged<DisasterPhaseLabel> onPhaseSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return SegmentedButton<DisasterPhaseLabel>(
+      segments: const [
+        ButtonSegment(
+            value: DisasterPhaseLabel.before, label: Text('事前')),
+        ButtonSegment(
+            value: DisasterPhaseLabel.during, label: Text('当日')),
+        ButtonSegment(
+            value: DisasterPhaseLabel.after, label: Text('事後')),
+      ],
+      selected: {selectedPhase},
+      onSelectionChanged: (s) => onPhaseSelected(s.first),
+      style: ButtonStyle(
+        visualDensity: VisualDensity.compact,
+        textStyle: const WidgetStatePropertyAll(TextStyle(fontSize: 11)),
       ),
     );
   }
@@ -272,14 +338,14 @@ class _MetaRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 92,
+            width: 72,
             child: Text(label,
                 style: const TextStyle(
                     fontSize: 11, color: CommandCenterTheme.textMuted)),
           ),
           Expanded(
             child: SelectableText(value,
-                style: const TextStyle(fontSize: 12)),
+                style: const TextStyle(fontSize: 11)),
           ),
         ],
       ),

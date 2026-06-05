@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../domain/models/disaster_event.dart';
-import '../../../core/assets/bundled_asset_path.dart';
 import '../../../core/theme/command_center_theme.dart';
+import 'disaster_phase_thumbnail.dart';
 
 /// 災害フェーズの SAR サムネイル表示。
 /// `assets/` パスは [Image.asset]、HTTP(S) は [Image.network]、未設定時はプレースホルダ。
@@ -40,12 +40,10 @@ class DisasterPhasePreview extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(12),
-              child: url != null && url.isNotEmpty
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(7),
-                      child: _buildImage(url),
-                    )
-                  : _placeholder('サムネ未取得'),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(7),
+                child: buildDisasterPhaseThumbnail(url),
+              ),
             ),
           ),
         ],
@@ -53,45 +51,4 @@ class DisasterPhasePreview extends StatelessWidget {
     );
   }
 
-  Widget _buildImage(String url) {
-    if (isBundledAssetUrl(url)) {
-      return Image.asset(
-        resolveBundledAssetPath(url),
-        fit: BoxFit.cover,
-        width: double.infinity,
-        height: double.infinity,
-        errorBuilder: (context, error, stackTrace) =>
-            _placeholder('読込失敗'),
-      );
-    }
-    return Image.network(
-      url,
-      fit: BoxFit.cover,
-      width: double.infinity,
-      height: double.infinity,
-      errorBuilder: (context, error, stackTrace) => _placeholder('読込失敗'),
-      loadingBuilder: (ctx, child, progress) {
-        if (progress == null) return child;
-        return const Center(
-          child: CircularProgressIndicator(strokeWidth: 2),
-        );
-      },
-    );
-  }
-
-  Widget _placeholder(String text) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.satellite_alt,
-              color: CommandCenterTheme.textMuted, size: 32),
-          const SizedBox(height: 8),
-          Text(text,
-              style: const TextStyle(
-                  color: CommandCenterTheme.textMuted, fontSize: 11)),
-        ],
-      ),
-    );
-  }
 }
