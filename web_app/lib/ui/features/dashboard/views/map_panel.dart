@@ -119,8 +119,8 @@ class MapPanel extends StatelessWidget {
 
     return Marker(
       point: LatLng(region.lat, region.lng),
-      width: 48,
-      height: 48,
+      width: 132,
+      height: 54,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -141,6 +141,7 @@ class MapPanel extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Container(
+            constraints: const BoxConstraints(maxWidth: 120),
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
             decoration: BoxDecoration(
               color: CommandCenterTheme.panel.withValues(alpha: 0.92),
@@ -149,6 +150,9 @@ class MapPanel extends StatelessWidget {
             ),
             child: Text(
               region.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 color: CommandCenterTheme.textPrimary,
                 fontSize: 10,
@@ -159,6 +163,7 @@ class MapPanel extends StatelessWidget {
           if (obs != null)
             Text(
               obs.monitoringIndex.toStringAsFixed(2),
+              maxLines: 1,
               style: const TextStyle(
                 color: CommandCenterTheme.accent,
                 fontSize: 9,
