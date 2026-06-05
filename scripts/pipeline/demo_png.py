@@ -67,6 +67,12 @@ def write_rgb_png(
     path.write_bytes(png)
 
 
+def _digest_indices(x: int, y: int, length: int) -> tuple[int, int]:
+    """Mix (x, y) so width multiples of digest length do not create vertical banding."""
+    mixed = (x * 0x9E3779B1) ^ (y * 0x85EBCA6B) ^ ((x * y) & 0xFFFF)
+    return mixed % length, (mixed * 13 + 7) % length
+
+
 def make_sar_pixels(
     seed: str, width: int = 320, height: int = 200, *, coarse: bool = False
 ) -> list[int]:
@@ -75,14 +81,35 @@ def make_sar_pixels(
     step = 12 if coarse else 4
     for y in range(height):
         for x in range(width):
-            i = y * width + x
-            base = digest[i % len(digest)] ^ digest[(i * 13 + 7) % len(digest)]
+            a, b = _digest_indices(x, y, len(digest))
+            base = digest[a] ^ digest[b]
             base = (base * 3 + (x ^ y)) % 220 + 18
             if coarse and (x // step + y // step) % 3 == 0:
                 base = min(255, base + 35)
             if (x + y) % 23 == 0:
                 base = max(0, base - 30)
             pixels.append(base)
+    return pixels
+
+
+def make_disaster_phase_pixels(
+    event_id: str, phase: str, width: int = 320, height: int = 200
+) -> list[int]:
+    """SAR-like speckle with phase-specific brightness tweaks for disaster archive."""
+    pixels = make_sar_pixels(f"{event_id}:{phase}", width, height)
+    if phase == "during":
+        for y in range(height // 4, 3 * height // 4):
+            for x in range(width):
+                i = y * width + x
+                a, _ = _digest_indices(x, y, 32)
+                pixels[i] = min(255, pixels[i] + 55 + (a % 40))
+    elif phase == "after":
+        for y in range(height):
+            for x in range(width):
+                i = y * width + x
+                if (x + y) % 17 == 0:
+                    pixels[i] = max(0, pixels[i] - 45)
+                pixels[i] = min(255, pixels[i] + 12)
     return pixels
 
 
@@ -93,12 +120,13 @@ def make_optical_pixels(
     pixels: list[tuple[int, int, int]] = []
     for y in range(height):
         for x in range(width):
-            i = y * width + x
-            r = (digest[i % len(digest)] + x) % 200 + 30
-            g = (digest[(i * 5) % len(digest)] + y) % 180 + 40
-            b = (digest[(i * 11) % len(digest)] + x + y) % 160 + 50
+            a, b = _digest_indices(x, y, len(digest))
+            c = (a * 5 + b * 11) % len(digest)
+            r = (digest[a] + x) % 200 + 30
+            g = (digest[b] + y) % 180 + 40
+            b_val = (digest[c] + x + y) % 160 + 50
             if y > height * 0.55:
                 g = min(255, g + 25)
-                b = min(255, b + 15)
-            pixels.append((r, g, b))
+                b_val = min(255, b_val + 15)
+            pixels.append((r, g, b_val))
     return pixels

@@ -12,6 +12,8 @@ import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+from demo_png import make_disaster_phase_pixels, write_gray_png
+
 OUT_PATH = (
     Path(__file__).resolve().parent.parent.parent
     / "web_app"
@@ -33,53 +35,10 @@ THUMB_DIR = (
 )
 
 
-def write_gray_png(path: Path, width: int, height: int, pixels: list[int]) -> None:
-    import struct
-    import zlib
-
-    assert len(pixels) == width * height
-    path.parent.mkdir(parents=True, exist_ok=True)
-    raw = b"".join(
-        b"\x00" + bytes(pixels[y * width : (y + 1) * width]) for y in range(height)
-    )
-    compressed = zlib.compress(raw, 9)
-
-    def chunk(tag: bytes, data: bytes) -> bytes:
-        return (
-            struct.pack(">I", len(data))
-            + tag
-            + data
-            + struct.pack(">I", zlib.crc32(tag + data) & 0xFFFFFFFF)
-        )
-
-    ihdr = struct.pack(">IIBBBBB", width, height, 8, 0, 0, 0, 0)
-    png = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", ihdr) + chunk(b"IDAT", compressed) + chunk(b"IEND", b"")
-    path.write_bytes(png)
-
-
-def make_sar_pixels(event_id: str, phase: str, width: int = 320, height: int = 200) -> list[int]:
-    seed = hashlib.sha256(f"{event_id}:{phase}".encode()).digest()
-    pixels: list[int] = []
-    for y in range(height):
-        for x in range(width):
-            i = y * width + x
-            base = seed[i % len(seed)] ^ seed[(i * 13 + 7) % len(seed)]
-            base = (base * 3 + (x ^ y)) % 220 + 18
-            if phase == "during":
-                if height // 4 < y < 3 * height // 4:
-                    base = min(255, base + 55 + (seed[(x // 8) % len(seed)] % 40))
-            elif phase == "after":
-                if (x + y) % 17 == 0:
-                    base = max(0, base - 45)
-                base = min(255, base + 12)
-            pixels.append(base)
-    return pixels
-
-
 def write_phase_thumbnail(event_id: str, phase: str) -> str:
     rel = f"assets/images/disaster/{event_id}_{phase}.png"
     out = THUMB_DIR / f"{event_id}_{phase}.png"
-    write_gray_png(out, 320, 200, make_sar_pixels(event_id, phase))
+    write_gray_png(out, 320, 200, make_disaster_phase_pixels(event_id, phase))
     return rel
 
 

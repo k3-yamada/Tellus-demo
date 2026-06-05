@@ -39,7 +39,7 @@ class ThumbnailPreview extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             AspectRatio(
-              aspectRatio: 16 / 9,
+              aspectRatio: 8 / 5,
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: CommandCenterTheme.background,

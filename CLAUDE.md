@@ -112,6 +112,7 @@ Single-file Worker. Adds Bearer auth, CORS, and `X-Demo-Dry-Run` for `/api/cart-
 
 ## Conventions Specific to This Repo
 
+- **実装完了前に必ずコードレビュー** — commit / push / PR の前に変更ファイルをレビューし、バグ・セキュリティ・レイアウト・アセットパス・テストを確認する（`.cursor/rules/code-review-required.mdc`）。
 - **Schema migrations are additive and idempotent.** When adding a field, update `migrate_v2.py` so old JSON upgrades cleanly, and keep the v1-tolerant fallbacks in `InfrastructureRepositoryImpl._parseRegion`.
 - **Demo-only values must be labeled.** `monitoringIndex` and `displacementDemo` are precomputed; surface a disclaimer in the UI rather than presenting them as analysis output. The README's "わざとやらないこと" section is the source of truth for scope boundaries.
 - **`TELLUS_API_KEY` never reaches the browser** — Flutter code must go through `TellusBffClient` (which calls the Workers BFF), never the Tellus API directly. Python scripts may use the key locally.

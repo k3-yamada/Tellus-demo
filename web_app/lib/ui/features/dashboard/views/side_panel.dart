@@ -72,51 +72,69 @@ class SidePanel extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            if (isAnalyst) ...[
-              AnalysisPanel(viewModel: viewModel),
-              const SizedBox(height: 12),
-            ] else ...[
-              ThumbnailPreview(observation: obs),
-              const SizedBox(height: 12),
-              const Text(
-                '年別観測回数',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
-              ),
-              const SizedBox(height: 4),
-              CoverageBarChart(coverageByYear: viewModel.coverageForRegion(region.id)),
-              const SizedBox(height: 12),
-            ],
-            if (obs != null) ...[
-              _infoRow('撮影日時', viewModel.formatDateLabel(
-                obs.startDatetime.isNotEmpty ? obs.startDatetime : obs.acquisitionDate,
-              )),
-              if (isAnalyst) ...[
-                _infoRow('データID', obs.dataId),
-                _infoRow('軌道方向', obs.orbitDirection),
-                _infoRow('偏波', obs.polarization),
-                if (obs.relativeOrbit != null) _infoRow('相対軌道', '${obs.relativeOrbit}'),
-                _infoRow('オフナディア角', obs.offNadir.toStringAsFixed(1)),
-                _infoRow('監視指数', obs.monitoringIndex.toStringAsFixed(3)),
-                if (obs.qualityScore != null) _infoRow('品質スコア', obs.qualityScore!.toStringAsFixed(2)),
-              ] else ...[
-                _infoRow('衛星の向き', obs.orbitDirection == 'ascending' ? '北向き（昇交）' : '南向き（降交）'),
-                if (obs.thumbnailUrl != null) _infoRow('プレビュー', '利用可能'),
-              ],
-            ],
-            const SizedBox(height: 8),
-            Text(
-              isAnalyst ? '時系列監視指数 (レガシーデモ)' : '観測の変化（デモ指数）',
-              style: const TextStyle(fontWeight: FontWeight.w600, color: CommandCenterTheme.textPrimary),
-            ),
-            const SizedBox(height: 8),
             Expanded(
-              child: CustomPaint(
-                painter: MonitoringChartPainter(
-                  points: chartPoints,
-                  highlightIndex: highlight,
-                  progress: viewModel.animatedProgress,
-                ),
-                child: const SizedBox.expand(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (isAnalyst) ...[
+                            AnalysisPanel(viewModel: viewModel),
+                            const SizedBox(height: 12),
+                          ] else ...[
+                            ThumbnailPreview(observation: obs),
+                            const SizedBox(height: 12),
+                            const Text(
+                              '年別観測回数',
+                              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+                            ),
+                            const SizedBox(height: 4),
+                            CoverageBarChart(coverageByYear: viewModel.coverageForRegion(region.id)),
+                            const SizedBox(height: 12),
+                          ],
+                          if (obs != null) ...[
+                            _infoRow('撮影日時', viewModel.formatDateLabel(
+                              obs.startDatetime.isNotEmpty ? obs.startDatetime : obs.acquisitionDate,
+                            )),
+                            if (isAnalyst) ...[
+                              _infoRow('データID', obs.dataId),
+                              _infoRow('軌道方向', obs.orbitDirection),
+                              _infoRow('偏波', obs.polarization),
+                              if (obs.relativeOrbit != null) _infoRow('相対軌道', '${obs.relativeOrbit}'),
+                              _infoRow('オフナディア角', obs.offNadir.toStringAsFixed(1)),
+                              _infoRow('監視指数', obs.monitoringIndex.toStringAsFixed(3)),
+                              if (obs.qualityScore != null) _infoRow('品質スコア', obs.qualityScore!.toStringAsFixed(2)),
+                            ] else ...[
+                              _infoRow('衛星の向き', obs.orbitDirection == 'ascending' ? '北向き（昇交）' : '南向き（降交）'),
+                              if (obs.thumbnailUrl != null) _infoRow('プレビュー', '利用可能'),
+                            ],
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    isAnalyst ? '時系列監視指数 (レガシーデモ)' : '観測の変化（デモ指数）',
+                    style: const TextStyle(fontWeight: FontWeight.w600, color: CommandCenterTheme.textPrimary),
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: 120,
+                    width: double.infinity,
+                    child: CustomPaint(
+                      painter: MonitoringChartPainter(
+                        points: chartPoints,
+                        highlightIndex: highlight,
+                        progress: viewModel.animatedProgress,
+                      ),
+                      child: const SizedBox.expand(),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

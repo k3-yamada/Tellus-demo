@@ -112,22 +112,6 @@ def write_scene_thumbnail(site_id: str, sensor_id: str) -> str:
     return rel
 
 
-def write_scene_thumbnail(site_id: str, sensor_id: str) -> str:
-    rel = f"assets/images/multi_sensor/{site_id}_{sensor_id}.png"
-    out = THUMB_DIR / f"{site_id}_{sensor_id}.png"
-    seed = f"{site_id}:{sensor_id}"
-    if sensor_id in ("palsar2_l21", "palsar2_scansar"):
-        write_gray_png(
-            out,
-            320,
-            200,
-            make_sar_pixels(seed, coarse=sensor_id == "palsar2_scansar"),
-        )
-    else:
-        write_rgb_png(out, 320, 200, make_optical_pixels(seed))
-    return rel
-
-
 def synth_scene(
     site_id: str, sensor_id: str, year: int, month: int, day: int, orbit: str | None
 ) -> dict:
