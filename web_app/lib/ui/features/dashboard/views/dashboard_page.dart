@@ -15,6 +15,8 @@ import 'map_panel.dart';
 import 'side_panel.dart';
 import 'time_slider_bar.dart';
 import '../../../core/theme/command_center_theme.dart';
+import '../../../core/widgets/provenance_widgets.dart';
+import 'package:intl/intl.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -120,6 +122,15 @@ class _DashboardPageState extends State<DashboardPage>
               _Header(generatedAt: vm.snapshot?.generatedAt ?? ''),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                child: const HeroClaimBar(
+                  icon: Icons.satellite_alt,
+                  title: 'SARの強み',
+                  subtitle: '雲や夜間でも「いつ・どこを撮影したか」を記録。インフラの変化を時系列でたどれます。',
+                  trailing: ProvenanceBadge(provenance: DataProvenance.demo, compact: true),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                 child: SummaryCard(
                   qualityReport: vm.qualityReport,
                   insights: vm.summaryInsights,
@@ -127,6 +138,15 @@ class _DashboardPageState extends State<DashboardPage>
                   totalObservations: totalObs,
                 ),
               ),
+              if (vm.snapshot?.dataDisclaimer != null &&
+                  vm.snapshot!.dataDisclaimer!.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                  child: DataProvenanceBanner(
+                    message: vm.snapshot!.dataDisclaimer!,
+                    provenance: DataProvenance.demo,
+                  ),
+                ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                 child: _ControlBar(viewModel: vm),
@@ -169,80 +189,118 @@ class _ControlBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SegmentedButton<ViewMode>(
-          segments: const [
-            ButtonSegment(value: ViewMode.explorer, label: Text('Explorer'), icon: Icon(Icons.explore, size: 16)),
-            ButtonSegment(value: ViewMode.analyst, label: Text('Analyst'), icon: Icon(Icons.analytics, size: 16)),
-          ],
-          selected: {viewModel.viewMode},
-          onSelectionChanged: (s) => viewModel.setViewMode(s.first),
-          style: ButtonStyle(
-            visualDensity: VisualDensity.compact,
-            textStyle: const WidgetStatePropertyAll(TextStyle(fontSize: 11)),
-          ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                for (final s in DemoScenario.values)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 6),
-                    child: FilterChip(
-                      label: Text(_scenarioLabel(s, viewModel)),
-                      selected: viewModel.scenario == s,
-                      onSelected: (_) => viewModel.setScenario(s),
-                    ),
-                  ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final compact = constraints.maxWidth < 1180;
+        return Row(
+          children: [
+            SegmentedButton<ViewMode>(
+              segments: const [
+                ButtonSegment(value: ViewMode.explorer, label: Text('Explorer'), icon: Icon(Icons.explore, size: 16)),
+                ButtonSegment(value: ViewMode.analyst, label: Text('Analyst'), icon: Icon(Icons.analytics, size: 16)),
               ],
+              selected: {viewModel.viewMode},
+              onSelectionChanged: (s) => viewModel.setViewMode(s.first),
+              style: ButtonStyle(
+                visualDensity: VisualDensity.compact,
+                textStyle: const WidgetStatePropertyAll(TextStyle(fontSize: 11)),
+              ),
             ),
-          ),
-        ),
-        const SizedBox(width: 8),
-        const TemplateSwitcher(),
-        IconButton(
-          icon: const Icon(Icons.list_alt, size: 20),
-          tooltip: 'カタログ',
-          onPressed: () => Navigator.push(
-              context, MaterialPageRoute(builder: (_) => const CatalogPage())),
-        ),
-        IconButton(
-          key: const ValueKey('nav_disaster_archive'),
-          icon: const Icon(Icons.warning_amber, size: 20),
-          tooltip: '災害アーカイブ',
-          onPressed: () => Navigator.push(context,
-              MaterialPageRoute(builder: (_) => const DisasterArchivePage())),
-        ),
-        IconButton(
-          key: const ValueKey('nav_multi_sensor'),
-          icon: const Icon(Icons.compare, size: 20),
-          tooltip: 'マルチセンサー比較',
-          onPressed: () => Navigator.push(context,
-              MaterialPageRoute(builder: (_) => const MultiSensorPage())),
-        ),
-        IconButton(
-          key: const ValueKey('nav_tellusar'),
-          icon: const Icon(Icons.science, size: 20),
-          tooltip: 'TelluSAR InSAR デモ',
-          onPressed: () => _openTellusar(context, viewModel),
-        ),
-        IconButton(
-          icon: const Icon(Icons.account_tree, size: 20),
-          tooltip: 'アーキテクチャ',
-          onPressed: () => showArchitectureExplainerOverlay(context),
-        ),
-        IconButton(
-          icon: const Icon(Icons.shopping_cart_outlined, size: 20),
-          tooltip: '調達デモ',
-          onPressed: () => Navigator.push(context,
-              MaterialPageRoute(builder: (_) => const ProcurementPage())),
-        ),
-      ],
+            const SizedBox(width: 12),
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    for (final s in DemoScenario.values)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 6),
+                        child: FilterChip(
+                          label: Text(_scenarioLabel(s, viewModel)),
+                          selected: viewModel.scenario == s,
+                          onSelected: (_) => viewModel.setScenario(s),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            const TemplateSwitcher(),
+            if (compact)
+              PopupMenuButton<String>(
+                tooltip: 'その他の画面',
+                icon: const Icon(Icons.more_horiz, size: 20),
+                onSelected: (value) => _navigate(context, value, viewModel),
+                itemBuilder: (ctx) => const [
+                  PopupMenuItem(value: 'catalog', child: Text('データカタログ')),
+                  PopupMenuItem(value: 'disaster', child: Text('災害アーカイブ')),
+                  PopupMenuItem(value: 'multi', child: Text('マルチセンサー')),
+                  PopupMenuItem(value: 'tellusar', child: Text('TelluSAR InSAR')),
+                  PopupMenuItem(value: 'architecture', child: Text('システム解説')),
+                  PopupMenuItem(value: 'procurement', child: Text('調達デモ')),
+                ],
+              )
+            else ...[
+              IconButton(
+                icon: const Icon(Icons.list_alt, size: 20),
+                tooltip: 'カタログ',
+                onPressed: () => Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => const CatalogPage())),
+              ),
+              IconButton(
+                key: const ValueKey('nav_disaster_archive'),
+                icon: const Icon(Icons.warning_amber, size: 20),
+                tooltip: '災害アーカイブ',
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const DisasterArchivePage())),
+              ),
+              IconButton(
+                key: const ValueKey('nav_multi_sensor'),
+                icon: const Icon(Icons.compare, size: 20),
+                tooltip: 'マルチセンサー比較',
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const MultiSensorPage())),
+              ),
+              IconButton(
+                key: const ValueKey('nav_tellusar'),
+                icon: const Icon(Icons.science, size: 20),
+                tooltip: 'TelluSAR InSAR デモ',
+                onPressed: () => _openTellusar(context, viewModel),
+              ),
+              IconButton(
+                icon: const Icon(Icons.account_tree, size: 20),
+                tooltip: 'アーキテクチャ',
+                onPressed: () => showArchitectureExplainerOverlay(context),
+              ),
+              IconButton(
+                icon: const Icon(Icons.shopping_cart_outlined, size: 20),
+                tooltip: '調達デモ',
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const ProcurementPage())),
+              ),
+            ],
+          ],
+        );
+      },
     );
+  }
+
+  void _navigate(BuildContext context, String value, DashboardViewModel vm) {
+    switch (value) {
+      case 'catalog':
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const CatalogPage()));
+      case 'disaster':
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const DisasterArchivePage()));
+      case 'multi':
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const MultiSensorPage()));
+      case 'tellusar':
+        _openTellusar(context, vm);
+      case 'architecture':
+        showArchitectureExplainerOverlay(context);
+      case 'procurement':
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const ProcurementPage()));
+    }
   }
 
   void _openTellusar(BuildContext context, DashboardViewModel vm) {
@@ -292,7 +350,7 @@ class _ControlBar extends StatelessWidget {
       DemoScenario.embankment => '堤防',
       DemoScenario.slope => '斜面',
       DemoScenario.rainySeason => '梅雨',
-      DemoScenario.longTerm => '長期',
+      DemoScenario.longTerm => '長期(90日)',
     };
     if (s == DemoScenario.embankment || s == DemoScenario.slope) return base;
     final count = vm.filteredCountFor(vm.selectedRegion);
@@ -362,13 +420,25 @@ class _Header extends StatelessWidget {
           ),
           ),
           const Spacer(),
+          const ProvenanceBadge(provenance: DataProvenance.demo, compact: true),
+          const SizedBox(width: 8),
           if (generatedAt.isNotEmpty)
             Text(
-              '更新: $generatedAt',
+              '更新: ${_formatGeneratedAt(generatedAt)}',
               style: const TextStyle(fontSize: 10, color: CommandCenterTheme.textMuted),
             ),
         ],
       ),
     );
+  }
+}
+
+
+String _formatGeneratedAt(String raw) {
+  try {
+    final dt = DateTime.parse(raw).toLocal();
+    return DateFormat('yyyy/MM/dd HH:mm').format(dt);
+  } catch (_) {
+    return raw.length > 19 ? raw.substring(0, 19) : raw;
   }
 }

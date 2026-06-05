@@ -7,6 +7,7 @@ import '../../../../domain/models/region.dart';
 import '../view_models/dashboard_view_model.dart';
 import '../../../core/theme/command_center_theme.dart';
 import '../widgets/displacement_legend.dart';
+import '../../../core/widgets/provenance_widgets.dart';
 
 class MapPanel extends StatelessWidget {
   const MapPanel({
@@ -75,6 +76,12 @@ class MapPanel extends StatelessWidget {
             right: 10,
             bottom: 10,
             child: DisplacementLegend(displacementMm: disp),
+          ),
+        if (viewModel.viewMode == ViewMode.explorer)
+          const Positioned(
+            left: 10,
+            bottom: 10,
+            child: MarkerIndexLegend(),
           ),
       ],
     );
@@ -163,11 +170,12 @@ class MapPanel extends StatelessWidget {
             ),
             if (obs != null)
               Text(
-                obs.monitoringIndex.toStringAsFixed(2),
+                '指数 ${obs.monitoringIndex.toStringAsFixed(2)}・デモ',
                 maxLines: 1,
                 style: const TextStyle(
-                  color: CommandCenterTheme.accent,
-                  fontSize: 9,
+                  color: CommandCenterTheme.dataDemo,
+                  fontSize: 8,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
           ],

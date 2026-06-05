@@ -72,6 +72,12 @@ class _SwitcherBody extends StatelessWidget {
         onChanged: (template) {
           if (template == null) return;
           dashboard.switchTemplate(template);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('テンプレートを「${template.displayName}」に切り替えました'),
+              duration: const Duration(seconds: 3),
+            ),
+          );
         },
         style: const TextStyle(
             fontSize: 12, color: CommandCenterTheme.textPrimary),

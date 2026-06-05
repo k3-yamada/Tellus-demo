@@ -23,6 +23,7 @@ class MultiSensorViewModel extends ChangeNotifier {
   String? get error => _error;
   List<SatelliteSensor> get sensors => _catalog?.sensors ?? const [];
   List<ObservationSite> get sites => _catalog?.sites ?? const [];
+  String? get disclaimer => _catalog?.disclaimer;
   Set<SensorModality> get enabledModalities => _enabledModalities;
 
   ObservationSite? get selectedSite {

@@ -53,6 +53,7 @@ class InfrastructureRepositoryImpl implements InfrastructureRepository {
         .toList();
     final tellusPortalUrl = meta['tellusPortalUrl'] as String?;
     final tellusarSuggestedPair = meta['tellusarSuggestedPair'] as Map<String, dynamic>?;
+    final dataDisclaimer = meta['disclaimer'] as String?;
 
     final regions = <Region>[];
     const regionOrder = ['joganji', 'tateyama'];
@@ -105,6 +106,7 @@ class InfrastructureRepositoryImpl implements InfrastructureRepository {
       datasetsCatalog: datasetsCatalog,
       tellusPortalUrl: tellusPortalUrl,
       tellusarSuggestedPair: tellusarSuggestedPair,
+      dataDisclaimer: dataDisclaimer,
     );
   }
 

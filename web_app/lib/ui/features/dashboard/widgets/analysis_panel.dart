@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../view_models/dashboard_view_model.dart';
 import '../../../core/theme/command_center_theme.dart';
 import 'displacement_chart.dart';
+import '../../../core/widgets/provenance_widgets.dart';
 
 class AnalysisPanel extends StatelessWidget {
   const AnalysisPanel({super.key, required this.viewModel});
@@ -25,18 +26,25 @@ class AnalysisPanel extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            Row(
               children: [
-                Icon(Icons.analytics, size: 16, color: CommandCenterTheme.accentWarm),
-                SizedBox(width: 6),
-                Text('解析パネル (Analyst)', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12)),
+                const Icon(Icons.analytics, size: 16, color: CommandCenterTheme.accentWarm),
+                const SizedBox(width: 6),
+                const Expanded(
+                  child: Text('解析パネル (Analyst)', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12)),
+                ),
+                const ProvenanceBadge(
+                  provenance: DataProvenance.demo,
+                  compact: true,
+                  tooltip: '変位・チャートはデモ用の仮データです。TelluSAR実解析ではありません。',
+                ),
               ],
             ),
             const SizedBox(height: 8),
             if (demo?.disclaimer != null)
               Text(
-                demo!.disclaimer!,
-                style: const TextStyle(fontSize: 10, color: CommandCenterTheme.accentWarm),
+                _jaDisclaimer(demo!.disclaimer!),
+                style: const TextStyle(fontSize: 10, color: CommandCenterTheme.dataDemo),
               ),
             const SizedBox(height: 8),
             _row('選択日時', currentDate),
@@ -128,4 +136,11 @@ class AnalysisPanel extends StatelessWidget {
       ),
     );
   }
+}
+
+String _jaDisclaimer(String raw) {
+  if (raw.contains('Demo values only')) {
+    return '※ 表示中の変位はデモ用の仮データです（TelluSAR 実解析ではありません）';
+  }
+  return raw;
 }

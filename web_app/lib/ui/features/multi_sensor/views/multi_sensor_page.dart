@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../../domain/models/multi_sensor.dart';
 import '../../../../domain/repositories/multi_sensor_repository.dart';
 import '../../../core/theme/command_center_theme.dart';
+import '../../../core/widgets/provenance_widgets.dart';
 import '../widgets/multi_sensor_scene_preview.dart';
 import '../view_models/multi_sensor_view_model.dart';
 
@@ -51,6 +52,19 @@ class _Scaffold extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const HeroClaimBar(
+            icon: Icons.compare,
+            title: 'SAR と光学の違い',
+            subtitle: '同じ場所でもセンサーによって見え方が変わります。Tellus は SAR だけでなく光学データも扱えます。',
+          ),
+          const SizedBox(height: 12),
+          if (vm.disclaimer != null && vm.disclaimer!.isNotEmpty)
+            DataProvenanceBanner(
+              message: vm.disclaimer!,
+              provenance: DataProvenance.demo,
+            ),
+          if (vm.disclaimer != null && vm.disclaimer!.isNotEmpty)
+            const SizedBox(height: 12),
           _SiteSelector(vm: vm),
           const SizedBox(height: 12),
           _ModalityFilter(vm: vm),
