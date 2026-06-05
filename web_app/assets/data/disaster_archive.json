@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "generatedAt": "2026-06-05T08:05:39.731570Z",
-  "disclaimer": "本デモのシーン ID と取得時刻は合成データです。Tellus dataset ID は実在しますが、個別シーンの配信状況は Tellus 側で確認が必要です。",
+  "disclaimer": "災害アーカイブのサムネイルは Tellus Traveler から取得した実 SAR 画像をバンドルしています。フェーズごとの取得日ウィンドウで地域内の代表シーンを検索し、sceneId は Tellus 実 ID に差し替えます。表示日付はデモ用メタデータであり、実シーンの撮影日と一致しない場合があります。",
   "events": [
     {
       "id": "noto_2024",
@@ -14,7 +14,7 @@
         {
           "phase": "before",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "5dc43c7e-49e8-2ca7-c72e-289dadca04a7",
+          "sceneId": "99030c17-3d28-414c-82c4-eb8f959850bb",
           "acquisitionDate": "2023-12-25",
           "acquisitionDatetime": "2023-12-25T16:10:00Z",
           "orbitDirection": "ascending",
@@ -25,7 +25,7 @@
         {
           "phase": "during",
           "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
-          "sceneId": "fcf62c3c-57b2-fade-e06b-25b1239b5263",
+          "sceneId": "e202dbdb-e7e0-41aa-84ce-8b02cdf420af",
           "acquisitionDate": "2024-01-03",
           "acquisitionDatetime": "2024-01-03T16:10:00Z",
           "orbitDirection": "ascending",
@@ -36,7 +36,7 @@
         {
           "phase": "after",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "425e6be7-7ca1-c5e9-f561-63b7aa120562",
+          "sceneId": "46361a7a-f05c-42fc-bac0-b0869d672769",
           "acquisitionDate": "2024-01-31",
           "acquisitionDatetime": "2024-01-31T16:10:00Z",
           "orbitDirection": "descending",
@@ -58,7 +58,7 @@
         {
           "phase": "before",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "14f806f9-d940-ed06-74f8-54dc1768f4e4",
+          "sceneId": "63d40553-546c-4b67-bd09-ad586609ed38",
           "acquisitionDate": "2018-06-22",
           "acquisitionDatetime": "2018-06-22T00:00:00Z",
           "orbitDirection": "ascending",
@@ -69,7 +69,7 @@
         {
           "phase": "during",
           "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
-          "sceneId": "1b0f48d3-cd05-d262-62b0-b40641d7eae8",
+          "sceneId": "b1b7eb7a-7400-42ee-a792-9c0de4894acc",
           "acquisitionDate": "2018-07-08",
           "acquisitionDatetime": "2018-07-08T00:00:00Z",
           "orbitDirection": "descending",
@@ -80,7 +80,7 @@
         {
           "phase": "after",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "3ede7b32-985f-4317-c1d2-65d184e5cece",
+          "sceneId": "fb716120-16a6-47db-918f-f3c42daf02df",
           "acquisitionDate": "2018-07-27",
           "acquisitionDatetime": "2018-07-27T00:00:00Z",
           "orbitDirection": "ascending",
@@ -102,7 +102,7 @@
         {
           "phase": "before",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "a21f48c0-d57b-cd43-0362-a13abd59e53a",
+          "sceneId": "b9c59c10-c9fc-469a-8621-ee5cb118e89f",
           "acquisitionDate": "2021-06-23",
           "acquisitionDatetime": "2021-06-23T00:00:00Z",
           "orbitDirection": "ascending",
@@ -113,7 +113,7 @@
         {
           "phase": "during",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "231ca2e1-fe75-11c7-a127-9c887c5ef408",
+          "sceneId": "49c9455e-d957-4707-b07a-e9bd08dbd88f",
           "acquisitionDate": "2021-07-06",
           "acquisitionDatetime": "2021-07-06T00:00:00Z",
           "orbitDirection": "descending",
@@ -124,7 +124,7 @@
         {
           "phase": "after",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "b200eb0b-cb79-20a5-724f-cba8046759c3",
+          "sceneId": "d85e48a8-4e8d-4bf0-86ac-c945bf7063a6",
           "acquisitionDate": "2021-08-17",
           "acquisitionDatetime": "2021-08-17T00:00:00Z",
           "orbitDirection": "ascending",
@@ -137,5 +137,5 @@
     }
   ],
   "thumbnailSource": "tellus_cached",
-  "thumbnailCachedAt": "2026-06-05T11:17:07.391516Z"
+  "thumbnailCachedAt": "2026-06-05T12:06:50.762113Z"
 }

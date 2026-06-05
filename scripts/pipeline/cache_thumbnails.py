@@ -21,8 +21,8 @@ import json
 import os
 import sys
 import time
-from dataclasses import dataclass
-from datetime import datetime, timezone
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterator
 
@@ -50,6 +50,21 @@ DATASET_SLUG = {
 BBOX_DELTA_DEG = 0.08
 
 
+def disaster_phase_date_window(phase: str, acquisition_date: str) -> tuple[str, str]:
+    """フェーズ別に Tellus 検索用の日付ウィンドウを返す（YYYY-MM-DD）。"""
+    base = datetime.strptime(acquisition_date[:10], "%Y-%m-%d").date()
+    if phase == "before":
+        gte = (base - timedelta(days=30)).isoformat()
+        lte = base.isoformat()
+    elif phase == "during":
+        gte = (base - timedelta(days=7)).isoformat()
+        lte = (base + timedelta(days=7)).isoformat()
+    else:
+        gte = base.isoformat()
+        lte = (base + timedelta(days=30)).isoformat()
+    return gte, lte
+
+
 def asset_out_path(asset_rel: str) -> Path:
     """assets/images/... → web_app/assets/images/..."""
     return PROJECT_ROOT / "web_app" / asset_rel
@@ -66,6 +81,8 @@ class CacheJob:
     lon: float | None = None
     acquisition_gte: str | None = None
     acquisition_lte: str | None = None
+    resolved_data_id: str | None = field(default=None, repr=False)
+    resolved_dataset_id: str | None = field(default=None, repr=False)
 
 
 def bbox_polygon(lon: float, lat: float, delta: float = BBOX_DELTA_DEG) -> dict[str, Any]:
@@ -155,18 +172,41 @@ def cache_one(
     dataset_id = job.dataset_id
 
     if use_bbox_search and job.lat is not None and job.lon is not None:
-        # 合成メタの取得日は Tellus 実シーンと一致しないため、BBOX のみで検索する。
-        found = search_scene_near(
-            session,
-            headers,
-            dataset_id=dataset_id,
-            lat=job.lat,
-            lon=job.lon,
-        )
-        time.sleep(RATE_LIMIT_SLEEP)
+        found = None
+        date_windows: list[tuple[str | None, str | None]] = []
+        if job.acquisition_gte and job.acquisition_lte:
+            date_windows.append((job.acquisition_gte, job.acquisition_lte))
+            # 狭いウィンドウでヒットしない場合に広げる
+            try:
+                g = datetime.strptime(job.acquisition_gte[:10], "%Y-%m-%d").date()
+                l = datetime.strptime(job.acquisition_lte[:10], "%Y-%m-%d").date()
+                mid = g + (l - g) / 2
+                pad = max((l - g).days, 7)
+                wide_g = (mid - timedelta(days=pad)).isoformat()
+                wide_l = (mid + timedelta(days=pad)).isoformat()
+                date_windows.append((wide_g, wide_l))
+            except ValueError:
+                pass
+        date_windows.append((None, None))
+
+        for gte, lte in date_windows:
+            found = search_scene_near(
+                session,
+                headers,
+                dataset_id=dataset_id,
+                lat=job.lat,
+                lon=job.lon,
+                acquisition_gte=gte,
+                acquisition_lte=lte,
+            )
+            time.sleep(RATE_LIMIT_SLEEP)
+            if found:
+                break
         if not found:
             return False, "bbox_search_miss"
         data_id, dataset_id = found
+        job.resolved_data_id = data_id
+        job.resolved_dataset_id = dataset_id
 
     thumb_url = fetch_thumbnail_url(session, headers, dataset_id, data_id)
     time.sleep(RATE_LIMIT_SLEEP)
@@ -273,6 +313,9 @@ def disaster_jobs(data: dict[str, Any]) -> list[CacheJob]:
             rel = f"assets/images/disaster/cached/{event_id}_{label}.png"
             out = asset_out_path(rel)
             acq = phase.get("acquisitionDate")
+            if not acq:
+                continue
+            gte, lte = disaster_phase_date_window(label, acq)
             jobs.append(
                 CacheJob(
                     scene_id,
@@ -281,8 +324,8 @@ def disaster_jobs(data: dict[str, Any]) -> list[CacheJob]:
                     out,
                     lat=lat,
                     lon=lon,
-                    acquisition_gte=acq,
-                    acquisition_lte=acq,
+                    acquisition_gte=gte,
+                    acquisition_lte=lte,
                 )
             )
     return jobs
@@ -486,8 +529,34 @@ def cache_disaster(path: Path, *, dry_run: bool, skip_existing: bool, bbox_searc
         return rel if files.get(rel) and files[rel].is_file() else None
 
     updated = patch_json_entries(path, jobs, walk, rel_for)
+
+    with path.open(encoding="utf-8") as f:
+        data = json.load(f)
+    scene_updates = 0
+    job_by_rel = {j.asset_rel: j for j in jobs}
+    for event in data.get("events") or []:
+        eid = event.get("id") or ""
+        for phase in event.get("phases") or []:
+            label = phase.get("phase") or "phase"
+            rel = f"assets/images/disaster/cached/{eid}_{label}.png"
+            job = job_by_rel.get(rel)
+            if not job or not job.resolved_data_id:
+                continue
+            if phase.get("sceneId") != job.resolved_data_id:
+                phase["sceneId"] = job.resolved_data_id
+                scene_updates += 1
+            if job.resolved_dataset_id and phase.get("datasetId") != job.resolved_dataset_id:
+                phase["datasetId"] = job.resolved_dataset_id
+    if scene_updates:
+        data["thumbnailCachedAt"] = datetime.now(timezone.utc).isoformat().replace(
+            "+00:00", "Z"
+        )
+        with path.open("w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+            f.write("\n")
+
     print(f"Stats: {stats}")
-    print(f"Patched {updated} phases in {path}")
+    print(f"Patched {updated} thumbnail URLs, {scene_updates} scene IDs in {path}")
 
 
 def cache_multi_sensor(

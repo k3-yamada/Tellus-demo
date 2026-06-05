@@ -13,6 +13,7 @@ from cache_thumbnails import (  # noqa: E402
     asset_out_path,
     bbox_polygon,
     disaster_jobs,
+    disaster_phase_date_window,
     infra_jobs_by_dataset,
     patch_infra_observations,
     sensor_dataset_map,
@@ -51,6 +52,15 @@ def test_sensor_dataset_map():
     assert sensor_dataset_map(data) == {"palsar2_l21": "ds-1"}
 
 
+def test_disaster_phase_date_window():
+    gte, lte = disaster_phase_date_window("during", "2024-01-03")
+    assert gte == "2023-12-27"
+    assert lte == "2024-01-10"
+    gte_b, lte_b = disaster_phase_date_window("before", "2024-01-03")
+    assert lte_b == "2024-01-03"
+    assert gte_b < lte_b
+
+
 def test_disaster_jobs_paths():
     data = {
         "events": [{
@@ -67,6 +77,8 @@ def test_disaster_jobs_paths():
     }
     jobs = disaster_jobs(data)
     assert jobs[0].asset_rel.endswith("noto_2024_before.png")
+    assert jobs[0].acquisition_gte == "2023-11-25"
+    assert jobs[0].acquisition_lte == "2023-12-25"
 
 
 def test_patch_infra_by_dataset(tmp_path: Path):

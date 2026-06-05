@@ -104,6 +104,7 @@ python pipeline/cache_thumbnails.py --target all --bbox-search
 ```
 
 - 取得した PNG は `web_app/assets/images/**/cached/` に保存され、JSON の `thumbnailUrl` が `assets/images/...` に更新される。
+- 災害アーカイブはフェーズ別の取得日ウィンドウ（before/during/after）で Tellus を検索する。再取得時は `--no-skip-existing` を付ける。
 - API キーは `.env` のみ（ブラウザ・BFF には露出しない）。Tellus データの利用は [Tellus 利用規約](https://www.tellusxdp.com/) に従う。
 - キーがない環境では従来の `generate_*`（合成 PNG）を使う。`cache_thumbnails.py` はキー未設定時に終了コード 1 で案内する。
 
