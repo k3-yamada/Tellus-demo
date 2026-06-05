@@ -120,56 +120,58 @@ class MapPanel extends StatelessWidget {
     return Marker(
       point: LatLng(region.lat, region.lng),
       width: 132,
-      height: 54,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 18,
-            height: 18,
-            decoration: BoxDecoration(
-              color: color,
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 2),
-              boxShadow: [
-                BoxShadow(
-                  color: color.withValues(alpha: 0.6),
-                  blurRadius: 12,
+      height: 56,
+      child: ClipRect(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 18,
+              height: 18,
+              decoration: BoxDecoration(
+                color: color,
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 2),
+                boxShadow: [
+                  BoxShadow(
+                    color: color.withValues(alpha: 0.6),
+                    blurRadius: 12,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 4),
+            Container(
+              constraints: const BoxConstraints(maxWidth: 120),
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: CommandCenterTheme.panel.withValues(alpha: 0.92),
+                borderRadius: BorderRadius.circular(4),
+                border: Border.all(color: CommandCenterTheme.border),
+              ),
+              child: Text(
+                region.name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: CommandCenterTheme.textPrimary,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
                 ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 4),
-          Container(
-            constraints: const BoxConstraints(maxWidth: 120),
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-            decoration: BoxDecoration(
-              color: CommandCenterTheme.panel.withValues(alpha: 0.92),
-              borderRadius: BorderRadius.circular(4),
-              border: Border.all(color: CommandCenterTheme.border),
-            ),
-            child: Text(
-              region.name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: CommandCenterTheme.textPrimary,
-                fontSize: 10,
-                fontWeight: FontWeight.w600,
               ),
             ),
-          ),
-          if (obs != null)
-            Text(
-              obs.monitoringIndex.toStringAsFixed(2),
-              maxLines: 1,
-              style: const TextStyle(
-                color: CommandCenterTheme.accent,
-                fontSize: 9,
+            if (obs != null)
+              Text(
+                obs.monitoringIndex.toStringAsFixed(2),
+                maxLines: 1,
+                style: const TextStyle(
+                  color: CommandCenterTheme.accent,
+                  fontSize: 9,
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
