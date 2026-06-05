@@ -14,7 +14,7 @@
 | `embankment` | 堤防監視 — 常願寺川流域 | joganji |
 | `slope` | 斜面監視 — 立山室堂 | tateyama |
 | `rainySeason` | 梅雨期重点 — 両地域、夏季フィルタ | joganji |
-| `longTerm` | 長期トレンド — 全期間 | joganji |
+| `longTerm` | 長期トレンド — 直近90日（最新観測から遡る） | joganji |
 
 ## Displacement Demo
 

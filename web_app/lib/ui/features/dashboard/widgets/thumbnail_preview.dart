@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../domain/models/observation.dart';
 import '../../../core/assets/bundled_asset_path.dart';
 import '../../../core/theme/command_center_theme.dart';
+import '../../../core/widgets/provenance_widgets.dart';
 
 class ThumbnailPreview extends StatelessWidget {
   const ThumbnailPreview({
@@ -21,6 +22,7 @@ class ThumbnailPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final url = imageUrl ?? observation?.thumbnailUrl;
+    final hasUrl = url != null && url.isNotEmpty;
 
     return Card(
       child: Padding(
@@ -32,10 +34,13 @@ class ThumbnailPreview extends StatelessWidget {
               children: [
                 const Icon(Icons.image, size: 16, color: CommandCenterTheme.accent),
                 const SizedBox(width: 6),
-                Text(
-                  title,
-                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+                  ),
                 ),
+                _thumbnailSourceBadge(url),
               ],
             ),
             const SizedBox(height: 8),
@@ -47,7 +52,7 @@ class ThumbnailPreview extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: CommandCenterTheme.border),
                 ),
-                child: url != null && url.isNotEmpty
+                child: hasUrl
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(7),
                         child: _buildImage(url),
@@ -113,5 +118,51 @@ class ThumbnailPreview extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _thumbnailSourceBadge(String? url) {
+    if (isBundledAssetUrl(url)) {
+      return const ProvenanceBadge(
+        provenance: DataProvenance.bundled,
+        compact: true,
+        tooltip: 'オフライン同梱の代表 SAR 画像です',
+      );
+    }
+    if (url != null && url.isNotEmpty) {
+      return const ProvenanceBadge(
+        provenance: DataProvenance.real,
+        compact: true,
+        tooltip: 'Tellus から取得したサムネイルです',
+      );
+    }
+    final hasFallback = fallbackAsset != null && fallbackAsset!.isNotEmpty;
+    return _inlineSourceBadge(
+      hasFallback ? '代表表示' : '未取得',
+      hasFallback ? CommandCenterTheme.textMuted : CommandCenterTheme.accentWarm,
+      tooltip: hasFallback
+          ? '観測日の画像がないため、同梱の代表画像を表示しています'
+          : 'この日付のサムネイルはまだありません',
+    );
+  }
+
+  Widget _inlineSourceBadge(String label, Color color, {String? tooltip}) {
+    final badge = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.14),
+        border: Border.all(color: color.withValues(alpha: 0.55)),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 9,
+          fontWeight: FontWeight.w700,
+          color: color,
+        ),
+      ),
+    );
+    if (tooltip == null) return badge;
+    return Tooltip(message: tooltip, child: badge);
   }
 }

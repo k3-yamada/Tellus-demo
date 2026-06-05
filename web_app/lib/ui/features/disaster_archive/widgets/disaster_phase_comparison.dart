@@ -463,11 +463,11 @@ class _DemoChangeOverlayFixed extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color:
-                          CommandCenterTheme.accentWarm.withValues(alpha: 0.75),
+                          CommandCenterTheme.dataDemo.withValues(alpha: 0.75),
                       width: 2,
                     ),
                     color:
-                        CommandCenterTheme.accentWarm.withValues(alpha: 0.2),
+                        CommandCenterTheme.dataDemo.withValues(alpha: 0.2),
                   ),
                 ),
               ),
@@ -485,7 +485,7 @@ class _DemoChangeOverlayFixed extends StatelessWidget {
                 child: const Text(
                   '変化',
                   style: TextStyle(
-                      fontSize: 9, color: CommandCenterTheme.accentWarm),
+                      fontSize: 9, color: CommandCenterTheme.dataDemo),
                 ),
               ),
             ),
@@ -504,15 +504,15 @@ class _DemoHighlightDisclaimer extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: CommandCenterTheme.accentWarm.withValues(alpha: 0.06),
+        color: CommandCenterTheme.dataDemo.withValues(alpha: 0.06),
         border: Border.all(
-            color: CommandCenterTheme.accentWarm.withValues(alpha: 0.25)),
+            color: CommandCenterTheme.dataDemo.withValues(alpha: 0.25)),
         borderRadius: BorderRadius.circular(6),
       ),
       child: const Row(
         children: [
           Icon(Icons.info_outline,
-              size: 14, color: CommandCenterTheme.accentWarm),
+              size: 14, color: CommandCenterTheme.dataDemo),
           SizedBox(width: 6),
           Expanded(
             child: Text(
