@@ -5,9 +5,9 @@
       "industry": "ダム監視",
       "icon": "🏔",
       "pitch": "貯水池周辺の地盤変位と斜面状態を SAR で継続観測",
-      "region_name": "小矢部川温井ダム周辺",
-      "lat": 36.7283,
-      "lon": 137.0833,
+      "region_name": "黒部ダム周辺",
+      "lat": 36.5662,
+      "lon": 137.6695,
       "asset_path": "assets/data/templates/dam.json"
     },
     {
@@ -16,8 +16,8 @@
       "icon": "🌉",
       "pitch": "長大橋・橋脚周辺の沈下と海岸侵食モニタリング",
       "region_name": "新湊大橋周辺",
-      "lat": 36.765,
-      "lon": 137.085,
+      "lat": 36.7765,
+      "lon": 137.1122,
       "asset_path": "assets/data/templates/bridge.json"
     },
     {
@@ -46,8 +46,8 @@
       "icon": "⚓",
       "pitch": "港湾施設・防波堤・コンテナヤードの変位検出",
       "region_name": "伏木富山港",
-      "lat": 36.785,
-      "lon": 137.0583,
+      "lat": 36.7883,
+      "lon": 137.0517,
       "asset_path": "assets/data/templates/port.json"
     }
   ]
