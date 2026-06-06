@@ -83,6 +83,21 @@ class DashboardViewModel extends ChangeNotifier {
     return dates.isEmpty ? 0 : dates.length - 1;
   }
 
+  /// タイムライン上で選択地域にサムネイルがある日付のスライダーインデックス。
+  List<int> thumbnailSliderIndicesFor(Region? region) {
+    if (region == null) return const [];
+    final dates = _snapshot?.sliderDates ?? [];
+    if (dates.isEmpty) return const [];
+    final indices = <int>[];
+    for (var i = 0; i < dates.length; i++) {
+      final obs = _latestAtOrBefore(region, dates[i]);
+      final url = obs?.thumbnailUrl;
+      if (url != null && url.isNotEmpty) indices.add(i);
+    }
+    return indices;
+  }
+
+
   String? get timelineYearStart {
     final dates = _snapshot?.sliderDates ?? [];
     if (dates.isEmpty) return null;

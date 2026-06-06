@@ -37,3 +37,17 @@ flutter:
     - assets/data/templates/port.json
     - assets/data/disaster_archive.json
     - assets/data/multi_sensor.json
+    - assets/images/disaster/
+    - assets/images/demo/
+    - assets/images/sar/
+    - assets/images/sar/cached/
+    - assets/images/multi_sensor/
+    - assets/images/multi_sensor/cached/
+    - assets/images/disaster/cached/
+    - assets/images/templates/cached/
+    # templates/ は業種別サブディレクトリ配下に PNG があるため明示登録
+    - assets/images/templates/dam/
+    - assets/images/templates/bridge/
+    - assets/images/templates/airport/
+    - assets/images/templates/shinkansen/
+    - assets/images/templates/port/
