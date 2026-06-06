@@ -96,7 +96,7 @@ def make_disaster_phase_pixels(
     event_id: str, phase: str, width: int = 320, height: int = 200
 ) -> list[int]:
     """SAR-like speckle with phase-specific brightness tweaks for disaster archive."""
-    pixels = make_sar_pixels(f"{event_id}:{phase}", width, height)
+    pixels = make_sar_pixels(event_id, width, height)
     if phase == "during":
         for y in range(height // 4, 3 * height // 4):
             for x in range(width):

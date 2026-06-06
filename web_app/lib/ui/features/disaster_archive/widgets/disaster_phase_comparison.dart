@@ -33,6 +33,10 @@ class DisasterPhaseComparison extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _SarValueBanner(event: event),
+        if (event.spatiallyAligned) ...[
+          const SizedBox(height: 8),
+          const _SpatialAlignmentBadge(),
+        ],
         const SizedBox(height: 12),
         _ComparisonModeToggle(
           mode: comparisonMode,
@@ -57,6 +61,35 @@ class DisasterPhaseComparison extends StatelessWidget {
 
 /// 並列表示 / スライダー比較の切替モード。
 enum DisasterComparisonMode { grid, slider }
+
+class _SpatialAlignmentBadge extends StatelessWidget {
+  const _SpatialAlignmentBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: CommandCenterTheme.accent.withValues(alpha: 0.1),
+        border: Border.all(
+          color: CommandCenterTheme.accent.withValues(alpha: 0.35),
+        ),
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.my_location, size: 14, color: CommandCenterTheme.accent),
+          SizedBox(width: 6),
+          Text(
+            '同一地点の 3 フェーズ比較',
+            style: TextStyle(fontSize: 10, color: CommandCenterTheme.accent),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class _SarValueBanner extends StatelessWidget {
   const _SarValueBanner({required this.event});

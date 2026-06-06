@@ -14,6 +14,8 @@ from cache_thumbnails import (  # noqa: E402
     bbox_polygon,
     disaster_jobs,
     disaster_phase_date_window,
+    pick_disaster_scene,
+    shrink_bbox,
     infra_jobs_by_dataset,
     patch_infra_observations,
     sensor_dataset_map,
@@ -61,6 +63,39 @@ def test_disaster_phase_date_window():
     assert gte_b < lte_b
 
 
+def test_pick_disaster_scene_prefers_anchor_overlap():
+    anchor = shrink_bbox((137.0, 37.0, 137.5, 37.5))
+    near = {
+        "id": "near-scene",
+        "dataset_id": "ds-1",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[137.1, 37.1], [137.3, 37.1], [137.3, 37.3], [137.1, 37.3], [137.1, 37.1]]],
+        },
+        "properties": {"start_datetime": "2024-01-02T00:00:00Z"},
+    }
+    far = {
+        "id": "far-scene",
+        "dataset_id": "ds-1",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[138.0, 38.0], [138.2, 38.0], [138.2, 38.2], [138.0, 38.2], [138.0, 38.0]]],
+        },
+        "properties": {"start_datetime": "2024-01-02T00:00:00Z"},
+    }
+    picked = pick_disaster_scene(
+        [far, near],
+        lat=37.2,
+        lon=137.2,
+        acquisition_gte="2024-01-01",
+        acquisition_lte="2024-01-10",
+        anchor_bbox=anchor,
+        target_date="2024-01-03",
+    )
+    assert picked is not None
+    assert picked["id"] == "near-scene"
+
+
 def test_disaster_jobs_paths():
     data = {
         "events": [{
@@ -77,6 +112,9 @@ def test_disaster_jobs_paths():
     }
     jobs = disaster_jobs(data)
     assert jobs[0].asset_rel.endswith("noto_2024_before.png")
+    assert jobs[0].event_id == "noto_2024"
+    assert jobs[0].phase_label == "before"
+    assert jobs[0].target_acquisition_date == "2023-12-25"
     assert jobs[0].acquisition_gte == "2023-11-25"
     assert jobs[0].acquisition_lte == "2023-12-25"
 

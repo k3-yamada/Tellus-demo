@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "generatedAt": "2026-06-05T08:05:39.731570Z",
-  "disclaimer": "災害アーカイブのサムネイルは Tellus Traveler から取得した実 SAR 画像をバンドルしています。フェーズごとの取得日ウィンドウで地域内の代表シーンを検索し、sceneId は Tellus 実 ID に差し替えます。表示日付はデモ用メタデータであり、実シーンの撮影日と一致しない場合があります。",
+  "disclaimer": "災害アーカイブのサムネイルは Tellus Traveler から取得した実 SAR 画像をバンドルしています。3 フェーズは同一イベント中心の狭い BBOX で検索し、事前フェーズの footprint をアンカーとして during/after を揃えます。表示日付はデモ用メタデータであり、実シーンの撮影日と一致しない場合があります。",
   "events": [
     {
       "id": "noto_2024",
@@ -14,7 +14,7 @@
         {
           "phase": "before",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "99030c17-3d28-414c-82c4-eb8f959850bb",
+          "sceneId": "afa3d3a1-9e4a-49a7-8537-8127f1edc7d4",
           "acquisitionDate": "2023-12-25",
           "acquisitionDatetime": "2023-12-25T16:10:00Z",
           "orbitDirection": "ascending",
@@ -25,7 +25,7 @@
         {
           "phase": "during",
           "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
-          "sceneId": "e202dbdb-e7e0-41aa-84ce-8b02cdf420af",
+          "sceneId": "e93e66d0-d800-48a0-910f-55cc4a5d1cab",
           "acquisitionDate": "2024-01-03",
           "acquisitionDatetime": "2024-01-03T16:10:00Z",
           "orbitDirection": "ascending",
@@ -45,7 +45,8 @@
           "note": "1 ヶ月後、隆起・土砂崩れの全容観測"
         }
       ],
-      "demoFocus": "海岸線の隆起・斜面崩壊"
+      "demoFocus": "海岸線の隆起・斜面崩壊",
+      "spatiallyAligned": true
     },
     {
       "id": "nishinihon_2018",
@@ -58,7 +59,7 @@
         {
           "phase": "before",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "63d40553-546c-4b67-bd09-ad586609ed38",
+          "sceneId": "d442a891-2a28-49b6-8d81-977d8fc804f7",
           "acquisitionDate": "2018-06-22",
           "acquisitionDatetime": "2018-06-22T00:00:00Z",
           "orbitDirection": "ascending",
@@ -80,7 +81,7 @@
         {
           "phase": "after",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "fb716120-16a6-47db-918f-f3c42daf02df",
+          "sceneId": "bd49a9df-c4b7-49b8-a1e6-572f1142e5d9",
           "acquisitionDate": "2018-07-27",
           "acquisitionDatetime": "2018-07-27T00:00:00Z",
           "orbitDirection": "ascending",
@@ -89,7 +90,8 @@
           "note": "3 週間後の浸水退潮確認"
         }
       ],
-      "demoFocus": "広域浸水域の検出 (SAR が雲を抜く)"
+      "demoFocus": "広域浸水域の検出 (SAR が雲を抜く)",
+      "spatiallyAligned": true
     },
     {
       "id": "atami_2021",
@@ -133,9 +135,10 @@
           "note": "1.5 ヶ月後、復旧進捗の確認"
         }
       ],
-      "demoFocus": "局所斜面の土砂流出パターン"
+      "demoFocus": "局所斜面の土砂流出パターン",
+      "spatiallyAligned": true
     }
   ],
   "thumbnailSource": "tellus_cached",
-  "thumbnailCachedAt": "2026-06-05T12:06:50.762113Z"
+  "thumbnailCachedAt": "2026-06-06T12:16:03.686014Z"
 }

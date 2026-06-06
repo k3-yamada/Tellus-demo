@@ -48,6 +48,9 @@ DATASET_SLUG = {
 }
 
 BBOX_DELTA_DEG = 0.08
+DISASTER_BBOX_DELTA_DEG = 0.025
+DISASTER_ANCHOR_SHRINK = 0.35
+DISASTER_PHASE_ORDER = {"before": 0, "during": 1, "after": 2}
 
 
 def disaster_phase_date_window(phase: str, acquisition_date: str) -> tuple[str, str]:
@@ -81,8 +84,154 @@ class CacheJob:
     lon: float | None = None
     acquisition_gte: str | None = None
     acquisition_lte: str | None = None
+    event_id: str | None = None
+    phase_label: str | None = None
+    target_acquisition_date: str | None = None
     resolved_data_id: str | None = field(default=None, repr=False)
     resolved_dataset_id: str | None = field(default=None, repr=False)
+    resolved_feature: dict[str, Any] | None = field(default=None, repr=False)
+
+
+def geometry_ring(geometry: dict[str, Any] | None) -> list[list[float]]:
+    return (geometry or {}).get("coordinates", [[]])[0]
+
+
+def feature_bbox(feature: dict[str, Any]) -> tuple[float, float, float, float] | None:
+    ring = geometry_ring(feature.get("geometry") or {})
+    if len(ring) < 3:
+        return None
+    lons = [point[0] for point in ring if len(point) >= 2]
+    lats = [point[1] for point in ring if len(point) >= 2]
+    if not lons or not lats:
+        return None
+    return min(lons), min(lats), max(lons), max(lats)
+
+
+def feature_centroid_lonlat(feature: dict[str, Any]) -> tuple[float, float] | None:
+    bbox = feature_bbox(feature)
+    if not bbox:
+        return None
+    min_lon, min_lat, max_lon, max_lat = bbox
+    return (min_lon + max_lon) / 2, (min_lat + max_lat) / 2
+
+
+def point_in_bbox(lon: float, lat: float, bbox: tuple[float, float, float, float]) -> bool:
+    min_lon, min_lat, max_lon, max_lat = bbox
+    return min_lon <= lon <= max_lon and min_lat <= lat <= max_lat
+
+
+def bboxes_overlap(
+    left: tuple[float, float, float, float],
+    right: tuple[float, float, float, float],
+) -> bool:
+    return not (
+        left[2] < right[0]
+        or left[0] > right[2]
+        or left[3] < right[1]
+        or left[1] > right[3]
+    )
+
+
+def shrink_bbox(
+    bbox: tuple[float, float, float, float],
+    factor: float = DISASTER_ANCHOR_SHRINK,
+) -> tuple[float, float, float, float]:
+    min_lon, min_lat, max_lon, max_lat = bbox
+    center_lon = (min_lon + max_lon) / 2
+    center_lat = (min_lat + max_lat) / 2
+    half_w = (max_lon - min_lon) / 2 * factor
+    half_h = (max_lat - min_lat) / 2 * factor
+    return (
+        center_lon - half_w,
+        center_lat - half_h,
+        center_lon + half_w,
+        center_lat + half_h,
+    )
+
+
+def parse_feature_date(feature: dict[str, Any]) -> datetime.date | None:
+    props = feature.get("properties") or {}
+    start = props.get("start_datetime") or ""
+    if not start:
+        return None
+    try:
+        return datetime.fromisoformat(start.replace("Z", "+00:00")).date()
+    except ValueError:
+        return None
+
+
+def scene_spatially_covers_event(
+    feature: dict[str, Any],
+    *,
+    lat: float,
+    lon: float,
+    max_delta: float = DISASTER_BBOX_DELTA_DEG,
+) -> bool:
+    bbox = feature_bbox(feature)
+    if bbox and point_in_bbox(lon, lat, bbox):
+        return True
+    centroid = feature_centroid_lonlat(feature)
+    if not centroid:
+        return False
+    clon, clat = centroid
+    return abs(clon - lon) <= max_delta and abs(clat - lat) <= max_delta
+
+
+def pick_disaster_scene(
+    candidates: list[dict[str, Any]],
+    *,
+    lat: float,
+    lon: float,
+    acquisition_gte: str | None,
+    acquisition_lte: str | None,
+    anchor_bbox: tuple[float, float, float, float] | None = None,
+    target_date: str | None = None,
+) -> dict[str, Any] | None:
+    """同一地点比較向け: イベント中心に最も近く、アンカー footprint と重なるシーンを選ぶ。"""
+    gte_date = (
+        datetime.strptime(acquisition_gte[:10], "%Y-%m-%d").date()
+        if acquisition_gte
+        else None
+    )
+    lte_date = (
+        datetime.strptime(acquisition_lte[:10], "%Y-%m-%d").date()
+        if acquisition_lte
+        else None
+    )
+    target = (
+        datetime.strptime(target_date[:10], "%Y-%m-%d").date()
+        if target_date
+        else None
+    )
+
+    filtered: list[dict[str, Any]] = []
+    for feature in candidates:
+        if not scene_spatially_covers_event(feature, lat=lat, lon=lon):
+            continue
+        bbox = feature_bbox(feature)
+        if anchor_bbox and bbox and not bboxes_overlap(bbox, anchor_bbox):
+            continue
+        feature_date = parse_feature_date(feature)
+        if gte_date and feature_date and feature_date < gte_date:
+            continue
+        if lte_date and feature_date and feature_date > lte_date:
+            continue
+        filtered.append(feature)
+
+    if not filtered:
+        return None
+
+    def score(feature: dict[str, Any]) -> tuple[float, float]:
+        centroid = feature_centroid_lonlat(feature) or (lon, lat)
+        spatial = (centroid[0] - lon) ** 2 + (centroid[1] - lat) ** 2
+        temporal = 0.0
+        if target:
+            feature_date = parse_feature_date(feature)
+            if feature_date:
+                temporal = float(abs((feature_date - target).days))
+        return (spatial, temporal)
+
+    return min(filtered, key=score)
 
 
 def bbox_polygon(lon: float, lat: float, delta: float = BBOX_DELTA_DEG) -> dict[str, Any]:
@@ -113,6 +262,46 @@ def download_image(session: requests.Session, url: str, dest: Path) -> bool:
         return False
 
 
+def search_scene_candidates(
+    session: requests.Session,
+    headers: dict[str, str],
+    *,
+    dataset_id: str,
+    lat: float,
+    lon: float,
+    acquisition_gte: str | None = None,
+    acquisition_lte: str | None = None,
+    bbox_delta: float = BBOX_DELTA_DEG,
+    page_size: int = 50,
+) -> list[dict[str, Any]]:
+    gte = acquisition_gte or "2016-01-01T00:00:00Z"
+    lte = acquisition_lte or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    if "T" not in gte:
+        gte = f"{gte}T00:00:00Z"
+    if "T" not in lte:
+        lte = f"{lte}T23:59:59Z"
+
+    body: dict[str, Any] = {
+        "datasets": [dataset_id],
+        "intersects": bbox_polygon(lon, lat, delta=bbox_delta),
+        "query": {
+            "start_datetime": {"gte": gte},
+            "end_datetime": {"lte": lte},
+        },
+        "sortby": [{"field": "properties.start_datetime", "direction": "desc"}],
+        "paginate": {"size": page_size, "cursor": None},
+    }
+
+    try:
+        payload = request_json(
+            session, "POST", DATA_SEARCH_URL, headers, json_body=body, exit_on_error=False
+        )
+    except (ValueError, PermissionError, requests.HTTPError):
+        return []
+
+    return list(payload.get("features") or [])
+
+
 def search_scene_near(
     session: requests.Session,
     headers: dict[str, str],
@@ -123,32 +312,15 @@ def search_scene_near(
     acquisition_gte: str | None = None,
     acquisition_lte: str | None = None,
 ) -> tuple[str, str] | None:
-    gte = acquisition_gte or "2016-01-01T00:00:00Z"
-    lte = acquisition_lte or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    if "T" not in gte:
-        gte = f"{gte}T00:00:00Z"
-    if "T" not in lte:
-        lte = f"{lte}T23:59:59Z"
-
-    body: dict[str, Any] = {
-        "datasets": [dataset_id],
-        "intersects": bbox_polygon(lon, lat),
-        "query": {
-            "start_datetime": {"gte": gte},
-            "end_datetime": {"lte": lte},
-        },
-        "sortby": [{"field": "properties.start_datetime", "direction": "desc"}],
-        "paginate": {"size": 10, "cursor": None},
-    }
-
-    try:
-        payload = request_json(
-            session, "POST", DATA_SEARCH_URL, headers, json_body=body, exit_on_error=False
-        )
-    except (ValueError, PermissionError, requests.HTTPError):
-        return None
-
-    for feature in payload.get("features") or []:
+    for feature in search_scene_candidates(
+        session,
+        headers,
+        dataset_id=dataset_id,
+        lat=lat,
+        lon=lon,
+        acquisition_gte=acquisition_gte,
+        acquisition_lte=acquisition_lte,
+    ):
         data_id = feature.get("id")
         ds_id = feature.get("dataset_id") or dataset_id
         if data_id and ds_id:
@@ -220,6 +392,154 @@ def cache_one(
         return False, "download_failed"
 
     return True, "cached"
+
+
+def _disaster_date_windows(job: CacheJob) -> list[tuple[str | None, str | None]]:
+    windows: list[tuple[str | None, str | None]] = []
+    if job.acquisition_gte and job.acquisition_lte:
+        windows.append((job.acquisition_gte, job.acquisition_lte))
+        try:
+            g = datetime.strptime(job.acquisition_gte[:10], "%Y-%m-%d").date()
+            l = datetime.strptime(job.acquisition_lte[:10], "%Y-%m-%d").date()
+            mid = g + (l - g) / 2
+            pad = max((l - g).days, 7)
+            wide_g = (mid - timedelta(days=pad)).isoformat()
+            wide_l = (mid + timedelta(days=pad)).isoformat()
+            windows.append((wide_g, wide_l))
+        except ValueError:
+            pass
+    windows.append((None, None))
+    return windows
+
+
+def cache_disaster_job_aligned(
+    session: requests.Session,
+    headers: dict[str, str],
+    job: CacheJob,
+    *,
+    anchor_bbox: tuple[float, float, float, float] | None,
+    dry_run: bool,
+    skip_existing: bool,
+) -> tuple[bool, str]:
+    skip_download = skip_existing and job.out_path.is_file()
+    if job.lat is None or job.lon is None:
+        return False, "missing_coords"
+
+    picked: dict[str, Any] | None = None
+    for gte, lte in _disaster_date_windows(job):
+        candidates = search_scene_candidates(
+            session,
+            headers,
+            dataset_id=job.dataset_id,
+            lat=job.lat,
+            lon=job.lon,
+            acquisition_gte=gte,
+            acquisition_lte=lte,
+            bbox_delta=DISASTER_BBOX_DELTA_DEG,
+        )
+        time.sleep(RATE_LIMIT_SLEEP)
+        picked = pick_disaster_scene(
+            candidates,
+            lat=job.lat,
+            lon=job.lon,
+            acquisition_gte=gte,
+            acquisition_lte=lte,
+            anchor_bbox=anchor_bbox,
+            target_date=job.target_acquisition_date,
+        )
+        if picked:
+            break
+
+    if not picked:
+        return False, "bbox_search_miss"
+
+    data_id = picked.get("id")
+    dataset_id = picked.get("dataset_id") or job.dataset_id
+    if not data_id:
+        return False, "bbox_search_miss"
+
+    job.resolved_data_id = data_id
+    job.resolved_dataset_id = dataset_id
+    job.resolved_feature = picked
+
+    if skip_download:
+        return True, "skipped"
+
+    thumb_url = fetch_thumbnail_url(session, headers, dataset_id, data_id)
+    time.sleep(RATE_LIMIT_SLEEP)
+    if not thumb_url:
+        return False, "no_thumbnail_url"
+
+    if dry_run:
+        return True, "dry_run"
+
+    if not download_image(session, thumb_url, job.out_path):
+        return False, "download_failed"
+
+    return True, "cached"
+
+
+def run_disaster_jobs_aligned(
+    jobs: list[CacheJob],
+    *,
+    dry_run: bool,
+    skip_existing: bool,
+) -> tuple[dict[str, int], dict[str, bool]]:
+    load_dotenv(ENV_PATH)
+    api_key = os.getenv("TELLUS_API_KEY", "").strip()
+    if not api_key:
+        print("Error: TELLUS_API_KEY not set (.env)", file=sys.stderr)
+        sys.exit(1)
+
+    session = build_session()
+    headers = auth_headers(api_key)
+    stats: dict[str, int] = {"cached": 0, "skipped": 0, "failed": 0, "dry_run": 0}
+    event_alignment: dict[str, bool] = {}
+
+    by_event: dict[str, list[CacheJob]] = {}
+    for job in jobs:
+        event_id = job.event_id or "event"
+        by_event.setdefault(event_id, []).append(job)
+
+    index = 0
+    total = len(jobs)
+    for event_id, event_jobs in by_event.items():
+        event_jobs.sort(
+            key=lambda j: DISASTER_PHASE_ORDER.get(j.phase_label or "", 99)
+        )
+        anchor_bbox: tuple[float, float, float, float] | None = None
+        phases_ok = 0
+        for job in event_jobs:
+            index += 1
+            ok, reason = cache_disaster_job_aligned(
+                session,
+                headers,
+                job,
+                anchor_bbox=anchor_bbox,
+                dry_run=dry_run,
+                skip_existing=skip_existing,
+            )
+            if ok:
+                stats[reason if reason in stats else "cached"] += 1
+                phases_ok += 1
+                if job.resolved_feature and job.phase_label == "before":
+                    bbox = feature_bbox(job.resolved_feature)
+                    if bbox:
+                        anchor_bbox = shrink_bbox(bbox)
+            else:
+                stats["failed"] += 1
+                print(
+                    f"  fail [{index}/{total}] {job.asset_rel}: {reason}",
+                    file=sys.stderr,
+                )
+            if index % 10 == 0:
+                print(f"  progress {index}/{total}...")
+
+        event_alignment[event_id] = (
+            anchor_bbox is not None and phases_ok == len(event_jobs)
+        )
+
+    return stats, event_alignment
 
 
 def infra_jobs_by_observation(
@@ -326,6 +646,9 @@ def disaster_jobs(data: dict[str, Any]) -> list[CacheJob]:
                     lon=lon,
                     acquisition_gte=gte,
                     acquisition_lte=lte,
+                    event_id=event_id,
+                    phase_label=label,
+                    target_acquisition_date=acq,
                 )
             )
     return jobs
@@ -509,10 +832,19 @@ def cache_disaster(path: Path, *, dry_run: bool, skip_existing: bool, bbox_searc
     with path.open(encoding="utf-8") as f:
         data = json.load(f)
     jobs = disaster_jobs(data)
-    print(f"Disaster archive: {len(jobs)} jobs (bbox_search={bbox_search})")
-    stats = run_jobs(
-        jobs, dry_run=dry_run, skip_existing=skip_existing, use_bbox_search=bbox_search
+    print(
+        f"Disaster archive: {len(jobs)} jobs "
+        f"(bbox_search={bbox_search}, aligned={'yes' if bbox_search else 'no'})"
     )
+    event_alignment: dict[str, bool] = {}
+    if bbox_search:
+        stats, event_alignment = run_disaster_jobs_aligned(
+            jobs, dry_run=dry_run, skip_existing=skip_existing
+        )
+    else:
+        stats = run_jobs(
+            jobs, dry_run=dry_run, skip_existing=skip_existing, use_bbox_search=False
+        )
     if dry_run:
         print(f"Dry run complete: {stats}")
         return
@@ -533,6 +865,7 @@ def cache_disaster(path: Path, *, dry_run: bool, skip_existing: bool, bbox_searc
     with path.open(encoding="utf-8") as f:
         data = json.load(f)
     scene_updates = 0
+    alignment_updates = 0
     job_by_rel = {j.asset_rel: j for j in jobs}
     for event in data.get("events") or []:
         eid = event.get("id") or ""
@@ -547,7 +880,18 @@ def cache_disaster(path: Path, *, dry_run: bool, skip_existing: bool, bbox_searc
                 scene_updates += 1
             if job.resolved_dataset_id and phase.get("datasetId") != job.resolved_dataset_id:
                 phase["datasetId"] = job.resolved_dataset_id
-    if scene_updates:
+        if bbox_search and eid in event_alignment:
+            aligned = event_alignment[eid]
+            if event.get("spatiallyAligned") != aligned:
+                event["spatiallyAligned"] = aligned
+                alignment_updates += 1
+    if scene_updates or alignment_updates:
+        data["disclaimer"] = (
+            "災害アーカイブのサムネイルは Tellus Traveler から取得した実 SAR 画像をバンドルしています。"
+            "3 フェーズは同一イベント中心の狭い BBOX で検索し、事前フェーズの footprint を"
+            "アンカーとして during/after を揃えます。表示日付はデモ用メタデータであり、"
+            "実シーンの撮影日と一致しない場合があります。"
+        )
         data["thumbnailCachedAt"] = datetime.now(timezone.utc).isoformat().replace(
             "+00:00", "Z"
         )
@@ -556,7 +900,10 @@ def cache_disaster(path: Path, *, dry_run: bool, skip_existing: bool, bbox_searc
             f.write("\n")
 
     print(f"Stats: {stats}")
-    print(f"Patched {updated} thumbnail URLs, {scene_updates} scene IDs in {path}")
+    print(
+        f"Patched {updated} thumbnail URLs, {scene_updates} scene IDs, "
+        f"{alignment_updates} alignment flags in {path}"
+    )
 
 
 def cache_multi_sensor(

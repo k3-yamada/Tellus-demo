@@ -6,6 +6,7 @@ class CommandCenterTheme {
   static const border = Color(0xFF2A3A52);
   static const accent = Color(0xFF2DD4BF);
   static const accentWarm = Color(0xFFF59E0B);
+  static const dataDemo = Color(0xFF9B8CFF);
   static const textPrimary = Color(0xFFE8F0FA);
   static const textMuted = Color(0xFF8BA3BC);
 
