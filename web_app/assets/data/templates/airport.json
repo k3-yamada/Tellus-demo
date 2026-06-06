@@ -1,12 +1,12 @@
 {
   "schemaVersion": 2,
   "meta": {
-    "generatedAt": "2026-06-05T02:24:58.284472Z",
+    "generatedAt": "2026-06-05T11:03:30.715260Z",
     "apiBase": "https://www.tellusxdp.com/api/traveler/v1",
     "templateId": "airport",
     "industry": "空港監視",
     "industryIcon": "🛬",
-    "pitch": "埋立地空港の地盤沈下を mm 単位で長期トレンド分析",
+    "pitch": "滑走路・誘導路周辺の地盤沈下を mm 単位で長期トレンド分析",
     "datasetsCatalog": [
       {
         "id": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
@@ -34,15 +34,16 @@
     "overallScore": 0.78,
     "totalObservations": 16,
     "regionsWithGeometry": 1,
-    "regionsWithThumbnails": 0,
+    "regionsWithThumbnails": 1,
     "notes": [
       "空港監視 監視テンプレート (合成データ)",
       "対象期間: 2016-01 〜 2024-01",
+      "サムネイルはバンドル済み合成 PNG (bundled_demo_png)",
       "実運用ではこのスキーマに本物の Tellus 取得結果を流し込む"
     ]
   },
   "coverageByYear": {
-    "kix_airport": {
+    "toyama_airport": {
       "2016": 2,
       "2017": 2,
       "2018": 2,
@@ -55,298 +56,298 @@
     }
   },
   "regions": {
-    "kix_airport": {
-      "id": "kix_airport",
-      "name": "関西国際空港",
+    "toyama_airport": {
+      "id": "toyama_airport",
+      "name": "富山空港",
       "type": "airport",
       "infrastructureType": "airport",
-      "lat": 34.4347,
-      "lon": 135.2444,
-      "description": "埋立地空港の地盤沈下を mm 単位で長期トレンド分析",
+      "lat": 36.6483,
+      "lon": 137.1875,
+      "description": "滑走路・誘導路周辺の地盤沈下を mm 単位で長期トレンド分析",
       "observationCount": 16,
       "observations": [
         {
-          "dataId": "134401c7-5cfb-fdf1-9e69-354496739990",
+          "dataId": "e86b4a5b-4bc9-bdd3-0ee3-b01b60a56b28",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
           "acquisitionDate": "2016-01-15",
           "start_datetime": "2016-01-15T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH",
           "relativeOrbit": 100,
-          "offNadir": 27.91,
-          "monitoringIndex": 0.586,
+          "offNadir": 33.98,
+          "monitoringIndex": 0.571,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.913
+          "thumbnailUrl": "assets/images/templates/cached/airport/e86b4a5b-4bc9-bdd3-0ee3-b01b60a56b28.png",
+          "qualityScore": 0.594
         },
         {
-          "dataId": "565c74a5-2ea6-7782-c800-77733e86a57f",
+          "dataId": "2833001b-6b88-0425-f1cf-a88b1fdf7278",
           "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
           "acquisitionDate": "2016-07-27",
           "start_datetime": "2016-07-27T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH+HV",
           "relativeOrbit": 117,
-          "offNadir": 23.28,
-          "monitoringIndex": 0.63,
+          "offNadir": 29.64,
+          "monitoringIndex": 0.437,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.838
+          "thumbnailUrl": "assets/images/templates/cached/airport/2833001b-6b88-0425-f1cf-a88b1fdf7278.png",
+          "qualityScore": 0.91
         },
         {
-          "dataId": "3fd16d9d-b5f2-0875-67a0-e35d593cecab",
+          "dataId": "55113bdb-f84c-d5c8-57b8-3258fe529a76",
           "datasetId": "57233372-b507-4611-9c1f-bfd973a2fce6",
           "acquisitionDate": "2017-02-07",
           "start_datetime": "2017-02-07T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
           "relativeOrbit": 134,
-          "offNadir": 28.33,
-          "monitoringIndex": 0.709,
+          "offNadir": 33.07,
+          "monitoringIndex": 0.568,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.681
+          "thumbnailUrl": "assets/images/templates/airport/55113bdb-f84c-d5c8-57b8-3258fe529a76.png",
+          "qualityScore": 0.731
         },
         {
-          "dataId": "efc6a400-2c93-6996-a8e6-1658d7b423cc",
+          "dataId": "81a6cd14-4465-9b00-01ab-4ee44dde28a7",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
           "acquisitionDate": "2017-08-21",
           "start_datetime": "2017-08-21T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH",
           "relativeOrbit": 151,
-          "offNadir": 23.21,
-          "monitoringIndex": 0.706,
+          "offNadir": 26.96,
+          "monitoringIndex": 0.591,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.862
+          "thumbnailUrl": "assets/images/templates/cached/airport/81a6cd14-4465-9b00-01ab-4ee44dde28a7.png",
+          "qualityScore": 0.746
         },
         {
-          "dataId": "0ac5d1b1-b06f-7091-608f-bf1f5ba57c70",
+          "dataId": "bd322ed4-f0fe-5350-422e-95cb52436b90",
           "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
           "acquisitionDate": "2018-03-03",
           "start_datetime": "2018-03-03T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
           "relativeOrbit": 168,
-          "offNadir": 25.13,
-          "monitoringIndex": 0.475,
+          "offNadir": 33.12,
+          "monitoringIndex": 0.728,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.669
+          "thumbnailUrl": "assets/images/templates/cached/airport/bd322ed4-f0fe-5350-422e-95cb52436b90.png",
+          "qualityScore": 0.594
         },
         {
-          "dataId": "2b6916eb-5632-92a9-4faf-ff6448feec26",
+          "dataId": "412d75a2-c6ca-8273-c969-be0f281dce85",
           "datasetId": "57233372-b507-4611-9c1f-bfd973a2fce6",
           "acquisitionDate": "2018-09-14",
           "start_datetime": "2018-09-14T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH+HV",
           "relativeOrbit": 185,
-          "offNadir": 24.88,
-          "monitoringIndex": 0.411,
+          "offNadir": 25.6,
+          "monitoringIndex": 0.423,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.725
+          "thumbnailUrl": "assets/images/templates/airport/412d75a2-c6ca-8273-c969-be0f281dce85.png",
+          "qualityScore": 0.66
         },
         {
-          "dataId": "808bfbf0-228b-0c9a-588a-6b41d843141f",
+          "dataId": "258de4fc-a559-e0e3-bf2e-2d9d33660afe",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
           "acquisitionDate": "2019-03-28",
           "start_datetime": "2019-03-28T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH",
           "relativeOrbit": 202,
-          "offNadir": 29.32,
-          "monitoringIndex": 0.709,
+          "offNadir": 34.46,
+          "monitoringIndex": 0.647,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.562
+          "thumbnailUrl": "assets/images/templates/cached/airport/258de4fc-a559-e0e3-bf2e-2d9d33660afe.png",
+          "qualityScore": 0.803
         },
         {
-          "dataId": "25ed248e-3f4d-662a-c8d0-cbf3ee814fc5",
+          "dataId": "3dd7c91a-c720-a1c7-742d-6ed8ae6f2634",
           "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
           "acquisitionDate": "2019-10-08",
           "start_datetime": "2019-10-08T00:00:00Z",
@@ -354,456 +355,456 @@
           "polarization": "HH+HV",
           "relativeOrbit": 219,
           "offNadir": 34.35,
-          "monitoringIndex": 0.443,
+          "monitoringIndex": 0.53,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.844
+          "thumbnailUrl": "assets/images/templates/cached/airport/3dd7c91a-c720-a1c7-742d-6ed8ae6f2634.png",
+          "qualityScore": 0.562
         },
         {
-          "dataId": "64d1072a-39be-edcf-9c02-3a9682a1ff27",
+          "dataId": "0a05f5b9-cfbd-72b6-766e-773e402aa4c7",
           "datasetId": "57233372-b507-4611-9c1f-bfd973a2fce6",
           "acquisitionDate": "2020-04-20",
           "start_datetime": "2020-04-20T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
           "relativeOrbit": 236,
-          "offNadir": 24.72,
-          "monitoringIndex": 0.573,
+          "offNadir": 24.01,
+          "monitoringIndex": 0.701,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.899
+          "thumbnailUrl": "assets/images/templates/airport/0a05f5b9-cfbd-72b6-766e-773e402aa4c7.png",
+          "qualityScore": 0.889
         },
         {
-          "dataId": "0b6c55ba-ad35-4aee-b8d2-008a07dc4d49",
+          "dataId": "38b163f4-b4ef-e72b-38a6-522672a6246c",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
           "acquisitionDate": "2020-11-01",
           "start_datetime": "2020-11-01T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH",
           "relativeOrbit": 253,
-          "offNadir": 26.45,
-          "monitoringIndex": 0.526,
+          "offNadir": 30.23,
+          "monitoringIndex": 0.611,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.671
+          "thumbnailUrl": "assets/images/templates/cached/airport/38b163f4-b4ef-e72b-38a6-522672a6246c.png",
+          "qualityScore": 0.845
         },
         {
-          "dataId": "1a4ef573-4283-4a09-3759-088876dda042",
+          "dataId": "3a65cd84-1fda-b8e5-fe45-b84566ebaa8f",
           "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
           "acquisitionDate": "2021-05-14",
           "start_datetime": "2021-05-14T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
           "relativeOrbit": 270,
-          "offNadir": 28.39,
-          "monitoringIndex": 0.725,
+          "offNadir": 25.33,
+          "monitoringIndex": 0.747,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.743
+          "thumbnailUrl": "assets/images/templates/cached/airport/3a65cd84-1fda-b8e5-fe45-b84566ebaa8f.png",
+          "qualityScore": 0.907
         },
         {
-          "dataId": "b6bd13cf-9107-aa1b-d99d-c57ca40629c1",
+          "dataId": "836bf962-ab8c-ea60-be91-76ff70009d05",
           "datasetId": "57233372-b507-4611-9c1f-bfd973a2fce6",
           "acquisitionDate": "2021-11-25",
           "start_datetime": "2021-11-25T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH+HV",
           "relativeOrbit": 287,
-          "offNadir": 26.54,
-          "monitoringIndex": 0.619,
+          "offNadir": 32.86,
+          "monitoringIndex": 0.47,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.625
+          "thumbnailUrl": "assets/images/templates/airport/836bf962-ab8c-ea60-be91-76ff70009d05.png",
+          "qualityScore": 0.658
         },
         {
-          "dataId": "a9b7eed4-4865-0728-a25e-040d7bfac6b2",
+          "dataId": "6d3a1267-7ca0-898e-2c37-9a9cc1e75934",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
           "acquisitionDate": "2022-06-08",
           "start_datetime": "2022-06-08T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH",
           "relativeOrbit": 104,
-          "offNadir": 32.9,
-          "monitoringIndex": 0.621,
+          "offNadir": 25.59,
+          "monitoringIndex": 0.489,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.801
+          "thumbnailUrl": "assets/images/templates/cached/airport/6d3a1267-7ca0-898e-2c37-9a9cc1e75934.png",
+          "qualityScore": 0.731
         },
         {
-          "dataId": "42d06239-aa70-9263-3f82-1c6d0097fa4d",
+          "dataId": "0ca93ab0-1998-7010-ea90-b366cbb868c7",
           "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
           "acquisitionDate": "2022-12-19",
           "start_datetime": "2022-12-19T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH+HV",
           "relativeOrbit": 121,
-          "offNadir": 35.46,
-          "monitoringIndex": 0.679,
+          "offNadir": 33.65,
+          "monitoringIndex": 0.558,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.654
+          "thumbnailUrl": "assets/images/templates/cached/airport/0ca93ab0-1998-7010-ea90-b366cbb868c7.png",
+          "qualityScore": 0.632
         },
         {
-          "dataId": "1d62e610-883a-0b05-caf0-d925498f8b78",
+          "dataId": "f71c6af0-1419-f20e-b93e-833494c4d856",
           "datasetId": "57233372-b507-4611-9c1f-bfd973a2fce6",
           "acquisitionDate": "2023-07-02",
           "start_datetime": "2023-07-02T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
           "relativeOrbit": 138,
-          "offNadir": 30.09,
-          "monitoringIndex": 0.443,
+          "offNadir": 27.21,
+          "monitoringIndex": 0.42,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.712
+          "thumbnailUrl": "assets/images/templates/airport/f71c6af0-1419-f20e-b93e-833494c4d856.png",
+          "qualityScore": 0.738
         },
         {
-          "dataId": "fe971e54-046f-8070-e378-bbb3ac3bcd99",
+          "dataId": "582f5c1f-4904-755a-f97f-a0b483462424",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
           "acquisitionDate": "2024-01-13",
           "start_datetime": "2024-01-13T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH",
           "relativeOrbit": 155,
-          "offNadir": 27.42,
-          "monitoringIndex": 0.456,
+          "offNadir": 33.39,
+          "monitoringIndex": 0.48,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.362627927927925
+                  137.27733019158492,
+                  36.576227927927924
                 ],
                 [
-                  135.3317843233825,
-                  34.506772072072074
+                  137.27733019158492,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.506772072072074
+                  137.09766980841508,
+                  36.720372072072074
                 ],
                 [
-                  135.15701567661753,
-                  34.362627927927925
+                  137.09766980841508,
+                  36.576227927927924
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.782
+          "thumbnailUrl": "assets/images/templates/cached/airport/582f5c1f-4904-755a-f97f-a0b483462424.png",
+          "qualityScore": 0.834
         }
       ]
     }
   },
   "timeline": [
     {
-      "regionId": "kix_airport",
-      "dataId": "134401c7-5cfb-fdf1-9e69-354496739990",
+      "regionId": "toyama_airport",
+      "dataId": "e86b4a5b-4bc9-bdd3-0ee3-b01b60a56b28",
       "acquisitionDate": "2016-01-15",
-      "monitoringIndex": 0.586
+      "monitoringIndex": 0.571
     },
     {
-      "regionId": "kix_airport",
-      "dataId": "565c74a5-2ea6-7782-c800-77733e86a57f",
+      "regionId": "toyama_airport",
+      "dataId": "2833001b-6b88-0425-f1cf-a88b1fdf7278",
       "acquisitionDate": "2016-07-27",
-      "monitoringIndex": 0.63
+      "monitoringIndex": 0.437
     },
     {
-      "regionId": "kix_airport",
-      "dataId": "3fd16d9d-b5f2-0875-67a0-e35d593cecab",
+      "regionId": "toyama_airport",
+      "dataId": "55113bdb-f84c-d5c8-57b8-3258fe529a76",
       "acquisitionDate": "2017-02-07",
-      "monitoringIndex": 0.709
+      "monitoringIndex": 0.568
     },
     {
-      "regionId": "kix_airport",
-      "dataId": "efc6a400-2c93-6996-a8e6-1658d7b423cc",
+      "regionId": "toyama_airport",
+      "dataId": "81a6cd14-4465-9b00-01ab-4ee44dde28a7",
       "acquisitionDate": "2017-08-21",
-      "monitoringIndex": 0.706
+      "monitoringIndex": 0.591
     },
     {
-      "regionId": "kix_airport",
-      "dataId": "0ac5d1b1-b06f-7091-608f-bf1f5ba57c70",
+      "regionId": "toyama_airport",
+      "dataId": "bd322ed4-f0fe-5350-422e-95cb52436b90",
       "acquisitionDate": "2018-03-03",
-      "monitoringIndex": 0.475
+      "monitoringIndex": 0.728
     },
     {
-      "regionId": "kix_airport",
-      "dataId": "2b6916eb-5632-92a9-4faf-ff6448feec26",
+      "regionId": "toyama_airport",
+      "dataId": "412d75a2-c6ca-8273-c969-be0f281dce85",
       "acquisitionDate": "2018-09-14",
-      "monitoringIndex": 0.411
+      "monitoringIndex": 0.423
     },
     {
-      "regionId": "kix_airport",
-      "dataId": "808bfbf0-228b-0c9a-588a-6b41d843141f",
+      "regionId": "toyama_airport",
+      "dataId": "258de4fc-a559-e0e3-bf2e-2d9d33660afe",
       "acquisitionDate": "2019-03-28",
-      "monitoringIndex": 0.709
+      "monitoringIndex": 0.647
     },
     {
-      "regionId": "kix_airport",
-      "dataId": "25ed248e-3f4d-662a-c8d0-cbf3ee814fc5",
+      "regionId": "toyama_airport",
+      "dataId": "3dd7c91a-c720-a1c7-742d-6ed8ae6f2634",
       "acquisitionDate": "2019-10-08",
-      "monitoringIndex": 0.443
+      "monitoringIndex": 0.53
     },
     {
-      "regionId": "kix_airport",
-      "dataId": "64d1072a-39be-edcf-9c02-3a9682a1ff27",
+      "regionId": "toyama_airport",
+      "dataId": "0a05f5b9-cfbd-72b6-766e-773e402aa4c7",
       "acquisitionDate": "2020-04-20",
-      "monitoringIndex": 0.573
+      "monitoringIndex": 0.701
     },
     {
-      "regionId": "kix_airport",
-      "dataId": "0b6c55ba-ad35-4aee-b8d2-008a07dc4d49",
+      "regionId": "toyama_airport",
+      "dataId": "38b163f4-b4ef-e72b-38a6-522672a6246c",
       "acquisitionDate": "2020-11-01",
-      "monitoringIndex": 0.526
+      "monitoringIndex": 0.611
     },
     {
-      "regionId": "kix_airport",
-      "dataId": "1a4ef573-4283-4a09-3759-088876dda042",
+      "regionId": "toyama_airport",
+      "dataId": "3a65cd84-1fda-b8e5-fe45-b84566ebaa8f",
       "acquisitionDate": "2021-05-14",
-      "monitoringIndex": 0.725
+      "monitoringIndex": 0.747
     },
     {
-      "regionId": "kix_airport",
-      "dataId": "b6bd13cf-9107-aa1b-d99d-c57ca40629c1",
+      "regionId": "toyama_airport",
+      "dataId": "836bf962-ab8c-ea60-be91-76ff70009d05",
       "acquisitionDate": "2021-11-25",
-      "monitoringIndex": 0.619
+      "monitoringIndex": 0.47
     },
     {
-      "regionId": "kix_airport",
-      "dataId": "a9b7eed4-4865-0728-a25e-040d7bfac6b2",
+      "regionId": "toyama_airport",
+      "dataId": "6d3a1267-7ca0-898e-2c37-9a9cc1e75934",
       "acquisitionDate": "2022-06-08",
-      "monitoringIndex": 0.621
+      "monitoringIndex": 0.489
     },
     {
-      "regionId": "kix_airport",
-      "dataId": "42d06239-aa70-9263-3f82-1c6d0097fa4d",
+      "regionId": "toyama_airport",
+      "dataId": "0ca93ab0-1998-7010-ea90-b366cbb868c7",
       "acquisitionDate": "2022-12-19",
-      "monitoringIndex": 0.679
+      "monitoringIndex": 0.558
     },
     {
-      "regionId": "kix_airport",
-      "dataId": "1d62e610-883a-0b05-caf0-d925498f8b78",
+      "regionId": "toyama_airport",
+      "dataId": "f71c6af0-1419-f20e-b93e-833494c4d856",
       "acquisitionDate": "2023-07-02",
-      "monitoringIndex": 0.443
+      "monitoringIndex": 0.42
     },
     {
-      "regionId": "kix_airport",
-      "dataId": "fe971e54-046f-8070-e378-bbb3ac3bcd99",
+      "regionId": "toyama_airport",
+      "dataId": "582f5c1f-4904-755a-f97f-a0b483462424",
       "acquisitionDate": "2024-01-13",
-      "monitoringIndex": 0.456
+      "monitoringIndex": 0.48
     }
   ]
 }

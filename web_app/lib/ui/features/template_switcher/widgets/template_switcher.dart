@@ -33,37 +33,51 @@ class _SwitcherBody extends StatelessWidget {
     if (vm.isLoading || vm.templates.isEmpty) {
       return const SizedBox(width: 180);
     }
-    final current = dashboard.currentTemplate ?? vm.defaultTemplate;
+    final selected = vm.resolveForSelection(
+      dashboard.currentTemplate ?? vm.defaultTemplate,
+    );
+    final value =
+        selected != null && vm.templates.any((t) => t.id == selected.id)
+            ? selected
+            : null;
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 260),
       child: DropdownButton<AssetTemplate>(
         key: const ValueKey('template_switcher'),
-        value: current,
+        value: value,
         isDense: true,
         underline: const SizedBox.shrink(),
         items: [
           for (final t in vm.templates)
             DropdownMenuItem<AssetTemplate>(
               value: t,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(t.icon, style: const TextStyle(fontSize: 14)),
-                  const SizedBox(width: 6),
-                  Flexible(
-                    child: Text(
-                      t.displayName,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 12),
+              child: SizedBox(
+                width: 220,
+                child: Row(
+                  children: [
+                    Text(t.icon, style: const TextStyle(fontSize: 14)),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        t.displayName,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 12),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
         ],
         onChanged: (template) {
           if (template == null) return;
           dashboard.switchTemplate(template);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('テンプレートを「${template.displayName}」に切り替えました'),
+              duration: const Duration(seconds: 3),
+            ),
+          );
         },
         style: const TextStyle(
             fontSize: 12, color: CommandCenterTheme.textPrimary),

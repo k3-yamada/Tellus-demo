@@ -13,6 +13,7 @@ class MultiSensorRepositoryImpl implements MultiSensorRepository {
     final json = await _dataSource.loadJson();
     final sensorsRaw = json['sensors'] as List<dynamic>? ?? [];
     final sitesRaw = json['sites'] as List<dynamic>? ?? [];
+    final disclaimer = json['disclaimer'] as String?;
     return MultiSensorCatalog(
       sensors: sensorsRaw
           .map((e) => _parseSensor(e as Map<String, dynamic>))
@@ -20,6 +21,7 @@ class MultiSensorRepositoryImpl implements MultiSensorRepository {
       sites: sitesRaw
           .map((e) => _parseSite(e as Map<String, dynamic>))
           .toList(growable: false),
+      disclaimer: disclaimer,
     );
   }
 

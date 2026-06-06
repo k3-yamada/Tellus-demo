@@ -15,19 +15,19 @@
       "industry": "橋梁監視",
       "icon": "🌉",
       "pitch": "長大橋・橋脚周辺の沈下と海岸侵食モニタリング",
-      "region_name": "明石海峡大橋周辺",
-      "lat": 34.616,
-      "lon": 135.0214,
+      "region_name": "新湊大橋周辺",
+      "lat": 36.7765,
+      "lon": 137.1122,
       "asset_path": "assets/data/templates/bridge.json"
     },
     {
       "id": "airport",
       "industry": "空港監視",
       "icon": "🛬",
-      "pitch": "埋立地空港の地盤沈下を mm 単位で長期トレンド分析",
-      "region_name": "関西国際空港",
-      "lat": 34.4347,
-      "lon": 135.2444,
+      "pitch": "滑走路・誘導路周辺の地盤沈下を mm 単位で長期トレンド分析",
+      "region_name": "富山空港",
+      "lat": 36.6483,
+      "lon": 137.1875,
       "asset_path": "assets/data/templates/airport.json"
     },
     {
@@ -35,9 +35,9 @@
       "industry": "新幹線高架監視",
       "icon": "🚄",
       "pitch": "高架橋梁・盛土の連続観測で保線業務を支援",
-      "region_name": "東海道新幹線 名古屋〜京都区間",
-      "lat": 35.0832,
-      "lon": 136.5028,
+      "region_name": "北陸新幹線 富山県内（新高岡〜富山〜黒部）",
+      "lat": 36.7019,
+      "lon": 137.2133,
       "asset_path": "assets/data/templates/shinkansen.json"
     },
     {
@@ -45,9 +45,9 @@
       "industry": "港湾監視",
       "icon": "⚓",
       "pitch": "港湾施設・防波堤・コンテナヤードの変位検出",
-      "region_name": "横浜港",
-      "lat": 35.4437,
-      "lon": 139.638,
+      "region_name": "伏木富山港",
+      "lat": 36.7883,
+      "lon": 137.0517,
       "asset_path": "assets/data/templates/port.json"
     }
   ]

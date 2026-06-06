@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../../../../domain/models/multi_sensor.dart';
 import '../../../../domain/repositories/multi_sensor_repository.dart';
 import '../../../core/theme/command_center_theme.dart';
+import '../../../core/widgets/provenance_widgets.dart';
+import '../widgets/multi_sensor_scene_preview.dart';
 import '../view_models/multi_sensor_view_model.dart';
 
 /// マルチセンサー (SAR + 光学) 比較ページ。
@@ -50,6 +52,19 @@ class _Scaffold extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const HeroClaimBar(
+            icon: Icons.compare,
+            title: 'SAR と光学の違い',
+            subtitle: '同じ場所でもセンサーによって見え方が変わります。Tellus は SAR だけでなく光学データも扱えます。',
+          ),
+          const SizedBox(height: 12),
+          if (vm.disclaimer != null && vm.disclaimer!.isNotEmpty)
+            DataProvenanceBanner(
+              message: vm.disclaimer!,
+              provenance: DataProvenance.demo,
+            ),
+          if (vm.disclaimer != null && vm.disclaimer!.isNotEmpty)
+            const SizedBox(height: 12),
           _SiteSelector(vm: vm),
           const SizedBox(height: 12),
           _ModalityFilter(vm: vm),
@@ -131,37 +146,60 @@ class _ScenesPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scenes = vm.visibleScenes;
+    final selected = vm.selectedScene;
+    final selectedSensor =
+        selected != null ? vm.sensorFor(selected.sensorId) : null;
     return Card(
       color: CommandCenterTheme.panel,
       child: scenes.isEmpty
           ? const Center(child: Text('表示するシーンがありません'))
-          : ListView.separated(
-              padding: const EdgeInsets.all(12),
-              itemCount: scenes.length,
-              separatorBuilder: (_, _) => const Divider(height: 1),
-              itemBuilder: (ctx, i) {
-                final s = scenes[i];
-                final sensor = vm.sensorFor(s.sensorId);
-                final isSar = sensor?.modality == SensorModality.sar;
-                return ListTile(
-                  dense: true,
-                  leading: Icon(
-                    isSar ? Icons.radar : Icons.photo_camera,
-                    color: isSar
-                        ? CommandCenterTheme.accent
-                        : CommandCenterTheme.accentWarm,
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: selected != null
+                      ? MultiSensorScenePreview(
+                          scene: selected,
+                          modality: selectedSensor?.modality ?? SensorModality.sar,
+                        )
+                      : const Center(child: Text('シーンを選択してください')),
+                ),
+                const SizedBox(height: 8),
+                Expanded(
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    itemCount: scenes.length,
+                    separatorBuilder: (_, _) => const Divider(height: 1),
+                    itemBuilder: (ctx, i) {
+                      final s = scenes[i];
+                      final sensor = vm.sensorFor(s.sensorId);
+                      final isSelected = s.sceneId == selected?.sceneId;
+                      return ListTile(
+                        dense: true,
+                        selected: isSelected,
+                        selectedTileColor: CommandCenterTheme.accent
+                            .withValues(alpha: 0.12),
+                        leading: MultiSensorScenePreview(
+                          scene: s,
+                          modality: sensor?.modality ?? SensorModality.sar,
+                          compact: true,
+                        ),
+                        title: Text(sensor?.name ?? s.sensorId,
+                            style: const TextStyle(fontSize: 12)),
+                        subtitle: Text(
+                          '${s.acquisitionDate} · '
+                          '${s.orbitDirection ?? "—"} · GSD ${sensor?.gsdMeters ?? 0}m',
+                          style: const TextStyle(fontSize: 11),
+                        ),
+                        trailing: SelectableText(s.sceneId.substring(0, 8),
+                            style: const TextStyle(fontSize: 10)),
+                        onTap: () => vm.selectScene(s.sceneId),
+                      );
+                    },
                   ),
-                  title: Text(sensor?.name ?? s.sensorId,
-                      style: const TextStyle(fontSize: 12)),
-                  subtitle: Text(
-                    '${s.acquisitionDate} · '
-                    '${s.orbitDirection ?? "—"} · GSD ${sensor?.gsdMeters ?? 0}m',
-                    style: const TextStyle(fontSize: 11),
-                  ),
-                  trailing: SelectableText(s.sceneId.substring(0, 8),
-                      style: const TextStyle(fontSize: 10)),
-                );
-              },
+                ),
+              ],
             ),
     );
   }

@@ -60,8 +60,13 @@ class SensorScene {
 }
 
 class MultiSensorCatalog {
-  const MultiSensorCatalog({required this.sensors, required this.sites});
+  const MultiSensorCatalog({
+    required this.sensors,
+    required this.sites,
+    this.disclaimer,
+  });
 
   final List<SatelliteSensor> sensors;
   final List<ObservationSite> sites;
+  final String? disclaimer;
 }

@@ -17,7 +17,15 @@ import random
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-OUT_DIR = Path(__file__).resolve().parent.parent.parent / "web_app" / "assets" / "data" / "templates"
+from demo_png import make_sar_pixels, write_gray_png
+
+ROOT = Path(__file__).resolve().parent.parent.parent
+OUT_DIR = ROOT / "web_app" / "assets" / "data" / "templates"
+THUMB_BASE = ROOT / "web_app" / "assets" / "images" / "templates"
+
+DATASET_COARSE = {
+    "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",  # PALSAR-2 ScanSAR
+}
 
 # 本物の Tellus SAR dataset ID (PALSAR-2 / ALOS-2 系)。
 # main の infrastructure_data.json から流用。
@@ -59,7 +67,25 @@ def bbox_polygon(lat: float, lon: float, half_km: float = 5.0) -> list[list[floa
     ]]
 
 
+def thumbnail_asset_path(template_id: str, data_id: str) -> str:
+    return f"assets/images/templates/{template_id}/{data_id}.png"
+
+
+def write_observation_thumbnail(template_id: str, data_id: str, dataset_id: str) -> str:
+    rel = thumbnail_asset_path(template_id, data_id)
+    out = THUMB_BASE / template_id / f"{data_id}.png"
+    coarse = dataset_id in DATASET_COARSE
+    write_gray_png(
+        out,
+        320,
+        200,
+        make_sar_pixels(f"{template_id}:{data_id}", coarse=coarse),
+    )
+    return rel
+
+
 def synth_observations(
+    template_id: str,
     region_id: str,
     lat: float,
     lon: float,
@@ -76,8 +102,9 @@ def synth_observations(
         date = datetime(start_year, 1, 15, tzinfo=timezone.utc) + timedelta(days=day_offset)
         iso = date.isoformat().replace("+00:00", "Z")
         seed = f"{region_id}-{i}-{ds['id']}"
+        data_id = make_data_id(seed)
         observations.append({
-            "dataId": make_data_id(seed),
+            "dataId": data_id,
             "datasetId": ds["id"],
             "acquisitionDate": iso[:10],
             "start_datetime": iso,
@@ -87,7 +114,7 @@ def synth_observations(
             "offNadir": round(28.0 + rnd.uniform(-5, 8), 2),
             "monitoringIndex": round(base_index + rnd.uniform(-0.2, 0.2), 3),
             "geometry": {"type": "Polygon", "coordinates": bbox_polygon(lat, lon, 8.0)},
-            "thumbnailUrl": None,
+            "thumbnailUrl": write_observation_thumbnail(template_id, data_id, ds["id"]),
             "qualityScore": round(rnd.uniform(0.55, 0.92), 3),
         })
     return observations
@@ -108,7 +135,9 @@ def build_template(
     base_index: float,
 ) -> dict:
     """1 テンプレ分の JSON dict を組み立てる。"""
-    observations = synth_observations(region_id, lat, lon, start_year, obs_count, base_index)
+    observations = synth_observations(
+        template_id, region_id, lat, lon, start_year, obs_count, base_index
+    )
     coverage: dict[str, dict[str, int]] = {region_id: {}}
     for obs in observations:
         year = obs["acquisitionDate"][:4]
@@ -138,10 +167,11 @@ def build_template(
             "overallScore": 0.78,
             "totalObservations": obs_count,
             "regionsWithGeometry": 1,
-            "regionsWithThumbnails": 0,
+            "regionsWithThumbnails": 1,
             "notes": [
                 f"{industry} 監視テンプレート (合成データ)",
                 f"対象期間: {start_year}-01 〜 {start_year + 8}-01",
+                "サムネイルはバンドル済み合成 PNG (bundled_demo_png)",
                 "実運用ではこのスキーマに本物の Tellus 取得結果を流し込む",
             ],
         },
@@ -171,6 +201,7 @@ def build_template(
     }
 
 
+# すべて富山県内の実在インフラを中心座標に使用（デモ用合成観測）。
 TEMPLATES = [
     {
         "template_id": "dam",
@@ -191,11 +222,11 @@ TEMPLATES = [
         "industry": "橋梁監視",
         "icon": "🌉",
         "pitch": "長大橋・橋脚周辺の沈下と海岸侵食モニタリング",
-        "region_id": "akashi_bridge",
-        "region_name": "明石海峡大橋周辺",
+        "region_id": "shinminato_bridge",
+        "region_name": "新湊大橋周辺",
         "region_type": "bridge",
-        "lat": 34.6160,
-        "lon": 135.0214,
+        "lat": 36.7765,
+        "lon": 137.1122,
         "start_year": 2017,
         "obs_count": 12,
         "base_index": 0.45,
@@ -204,12 +235,12 @@ TEMPLATES = [
         "template_id": "airport",
         "industry": "空港監視",
         "icon": "🛬",
-        "pitch": "埋立地空港の地盤沈下を mm 単位で長期トレンド分析",
-        "region_id": "kix_airport",
-        "region_name": "関西国際空港",
+        "pitch": "滑走路・誘導路周辺の地盤沈下を mm 単位で長期トレンド分析",
+        "region_id": "toyama_airport",
+        "region_name": "富山空港",
         "region_type": "airport",
-        "lat": 34.4347,
-        "lon": 135.2444,
+        "lat": 36.6483,
+        "lon": 137.1875,
         "start_year": 2016,
         "obs_count": 16,
         "base_index": 0.58,
@@ -219,11 +250,11 @@ TEMPLATES = [
         "industry": "新幹線高架監視",
         "icon": "🚄",
         "pitch": "高架橋梁・盛土の連続観測で保線業務を支援",
-        "region_id": "tokai_kakehashi",
-        "region_name": "東海道新幹線 名古屋〜京都区間",
+        "region_id": "hokuriku_toyama",
+        "region_name": "北陸新幹線 富山県内（新高岡〜富山〜黒部）",
         "region_type": "rail_viaduct",
-        "lat": 35.0832,
-        "lon": 136.5028,
+        "lat": 36.7019,
+        "lon": 137.2133,
         "start_year": 2018,
         "obs_count": 10,
         "base_index": 0.41,
@@ -233,11 +264,11 @@ TEMPLATES = [
         "industry": "港湾監視",
         "icon": "⚓",
         "pitch": "港湾施設・防波堤・コンテナヤードの変位検出",
-        "region_id": "yokohama_port",
-        "region_name": "横浜港",
+        "region_id": "fushiki_port",
+        "region_name": "伏木富山港",
         "region_type": "port",
-        "lat": 35.4437,
-        "lon": 139.6380,
+        "lat": 36.7883,
+        "lon": 137.0517,
         "start_year": 2017,
         "obs_count": 13,
         "base_index": 0.50,

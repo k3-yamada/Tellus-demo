@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "meta": {
-    "generatedAt": "2026-06-05T02:24:58.285436Z",
+    "generatedAt": "2026-06-05T11:03:31.081374Z",
     "apiBase": "https://www.tellusxdp.com/api/traveler/v1",
     "templateId": "shinkansen",
     "industry": "新幹線高架監視",
@@ -34,15 +34,16 @@
     "overallScore": 0.78,
     "totalObservations": 10,
     "regionsWithGeometry": 1,
-    "regionsWithThumbnails": 0,
+    "regionsWithThumbnails": 1,
     "notes": [
       "新幹線高架監視 監視テンプレート (合成データ)",
       "対象期間: 2018-01 〜 2026-01",
+      "サムネイルはバンドル済み合成 PNG (bundled_demo_png)",
       "実運用ではこのスキーマに本物の Tellus 取得結果を流し込む"
     ]
   },
   "coverageByYear": {
-    "tokai_kakehashi": {
+    "hokuriku_toyama": {
       "2018": 2,
       "2019": 1,
       "2020": 1,
@@ -55,479 +56,479 @@
     }
   },
   "regions": {
-    "tokai_kakehashi": {
-      "id": "tokai_kakehashi",
-      "name": "東海道新幹線 名古屋〜京都区間",
+    "hokuriku_toyama": {
+      "id": "hokuriku_toyama",
+      "name": "北陸新幹線 富山県内（新高岡〜富山〜黒部）",
       "type": "rail_viaduct",
       "infrastructureType": "rail_viaduct",
-      "lat": 35.0832,
-      "lon": 136.5028,
+      "lat": 36.7019,
+      "lon": 137.2133,
       "description": "高架橋梁・盛土の連続観測で保線業務を支援",
       "observationCount": 10,
       "observations": [
         {
-          "dataId": "cfd5febc-55f0-7ff1-004c-25ed85ff6018",
+          "dataId": "e9802265-93f1-77b5-b2a6-b1b9e4e2368d",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
           "acquisitionDate": "2018-01-15",
           "start_datetime": "2018-01-15T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH",
           "relativeOrbit": 100,
-          "offNadir": 32.73,
-          "monitoringIndex": 0.602,
+          "offNadir": 28.92,
+          "monitoringIndex": 0.397,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.01112792792792
+                  137.303192794979,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.15527207207207
+                  137.303192794979,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.15527207207207
+                  137.123407205021,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.739
+          "thumbnailUrl": "assets/images/templates/cached/shinkansen/e9802265-93f1-77b5-b2a6-b1b9e4e2368d.png",
+          "qualityScore": 0.752
         },
         {
-          "dataId": "c10790df-f689-2ccd-57bb-cc3abcb114d4",
+          "dataId": "7058b984-a9a2-456f-23ce-eb73a2503850",
           "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
           "acquisitionDate": "2018-12-05",
           "start_datetime": "2018-12-05T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH+HV",
           "relativeOrbit": 117,
-          "offNadir": 31.73,
-          "monitoringIndex": 0.342,
+          "offNadir": 30.12,
+          "monitoringIndex": 0.559,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.01112792792792
+                  137.303192794979,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.15527207207207
+                  137.303192794979,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.15527207207207
+                  137.123407205021,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.839
+          "thumbnailUrl": "assets/images/templates/cached/shinkansen/7058b984-a9a2-456f-23ce-eb73a2503850.png",
+          "qualityScore": 0.804
         },
         {
-          "dataId": "ce7f83e9-c6de-a921-d02f-658769500311",
+          "dataId": "b55fa779-6522-cd14-03f5-edd141ff40a8",
           "datasetId": "57233372-b507-4611-9c1f-bfd973a2fce6",
           "acquisitionDate": "2019-10-25",
           "start_datetime": "2019-10-25T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
           "relativeOrbit": 134,
-          "offNadir": 29.83,
-          "monitoringIndex": 0.297,
+          "offNadir": 25.78,
+          "monitoringIndex": 0.506,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.01112792792792
+                  137.303192794979,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.15527207207207
+                  137.303192794979,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.15527207207207
+                  137.123407205021,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.747
+          "thumbnailUrl": "assets/images/templates/shinkansen/b55fa779-6522-cd14-03f5-edd141ff40a8.png",
+          "qualityScore": 0.708
         },
         {
-          "dataId": "46d7da04-4cdf-ca29-8521-77c112fefd76",
+          "dataId": "8cd5c336-87e0-2dda-50a5-91f24fe1b27f",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
           "acquisitionDate": "2020-09-14",
           "start_datetime": "2020-09-14T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH",
           "relativeOrbit": 151,
-          "offNadir": 26.57,
-          "monitoringIndex": 0.518,
+          "offNadir": 27.76,
+          "monitoringIndex": 0.383,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.01112792792792
+                  137.303192794979,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.15527207207207
+                  137.303192794979,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.15527207207207
+                  137.123407205021,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.882
+          "thumbnailUrl": "assets/images/templates/cached/shinkansen/8cd5c336-87e0-2dda-50a5-91f24fe1b27f.png",
+          "qualityScore": 0.602
         },
         {
-          "dataId": "9ca76c07-0fd0-d8d3-46a2-3b6a0c98cf86",
+          "dataId": "eade60e4-d15b-0fb8-3c6a-fc7fc37c348f",
           "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
           "acquisitionDate": "2021-08-04",
           "start_datetime": "2021-08-04T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
           "relativeOrbit": 168,
-          "offNadir": 32.54,
-          "monitoringIndex": 0.344,
+          "offNadir": 31.78,
+          "monitoringIndex": 0.412,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.01112792792792
+                  137.303192794979,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.15527207207207
+                  137.303192794979,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.15527207207207
+                  137.123407205021,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.618
+          "thumbnailUrl": "assets/images/templates/cached/shinkansen/eade60e4-d15b-0fb8-3c6a-fc7fc37c348f.png",
+          "qualityScore": 0.747
         },
         {
-          "dataId": "fa63faf5-be4d-373f-1f55-926972c15c6e",
+          "dataId": "39713b6b-7be7-b310-f8f1-bbb4ab507f51",
           "datasetId": "57233372-b507-4611-9c1f-bfd973a2fce6",
           "acquisitionDate": "2022-06-25",
           "start_datetime": "2022-06-25T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH+HV",
           "relativeOrbit": 185,
-          "offNadir": 26.8,
-          "monitoringIndex": 0.566,
+          "offNadir": 28.73,
+          "monitoringIndex": 0.537,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.01112792792792
+                  137.303192794979,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.15527207207207
+                  137.303192794979,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.15527207207207
+                  137.123407205021,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.876
+          "thumbnailUrl": "assets/images/templates/shinkansen/39713b6b-7be7-b310-f8f1-bbb4ab507f51.png",
+          "qualityScore": 0.681
         },
         {
-          "dataId": "a47cf348-c912-5958-349b-ec96d6368a7b",
+          "dataId": "a6c714ae-1406-2378-1487-02b057c20532",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
           "acquisitionDate": "2023-05-15",
           "start_datetime": "2023-05-15T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH",
           "relativeOrbit": 202,
-          "offNadir": 28.61,
-          "monitoringIndex": 0.486,
+          "offNadir": 24.47,
+          "monitoringIndex": 0.407,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.01112792792792
+                  137.303192794979,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.15527207207207
+                  137.303192794979,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.15527207207207
+                  137.123407205021,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.633
+          "thumbnailUrl": "assets/images/templates/cached/shinkansen/a6c714ae-1406-2378-1487-02b057c20532.png",
+          "qualityScore": 0.864
         },
         {
-          "dataId": "58cdc812-04db-f798-7444-0d7739d4bdda",
+          "dataId": "9f202e00-e17d-9838-dec0-435d33e242c8",
           "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
           "acquisitionDate": "2024-04-04",
           "start_datetime": "2024-04-04T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH+HV",
           "relativeOrbit": 219,
-          "offNadir": 31.14,
-          "monitoringIndex": 0.521,
+          "offNadir": 32.44,
+          "monitoringIndex": 0.454,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.01112792792792
+                  137.303192794979,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.15527207207207
+                  137.303192794979,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.15527207207207
+                  137.123407205021,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.814
+          "thumbnailUrl": "assets/images/templates/cached/shinkansen/9f202e00-e17d-9838-dec0-435d33e242c8.png",
+          "qualityScore": 0.753
         },
         {
-          "dataId": "38f2fe61-bbc5-eceb-5d0d-a7aa983d40ec",
+          "dataId": "c3734879-de9a-3c02-7e43-b33d7d0ecef6",
           "datasetId": "57233372-b507-4611-9c1f-bfd973a2fce6",
           "acquisitionDate": "2025-02-22",
           "start_datetime": "2025-02-22T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
           "relativeOrbit": 236,
-          "offNadir": 29.34,
-          "monitoringIndex": 0.609,
+          "offNadir": 25.07,
+          "monitoringIndex": 0.327,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.01112792792792
+                  137.303192794979,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.15527207207207
+                  137.303192794979,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.15527207207207
+                  137.123407205021,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.867
+          "thumbnailUrl": "assets/images/templates/shinkansen/c3734879-de9a-3c02-7e43-b33d7d0ecef6.png",
+          "qualityScore": 0.759
         },
         {
-          "dataId": "463b6436-53d5-cc9a-3b6a-7631021f7c08",
+          "dataId": "af0bb4da-abfd-4dfe-35f2-8b0172187268",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
           "acquisitionDate": "2026-01-13",
           "start_datetime": "2026-01-13T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH",
           "relativeOrbit": 253,
-          "offNadir": 27.93,
-          "monitoringIndex": 0.289,
+          "offNadir": 29.63,
+          "monitoringIndex": 0.568,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.01112792792792
+                  137.303192794979,
+                  36.62982792792793
                 ],
                 [
-                  136.5908733983399,
-                  35.15527207207207
+                  137.303192794979,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.15527207207207
+                  137.123407205021,
+                  36.77397207207208
                 ],
                 [
-                  136.4147266016601,
-                  35.01112792792792
+                  137.123407205021,
+                  36.62982792792793
                 ]
               ]
             ]
           },
-          "thumbnailUrl": null,
-          "qualityScore": 0.856
+          "thumbnailUrl": "assets/images/templates/cached/shinkansen/af0bb4da-abfd-4dfe-35f2-8b0172187268.png",
+          "qualityScore": 0.648
         }
       ]
     }
   },
   "timeline": [
     {
-      "regionId": "tokai_kakehashi",
-      "dataId": "cfd5febc-55f0-7ff1-004c-25ed85ff6018",
+      "regionId": "hokuriku_toyama",
+      "dataId": "e9802265-93f1-77b5-b2a6-b1b9e4e2368d",
       "acquisitionDate": "2018-01-15",
-      "monitoringIndex": 0.602
+      "monitoringIndex": 0.397
     },
     {
-      "regionId": "tokai_kakehashi",
-      "dataId": "c10790df-f689-2ccd-57bb-cc3abcb114d4",
+      "regionId": "hokuriku_toyama",
+      "dataId": "7058b984-a9a2-456f-23ce-eb73a2503850",
       "acquisitionDate": "2018-12-05",
-      "monitoringIndex": 0.342
+      "monitoringIndex": 0.559
     },
     {
-      "regionId": "tokai_kakehashi",
-      "dataId": "ce7f83e9-c6de-a921-d02f-658769500311",
+      "regionId": "hokuriku_toyama",
+      "dataId": "b55fa779-6522-cd14-03f5-edd141ff40a8",
       "acquisitionDate": "2019-10-25",
-      "monitoringIndex": 0.297
+      "monitoringIndex": 0.506
     },
     {
-      "regionId": "tokai_kakehashi",
-      "dataId": "46d7da04-4cdf-ca29-8521-77c112fefd76",
+      "regionId": "hokuriku_toyama",
+      "dataId": "8cd5c336-87e0-2dda-50a5-91f24fe1b27f",
       "acquisitionDate": "2020-09-14",
-      "monitoringIndex": 0.518
+      "monitoringIndex": 0.383
     },
     {
-      "regionId": "tokai_kakehashi",
-      "dataId": "9ca76c07-0fd0-d8d3-46a2-3b6a0c98cf86",
+      "regionId": "hokuriku_toyama",
+      "dataId": "eade60e4-d15b-0fb8-3c6a-fc7fc37c348f",
       "acquisitionDate": "2021-08-04",
-      "monitoringIndex": 0.344
+      "monitoringIndex": 0.412
     },
     {
-      "regionId": "tokai_kakehashi",
-      "dataId": "fa63faf5-be4d-373f-1f55-926972c15c6e",
+      "regionId": "hokuriku_toyama",
+      "dataId": "39713b6b-7be7-b310-f8f1-bbb4ab507f51",
       "acquisitionDate": "2022-06-25",
-      "monitoringIndex": 0.566
+      "monitoringIndex": 0.537
     },
     {
-      "regionId": "tokai_kakehashi",
-      "dataId": "a47cf348-c912-5958-349b-ec96d6368a7b",
+      "regionId": "hokuriku_toyama",
+      "dataId": "a6c714ae-1406-2378-1487-02b057c20532",
       "acquisitionDate": "2023-05-15",
-      "monitoringIndex": 0.486
+      "monitoringIndex": 0.407
     },
     {
-      "regionId": "tokai_kakehashi",
-      "dataId": "58cdc812-04db-f798-7444-0d7739d4bdda",
+      "regionId": "hokuriku_toyama",
+      "dataId": "9f202e00-e17d-9838-dec0-435d33e242c8",
       "acquisitionDate": "2024-04-04",
-      "monitoringIndex": 0.521
+      "monitoringIndex": 0.454
     },
     {
-      "regionId": "tokai_kakehashi",
-      "dataId": "38f2fe61-bbc5-eceb-5d0d-a7aa983d40ec",
+      "regionId": "hokuriku_toyama",
+      "dataId": "c3734879-de9a-3c02-7e43-b33d7d0ecef6",
       "acquisitionDate": "2025-02-22",
-      "monitoringIndex": 0.609
+      "monitoringIndex": 0.327
     },
     {
-      "regionId": "tokai_kakehashi",
-      "dataId": "463b6436-53d5-cc9a-3b6a-7631021f7c08",
+      "regionId": "hokuriku_toyama",
+      "dataId": "af0bb4da-abfd-4dfe-35f2-8b0172187268",
       "acquisitionDate": "2026-01-13",
-      "monitoringIndex": 0.289
+      "monitoringIndex": 0.568
     }
   ]
 }
