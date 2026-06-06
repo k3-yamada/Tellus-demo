@@ -11,6 +11,7 @@ class MultiSensorViewModel extends ChangeNotifier {
 
   MultiSensorCatalog? _catalog;
   String? _selectedSiteId;
+  String? _selectedSceneId;
   final Set<SensorModality> _enabledModalities = {
     SensorModality.sar,
     SensorModality.optical,
@@ -22,6 +23,7 @@ class MultiSensorViewModel extends ChangeNotifier {
   String? get error => _error;
   List<SatelliteSensor> get sensors => _catalog?.sensors ?? const [];
   List<ObservationSite> get sites => _catalog?.sites ?? const [];
+  String? get disclaimer => _catalog?.disclaimer;
   Set<SensorModality> get enabledModalities => _enabledModalities;
 
   ObservationSite? get selectedSite {
@@ -51,6 +53,15 @@ class MultiSensorViewModel extends ChangeNotifier {
       ..sort((a, b) => a.acquisitionDate.compareTo(b.acquisitionDate));
   }
 
+  SensorScene? get selectedScene {
+    final scenes = visibleScenes;
+    if (scenes.isEmpty) return null;
+    for (final scene in scenes) {
+      if (scene.sceneId == _selectedSceneId) return scene;
+    }
+    return scenes.first;
+  }
+
   Future<void> load() async {
     _loading = true;
     _error = null;
@@ -70,6 +81,13 @@ class MultiSensorViewModel extends ChangeNotifier {
   void selectSite(String siteId) {
     if (_selectedSiteId == siteId) return;
     _selectedSiteId = siteId;
+    _selectedSceneId = null;
+    notifyListeners();
+  }
+
+  void selectScene(String sceneId) {
+    if (_selectedSceneId == sceneId) return;
+    _selectedSceneId = sceneId;
     notifyListeners();
   }
 
@@ -80,6 +98,7 @@ class MultiSensorViewModel extends ChangeNotifier {
     } else {
       _enabledModalities.add(modality);
     }
+    _selectedSceneId = null;
     notifyListeners();
   }
 }

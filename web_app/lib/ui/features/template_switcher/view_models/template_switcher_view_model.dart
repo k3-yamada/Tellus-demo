@@ -24,6 +24,15 @@ class TemplateSwitcherViewModel extends ChangeNotifier {
     return _templates.isNotEmpty ? _templates.first : null;
   }
 
+  /// Dropdown の value は items 内の同一インスタンスである必要があるため id で解決する。
+  AssetTemplate? resolveForSelection(AssetTemplate? selection) {
+    if (selection == null) return defaultTemplate;
+    for (final t in _templates) {
+      if (t.id == selection.id) return t;
+    }
+    return defaultTemplate;
+  }
+
   Future<void> load() async {
     _loading = true;
     _error = null;
