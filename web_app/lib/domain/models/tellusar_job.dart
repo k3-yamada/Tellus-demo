@@ -30,6 +30,18 @@ class TellusarJob {
   final String? statusMessage;
   final TellusarInterferogram? result;
 
+  bool get isSyntheticResult {
+    final msg = statusMessage ?? '';
+    if (msg.contains('擬似') ||
+        msg.contains('BFF 未設定') ||
+        msg.contains('未到達') ||
+        msg.contains('取得失敗')) {
+      return true;
+    }
+    if (result?.notes.any((n) => n.contains('擬似')) ?? false) return true;
+    return jobId.startsWith('DEMO-');
+  }
+
   bool get isTerminal =>
       status == TellusarJobStatus.succeeded ||
       status == TellusarJobStatus.failed;
