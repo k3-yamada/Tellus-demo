@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../../domain/models/tellusar_job.dart';
 import '../../../../domain/repositories/tellusar_repository.dart';
 import '../../../core/theme/command_center_theme.dart';
+import '../../../core/widgets/provenance_widgets.dart';
 import '../view_models/tellusar_view_model.dart';
 
 /// TelluSAR ジョブを「実投入 → ポーリング → 結果サマリー」まで一画面で見せる。
@@ -41,6 +42,12 @@ class _TellusarScaffold extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const HeroClaimBar(
+              icon: Icons.science,
+              title: 'InSAR 干渉解析デモ',
+              subtitle: '2時期の SAR 画像から地盤変位を推定する流れを体験できます。結果は dry-run または擬似値の場合があります。',
+            ),
+            const SizedBox(height: 12),
             _PairCard(pair: vm.pair),
             const SizedBox(height: 16),
             _SubmitRow(vm: vm),
@@ -179,7 +186,7 @@ class _JobPanel extends StatelessWidget {
             ],
             const SizedBox(height: 12),
             if (job!.result != null)
-              _InterferogramSummary(result: job!.result!),
+              _InterferogramSummary(result: job!.result!, synthetic: job!.isSyntheticResult),
             if (job!.status == TellusarJobStatus.queued ||
                 job!.status == TellusarJobStatus.running)
               const Padding(
@@ -222,8 +229,9 @@ class _StatusChip extends StatelessWidget {
 }
 
 class _InterferogramSummary extends StatelessWidget {
-  const _InterferogramSummary({required this.result});
+  const _InterferogramSummary({required this.result, required this.synthetic});
   final TellusarInterferogram result;
+  final bool synthetic;
 
   @override
   Widget build(BuildContext context) {
@@ -238,8 +246,21 @@ class _InterferogramSummary extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('干渉解析サマリー (Interferogram)',
-              style: TextStyle(fontWeight: FontWeight.w700)),
+          Row(
+            children: [
+              const Expanded(
+                child: Text('干渉解析サマリー',
+                    style: TextStyle(fontWeight: FontWeight.w700)),
+              ),
+              ProvenanceBadge(
+                provenance: synthetic ? DataProvenance.demo : DataProvenance.real,
+                compact: true,
+                tooltip: synthetic
+                    ? 'BFF 未設定またはフォールバック時の擬似サマリーです'
+                    : 'BFF 経由のジョブ結果です',
+              ),
+            ],
+          ),
           const SizedBox(height: 8),
           _kv('平均コヒーレンス', result.coherenceMean.toStringAsFixed(3)),
           _kv('最大変位',

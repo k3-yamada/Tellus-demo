@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../core/config/app_config.dart';
 import '../../../data/services/tellus_bff_client.dart';
 import '../../core/theme/command_center_theme.dart';
+import '../../core/widgets/provenance_widgets.dart';
 import '../dashboard/view_models/dashboard_view_model.dart';
 
 class ProcurementPage extends StatefulWidget {
@@ -44,14 +45,15 @@ class _ProcurementPageState extends State<ProcurementPage> {
               message: 'DEMO_MODE=false — 本番 API は無効',
               location: BannerLocation.topStart,
             ),
-          const Text(
-            'カートデモ (DEMO_MODE)',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          const DataProvenanceBanner(
+            message: '発注・カート操作は dry-run です。課金は発生しません。実際のデータ購入は Tellus ポータルから行います。',
+            provenance: DataProvenance.mock,
+            icon: Icons.shopping_cart_outlined,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           const Text(
-            '有償データの自動購入は行いません。発注 API 呼び出しは dry-run のみです。',
-            style: TextStyle(color: CommandCenterTheme.accentWarm, fontSize: 12),
+            'カートデモ',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           const SizedBox(height: 16),
           for (final item in items)
