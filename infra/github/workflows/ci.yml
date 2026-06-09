@@ -97,7 +97,9 @@ jobs:
         with:
           node-version: "20"
           cache: npm
-          - name: Install dependencies
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
         run: npm install
 
       - name: Typecheck BFF
