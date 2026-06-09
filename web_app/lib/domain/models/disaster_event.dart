@@ -10,6 +10,7 @@ class DisasterEvent {
     required this.eventDatetime,
     required this.demoFocus,
     required this.phases,
+    this.spatiallyAligned = false,
   });
 
   final String id;
@@ -20,6 +21,7 @@ class DisasterEvent {
   final String eventDatetime;
   final String demoFocus;
   final List<DisasterPhase> phases;
+  final bool spatiallyAligned;
 
   DisasterPhase? phaseFor(DisasterPhaseLabel label) {
     for (final p in phases) {

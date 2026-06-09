@@ -27,6 +27,7 @@ class DisasterArchiveRepositoryImpl implements DisasterArchiveRepository {
       lon: (json['lon'] as num?)?.toDouble() ?? 0,
       eventDatetime: json['eventDatetime'] as String? ?? '',
       demoFocus: json['demoFocus'] as String? ?? '',
+      spatiallyAligned: json['spatiallyAligned'] as bool? ?? false,
       phases: phasesRaw
           .map((p) => _parsePhase(p as Map<String, dynamic>))
           .toList(growable: false),

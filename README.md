@@ -77,19 +77,18 @@ cp .env.example .env
 
 ```bash
 cd scripts
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-python fetch_tellus_data.py
-python pipeline/attach_datasets_catalog.py   # カタログのみ更新
-python pipeline/enrich_scenes.py ../web_app/assets/data/infrastructure_data.json 80
-python pipeline/select_tellusar_pair.py      # TelluSAR 候補ペア
-python pipeline/thumbnail_manifest.py
+uv sync                                      # 依存を uv.lock 基準でインストール (.venv 自動作成)
+uv run python fetch_tellus_data.py
+uv run python pipeline/attach_datasets_catalog.py   # カタログのみ更新
+uv run python pipeline/enrich_scenes.py ../web_app/assets/data/infrastructure_data.json 80
+uv run python pipeline/select_tellusar_pair.py      # TelluSAR 候補ペア
+uv run python pipeline/thumbnail_manifest.py
 ```
 
 既存 JSON を v2 に移行（再取得不要）:
 
 ```bash
-python pipeline/migrate_v2.py ../web_app/assets/data/infrastructure_data.json
+uv run python pipeline/migrate_v2.py ../web_app/assets/data/infrastructure_data.json
 ```
 
 ### 3. Flutter Web 実行
@@ -146,7 +145,7 @@ npm run dev
 cd web_app && dart analyze && flutter test
 
 # Python
-cd scripts && python -m pytest tests/ -v
+cd scripts && uv run pytest tests/ -v
 
 # E2E
 cd web_app && flutter build web --release
@@ -162,9 +161,9 @@ cd ../e2e && npm ci && npx playwright install chromium && npm test
 ```bash
 cd scripts
 # meta.tellusarSuggestedPair の ID でジョブ投入
-python pipeline/tellusar_jobs.py --from-json
+uv run python pipeline/tellusar_jobs.py --from-json
 # 完了後、結果 JSON を displacementDemo にマージ
-python pipeline/merge_tellusar_result.py ../web_app/assets/data/infrastructure_data.json job_result.json
+uv run python pipeline/merge_tellusar_result.py ../web_app/assets/data/infrastructure_data.json job_result.json
 ```
 
 ## ドキュメント

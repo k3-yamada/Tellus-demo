@@ -12,6 +12,8 @@ import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+from demo_png import make_disaster_phase_pixels, write_gray_png
+
 OUT_PATH = (
     Path(__file__).resolve().parent.parent.parent
     / "web_app"
@@ -22,6 +24,22 @@ OUT_PATH = (
 
 PALSAR2_DATASET = "1a41a4b1-4594-431f-95fb-82f9bdc35d6b"
 PALSAR2_SCANSAR = "b0e16dea-6544-4422-926f-ad3ec9a3fcbd"
+
+
+THUMB_DIR = (
+    Path(__file__).resolve().parent.parent.parent
+    / "web_app"
+    / "assets"
+    / "images"
+    / "disaster"
+)
+
+
+def write_phase_thumbnail(event_id: str, phase: str) -> str:
+    rel = f"assets/images/disaster/{event_id}_{phase}.png"
+    out = THUMB_DIR / f"{event_id}_{phase}.png"
+    write_gray_png(out, 320, 200, make_disaster_phase_pixels(event_id, phase))
+    return rel
 
 
 def make_scene_id(seed: str) -> str:
@@ -49,7 +67,7 @@ def phase(
         "acquisitionDatetime": scene_dt.isoformat().replace("+00:00", "Z"),
         "orbitDirection": orbit,
         "polarization": polarization,
-        "thumbnailUrl": None,
+        "thumbnailUrl": write_phase_thumbnail(event_id, label),
         "note": note,
     }
 

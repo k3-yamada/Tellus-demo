@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../../../domain/models/disaster_event.dart';
 import '../../../../domain/repositories/disaster_archive_repository.dart';
+import '../widgets/disaster_phase_comparison.dart';
 
 class DisasterArchiveViewModel extends ChangeNotifier {
   DisasterArchiveViewModel({required DisasterArchiveRepository repository})
@@ -12,6 +13,7 @@ class DisasterArchiveViewModel extends ChangeNotifier {
   List<DisasterEvent> _events = const [];
   String? _selectedEventId;
   DisasterPhaseLabel _selectedPhase = DisasterPhaseLabel.during;
+  DisasterComparisonMode _comparisonMode = DisasterComparisonMode.grid;
   bool _loading = true;
   String? _error;
 
@@ -19,6 +21,7 @@ class DisasterArchiveViewModel extends ChangeNotifier {
   String? get error => _error;
   List<DisasterEvent> get events => _events;
   DisasterPhaseLabel get selectedPhase => _selectedPhase;
+  DisasterComparisonMode get comparisonMode => _comparisonMode;
 
   DisasterEvent? get selectedEvent {
     if (_events.isEmpty) return null;
@@ -54,6 +57,12 @@ class DisasterArchiveViewModel extends ChangeNotifier {
   void selectPhase(DisasterPhaseLabel label) {
     if (_selectedPhase == label) return;
     _selectedPhase = label;
+    notifyListeners();
+  }
+
+  void setComparisonMode(DisasterComparisonMode mode) {
+    if (_comparisonMode == mode) return;
+    _comparisonMode = mode;
     notifyListeners();
   }
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-05T02:28:49.742686Z",
-  "disclaimer": "本デモのシーン ID と取得時刻は合成データです。Tellus dataset ID は実在しますが、個別シーンの配信状況は Tellus 側で確認が必要です。",
+  "generatedAt": "2026-06-05T08:05:39.731570Z",
+  "disclaimer": "災害アーカイブのサムネイルは Tellus Traveler から取得した実 SAR 画像をバンドルしています。3 フェーズは同一イベント中心の狭い BBOX で検索し、事前フェーズの footprint をアンカーとして during/after を揃えます。表示日付はデモ用メタデータであり、実シーンの撮影日と一致しない場合があります。",
   "events": [
     {
       "id": "noto_2024",
@@ -14,38 +14,39 @@
         {
           "phase": "before",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "5dc43c7e-49e8-2ca7-c72e-289dadca04a7",
+          "sceneId": "afa3d3a1-9e4a-49a7-8537-8127f1edc7d4",
           "acquisitionDate": "2023-12-25",
           "acquisitionDatetime": "2023-12-25T16:10:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/disaster/cached/noto_2024_before.png",
           "note": "発災 7 日前の通常観測"
         },
         {
           "phase": "during",
           "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
-          "sceneId": "fcf62c3c-57b2-fade-e06b-25b1239b5263",
+          "sceneId": "e93e66d0-d800-48a0-910f-55cc4a5d1cab",
           "acquisitionDate": "2024-01-03",
           "acquisitionDatetime": "2024-01-03T16:10:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH",
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/disaster/cached/noto_2024_during.png",
           "note": "発災 2 日後、JAXA 緊急観測 (ScanSAR で広域把握)"
         },
         {
           "phase": "after",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "425e6be7-7ca1-c5e9-f561-63b7aa120562",
+          "sceneId": "46361a7a-f05c-42fc-bac0-b0869d672769",
           "acquisitionDate": "2024-01-31",
           "acquisitionDatetime": "2024-01-31T16:10:00Z",
           "orbitDirection": "descending",
           "polarization": "HH+HV",
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/disaster/cached/noto_2024_after.png",
           "note": "1 ヶ月後、隆起・土砂崩れの全容観測"
         }
       ],
-      "demoFocus": "海岸線の隆起・斜面崩壊"
+      "demoFocus": "海岸線の隆起・斜面崩壊",
+      "spatiallyAligned": true
     },
     {
       "id": "nishinihon_2018",
@@ -58,38 +59,39 @@
         {
           "phase": "before",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "14f806f9-d940-ed06-74f8-54dc1768f4e4",
+          "sceneId": "d442a891-2a28-49b6-8d81-977d8fc804f7",
           "acquisitionDate": "2018-06-22",
           "acquisitionDatetime": "2018-06-22T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/disaster/cached/nishinihon_2018_before.png",
           "note": "豪雨前 2 週間の平常時"
         },
         {
           "phase": "during",
           "datasetId": "b0e16dea-6544-4422-926f-ad3ec9a3fcbd",
-          "sceneId": "1b0f48d3-cd05-d262-62b0-b40641d7eae8",
+          "sceneId": "b1b7eb7a-7400-42ee-a792-9c0de4894acc",
           "acquisitionDate": "2018-07-08",
           "acquisitionDatetime": "2018-07-08T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH",
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/disaster/cached/nishinihon_2018_during.png",
           "note": "豪雨翌々日、真備町の浸水を ScanSAR で観測"
         },
         {
           "phase": "after",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "3ede7b32-985f-4317-c1d2-65d184e5cece",
+          "sceneId": "bd49a9df-c4b7-49b8-a1e6-572f1142e5d9",
           "acquisitionDate": "2018-07-27",
           "acquisitionDatetime": "2018-07-27T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/disaster/cached/nishinihon_2018_after.png",
           "note": "3 週間後の浸水退潮確認"
         }
       ],
-      "demoFocus": "広域浸水域の検出 (SAR が雲を抜く)"
+      "demoFocus": "広域浸水域の検出 (SAR が雲を抜く)",
+      "spatiallyAligned": true
     },
     {
       "id": "atami_2021",
@@ -102,38 +104,41 @@
         {
           "phase": "before",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "a21f48c0-d57b-cd43-0362-a13abd59e53a",
+          "sceneId": "b9c59c10-c9fc-469a-8621-ee5cb118e89f",
           "acquisitionDate": "2021-06-23",
           "acquisitionDatetime": "2021-06-23T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/disaster/cached/atami_2021_before.png",
           "note": "発災 10 日前の通常観測"
         },
         {
           "phase": "during",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "231ca2e1-fe75-11c7-a127-9c887c5ef408",
+          "sceneId": "49c9455e-d957-4707-b07a-e9bd08dbd88f",
           "acquisitionDate": "2021-07-06",
           "acquisitionDatetime": "2021-07-06T00:00:00Z",
           "orbitDirection": "descending",
           "polarization": "HH+HV",
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/disaster/cached/atami_2021_during.png",
           "note": "発災 3 日後、土砂流出域の観測"
         },
         {
           "phase": "after",
           "datasetId": "1a41a4b1-4594-431f-95fb-82f9bdc35d6b",
-          "sceneId": "b200eb0b-cb79-20a5-724f-cba8046759c3",
+          "sceneId": "d85e48a8-4e8d-4bf0-86ac-c945bf7063a6",
           "acquisitionDate": "2021-08-17",
           "acquisitionDatetime": "2021-08-17T00:00:00Z",
           "orbitDirection": "ascending",
           "polarization": "HH+HV",
-          "thumbnailUrl": null,
+          "thumbnailUrl": "assets/images/disaster/cached/atami_2021_after.png",
           "note": "1.5 ヶ月後、復旧進捗の確認"
         }
       ],
-      "demoFocus": "局所斜面の土砂流出パターン"
+      "demoFocus": "局所斜面の土砂流出パターン",
+      "spatiallyAligned": true
     }
-  ]
+  ],
+  "thumbnailSource": "tellus_cached",
+  "thumbnailCachedAt": "2026-06-06T12:16:03.686014Z"
 }
