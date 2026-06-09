@@ -1,0 +1,20 @@
+[project]
+name = "tellus-pipeline"
+version = "0.1.0"
+description = "Tellus SAR 衛星メタデータ ETL パイプライン (fetch → enrich → migrate v2 → quality report → TelluSAR pair selection)"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31.0",
+    "python-dotenv>=1.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

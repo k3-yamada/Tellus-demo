@@ -27,21 +27,24 @@ flutter build web --release                # output → build/web (served by Fir
 ```
 
 ### Python pipeline (`scripts/`)
+依存管理は **uv** (`pyproject.toml` + `uv.lock`)。
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+uv sync                                                  # .venv 作成 + ロック解決済み依存をインストール
 
-python fetch_tellus_data.py                              # fetch from Traveler API
-python pipeline/enrich_scenes.py ../web_app/assets/data/infrastructure_data.json 80
-python pipeline/migrate_v2.py ../web_app/assets/data/infrastructure_data.json
-python pipeline/attach_datasets_catalog.py
-python pipeline/select_tellusar_pair.py
-python pipeline/thumbnail_manifest.py
-python pipeline/quality_report.py
+uv run python fetch_tellus_data.py                       # fetch from Traveler API
+uv run python pipeline/enrich_scenes.py ../web_app/assets/data/infrastructure_data.json 80
+uv run python pipeline/migrate_v2.py ../web_app/assets/data/infrastructure_data.json
+uv run python pipeline/attach_datasets_catalog.py
+uv run python pipeline/select_tellusar_pair.py
+uv run python pipeline/thumbnail_manifest.py
+uv run python pipeline/quality_report.py
 
-python -m pytest tests/ -v                               # all pipeline tests
-python -m pytest tests/test_quality_report.py -v         # single file
-python -m pytest tests/ -k "tellusar" -v                 # by keyword
+uv run pytest tests/ -v                                  # all pipeline tests
+uv run pytest tests/test_quality_report.py -v            # single file
+uv run pytest tests/ -k "tellusar" -v                    # by keyword
+
+uv add <pkg>                                             # add runtime dep
+uv add --group dev <pkg>                                 # add dev-only dep (e.g. pytest)
 ```
 
 ### BFF (`backend/`)
